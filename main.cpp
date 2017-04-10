@@ -1,9 +1,18 @@
 #include <SFML/Graphics.hpp>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor", sf::Style::Close);
+    window.setVerticalSyncEnabled(true);
+    
+    sf::Font font;
+    font.loadFromFile("FreeMono.ttf");
+
+    sf::Text texto;
+    texto.setFont(font);
+    texto.setString("Testtesttest");
+    texto.setCharacterSize(24);
+
+
 
     while (window.isOpen()) {
         sf::Event event;
@@ -13,7 +22,9 @@ int main() {
         }
 
         window.clear();
-        window.draw(shape);
+
+        window.draw(texto);
+
         window.display();
     }
 
