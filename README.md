@@ -1,10 +1,6 @@
 # text-editor
-Text editor made in c++
+Text editor made in c++ using SFML
 
 ```
-make
-```
-
-```
-./editor
+make && ./editor
 ```
