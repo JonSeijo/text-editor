@@ -18,7 +18,7 @@ class TextDocument {
         ~TextDocument();
 
         bool init(string &filename);
-        int getline(int lineno, string &buf);
+        int getline(int lineNumber);
         int linecount();
 
     private:
