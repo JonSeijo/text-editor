@@ -12,7 +12,7 @@ bool TextDocument::init(string &filename) {
     this->buffer = inputStringStream.str();
     this->length = buffer.size();  // Posiblemente no sea necesario
 
-    inputFileStream.close();
+    inputFile.close();
     this->init_linebuffer();
     return true;
 }
@@ -35,7 +35,7 @@ bool init_linebuffer() {
 // Devuelve una copia de la linea que esta en mi buffer
 string getLine(int lineNumber) {
     if (lineNumber < 0 || lineNumber >= (int)this->lineBuffer.size()) {
-        std::cerr << "lineNumber " << lineNumber << " is not a valid number line. " 
+        std::cerr << "lineNumber " << lineNumber << " is not a valid number line. "
             << "Max is: " << this->lineBuffer.size() << std::endl;
         return "";
     }
