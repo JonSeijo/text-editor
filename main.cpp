@@ -6,17 +6,11 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor", sf::Style::Close);
     window.setVerticalSyncEnabled(true);
 
-    sf::Font font;
-    font.loadFromFile("FreeMono.ttf");
-
-    sf::Text texto;
-    texto.setFont(font);
-    texto.setString("Testtesttest");
-    texto.setCharacterSize(24);
-
+    std::string fileName = "textoDePrueba.txt";
     TextView textView;
     TextDocument doc;
 
+    doc.init(fileName);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -27,7 +21,6 @@ int main() {
 
         window.clear();
         textView.drawLines(window, doc);
-
         window.display();
     }
 

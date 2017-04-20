@@ -57,3 +57,7 @@ string TextDocument::getLine(int lineNumber) {
 
     return this->buffer.substr(bufferStart, cantidad);
 }
+
+const int TextDocument::getLineCount() {
+    return (int)this->lineBuffer.size();
+}

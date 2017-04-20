@@ -9,9 +9,10 @@ class TextView {
         TextView();
         ~TextView();
         void setFontSize(int fontSize);
-        void drawLines(sf::RenderWindow &window, const TextDocument &document);
+        void drawLines(sf::RenderWindow &window, TextDocument &document);
 
     private:
+        sf::Font font;
         int fontSize;
 };
 
