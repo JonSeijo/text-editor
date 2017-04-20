@@ -14,8 +14,9 @@ int main() {
     texto.setString("Testtesttest");
     texto.setCharacterSize(24);
 
-    TextView view;
+    TextView textView;
     TextDocument doc;
+
 
     while (window.isOpen()) {
         sf::Event event;
@@ -25,9 +26,7 @@ int main() {
         }
 
         window.clear();
-
-        view.draw(window, doc);
-        // window.draw(texto);
+        textView.drawLines(window, doc);
 
         window.display();
     }

@@ -8,11 +8,11 @@ class TextView {
     public:
         TextView();
         ~TextView();
-        void draw(const sf::RenderWindow &window, const TextDocument &document);
+        void setFontSize(int fontSize);
+        void drawLines(sf::RenderWindow &window, const TextDocument &document);
 
     private:
-
-
+        int fontSize;
 };
 
 #endif
