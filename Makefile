@@ -4,12 +4,9 @@ LIBS= -lsfml-graphics -lsfml-window -lsfml-system
 
 all: editor
 
-main.o: main.cpp
-		g++ -c "main.cpp" -o main.o
-
-editor: main.o
+editor: main.cpp TextView.cpp TextDocument.cpp
 		@echo "** Building main"
-		g++ -o editor main.o $(LIBS)
+		g++ $(FLAGS) -o editor main.cpp TextView.cpp TextDocument.cpp $(LIBS)
 
 clean:
 		@echo "** Cleaning..."
