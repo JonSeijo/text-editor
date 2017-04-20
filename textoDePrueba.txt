@@ -1,4 +1,7 @@
 Esto es un texto de prueba.
-La siguiente linea es vacia.
+La siguiente linea es vacííía.
 
 Hola hola.
+@@@
+MAYÚSCULAS
+¿¡?!|
