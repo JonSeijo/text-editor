@@ -2,8 +2,11 @@
 #define TextDocument_H
 
 #include <iostream>
-#include <string>
+#include <sstream>
+#include <vector>
 #include <fstream>
+
+#include <string>
 
 typedef void* HANDLE;
 
@@ -18,7 +21,7 @@ class TextDocument {
         ~TextDocument();
 
         bool init(string &filename);
-        int getline(int lineNumber);
+        string getLine(int lineNumber);
         int linecount();
 
     private:

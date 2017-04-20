@@ -1,14 +1,25 @@
 #include "TextDocument.h"
 
+
+TextDocument::TextDocument() {
+
+}
+
+TextDocument::~TextDocument() {
+
+}
+
+
 // La idea es leer el file y guardarlo en buffer (quiero cargarlo en la memoria)
 // Para esto uso std::ifstream para levantar el archivo
 bool TextDocument::init(string &filename) {
-    std::ifstream inputFile(filename);
+    std::ifstream inputFile(filename.c_str());
     if (!inputFile.is_open()) {
         std::cerr << "Error opening file: " << filename << std::endl;
         return false;
     }
-    std::stringstream inputStringStream = inputFile.rdbuf();
+    std::stringstream inputStringStream;
+    inputStringStream << inputFile.rdbuf();
     this->buffer = inputStringStream.str();
     this->length = buffer.size();  // Posiblemente no sea necesario
 
@@ -19,7 +30,7 @@ bool TextDocument::init(string &filename) {
 
 // TODO: Contar newlines mientras leo el archivo en el init
 // TODO: Otros sistemas operativos manejan newlines de otras formas (ej \r)
-bool init_linebuffer() {
+bool TextDocument::init_linebuffer() {
     int lineStart = 0;
     int bufferSize = this->buffer.size();
     for (int i = 0; i < bufferSize; i++) {
@@ -33,7 +44,7 @@ bool init_linebuffer() {
 }
 
 // Devuelve una copia de la linea que esta en mi buffer
-string getLine(int lineNumber) {
+string TextDocument::getLine(int lineNumber) {
     if (lineNumber < 0 || lineNumber >= (int)this->lineBuffer.size()) {
         std::cerr << "lineNumber " << lineNumber << " is not a valid number line. "
             << "Max is: " << this->lineBuffer.size() << std::endl;
