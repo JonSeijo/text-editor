@@ -24,14 +24,10 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
         sf::Text textLine;
         textLine.setFont(font);
 
-        // Estoy leyendo la misma string como 3 veces..
+        // Estoy leyendo la misma string muchas veces, contando conversiones y todo..
         // Quiza me convenga usar sf::string[wide] desde el principio
-        sf::String s = document.getLine(i);
+        textLine.setString(this->toUtf32(document.getLine(i)));
 
-        // std::cout << document.getLine(i) << std::endl;
-
-        // textLine.setString(s.toWideString());
-        textLine.setString(s);
         textLine.setCharacterSize(this->fontSize);
         textLine.setPosition(0, i * this->fontSize);
 
@@ -44,3 +40,18 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
 void TextView::setFontSize(int fontSize) {
     this->fontSize = fontSize;
 }
+
+sf::String TextView::toUtf32(const std::string& inString) {
+    sf::String outString = "";
+    auto iterEnd = inString.cend();
+
+    // Decode avanza el iterador
+    for (auto iter = inString.cbegin(); iter != iterEnd; ) {
+        sf::Uint32 out;
+        iter = sf::Utf8::decode(iter, iterEnd, out);
+        outString += out;
+    }
+
+    return outString;
+}
+

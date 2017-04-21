@@ -12,8 +12,9 @@ class TextView {
         void drawLines(sf::RenderWindow &window, TextDocument &document);
 
     private:
-        sf::Font font;
         int fontSize;
+        sf::Font font;
+        sf::String toUtf32(const std::string& text);
 };
 
 #endif
