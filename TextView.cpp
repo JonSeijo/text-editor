@@ -23,7 +23,15 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
 
         sf::Text textLine;
         textLine.setFont(font);
-        textLine.setString(document.getLine(i));
+
+        // Estoy leyendo la misma string como 3 veces..
+        // Quiza me convenga usar sf::string[wide] desde el principio
+        sf::String s = document.getLine(i);
+
+        // std::cout << document.getLine(i) << std::endl;
+
+        // textLine.setString(s.toWideString());
+        textLine.setString(s);
         textLine.setCharacterSize(this->fontSize);
         textLine.setPosition(0, i * this->fontSize);
 
