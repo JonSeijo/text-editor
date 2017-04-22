@@ -31,7 +31,7 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
         textLine.setCharacterSize(this->fontSize);
         textLine.setPosition(0, i * this->fontSize);
 
-        window.draw(line, 2, sf::Lines);
+        // window.draw(line, 2, sf::Lines);
         window.draw(textLine);
     }
 }
