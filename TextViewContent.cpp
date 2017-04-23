@@ -5,8 +5,6 @@ TextViewContent::TextViewContent() {
     this->font.loadFromFile("FreeMono.ttf");
 }
 
-// TODO: Limites del textviewContent podrian pasarse por parametros idk
-// La idea es usar window.draw para dibujar las lineas del documento
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     sf::Vector2u windowSize = window.getSize();
     int fontSize = 20;
