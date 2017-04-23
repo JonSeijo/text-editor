@@ -7,22 +7,45 @@ TextViewContent::TextViewContent() {
 
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
-    sf::Vector2u windowSize = window.getSize();
+    int charIndexInFullText = 0;
 
-    for (int i = 0; i < document.getLineCount(); i++) {
+    for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
 
-        sf::Text textLine;
-        textLine.setFont(font);
+        string line = document.getLine(lineNumber);
 
-        // Estoy leyendo la misma string muchas veces, contando conversiones y todo..
-        // Quiza me convenga usar sf::string[wide] desde el principio
-        textLine.setString(this->toUtf32(document.getLine(i)));
+        string currentLineText = "";
+        float offsetx = 0;
+        bool previousSelected = false;
 
-        textLine.setCharacterSize(this->fontSize);
-        textLine.setPosition(0, i * this->fontSize);
+        for (int charIndexInLine = 0; charIndexInLine < (int)line.size(); charIndexInLine++) {
 
-        // window.draw(line, 2, sf::Lines);
-        window.draw(textLine);
+            // En general hay una unica seleccion, en el futuro podria haber mas de una
+            bool currentSelected = this->selections.isSelected(charIndexInFullText);
+
+            // Cuando hay un cambio, dibujo el tipo de seleccion anterior (que fue acumulado en charIndexInFullText)
+            // Tambien dibujo cuando es el fin de la linea actual
+            if (currentSelected != previousSelected || charIndexInLine == (int)line.size()-1) {
+
+                sf::Text texto;
+                texto.setColor(previousSelected ? sf::Color::Magenta : sf::Color::White);
+                texto.setFont(font);
+                texto.setString(this->toUtf32(currentLineText));
+                texto.setCharacterSize(this->fontSize);
+                texto.setPosition(offsetx, lineNumber*this->fontSize);
+
+                window.draw(texto);
+
+                previousSelected = currentSelected;
+                currentLineText = "";
+                offsetx += texto.getLocalBounds().width;
+            }
+
+            // Voy acumulando la string de la linea actual
+            currentLineText += line[charIndexInLine];
+
+            // Importante para saber cual es el caracter actual pertenece a una seleccion
+            charIndexInFullText++;
+        }
     }
 }
 
