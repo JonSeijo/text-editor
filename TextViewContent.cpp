@@ -32,6 +32,9 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
     }
 }
 
+void TextViewContent::selectText(int start, int end) {
+    this->selections.addSelection(start, end);
+}
 
 void TextViewContent::setFontSize(int fontSize) {
     this->fontSize = fontSize;
