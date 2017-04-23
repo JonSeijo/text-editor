@@ -7,12 +7,11 @@ int main() {
     window.setVerticalSyncEnabled(true);
 
     std::string fileName = "textoDePrueba.txt";
-    TextView textView;
+
+    TextView textView(window);
     TextDocument doc;
 
     doc.init(fileName);
-
-    sf::View cameraview(sf::FloatRect(0, 0, 720, 405));
 
     while (window.isOpen()) {
         sf::Event event;
@@ -23,23 +22,24 @@ int main() {
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-            cameraview.move(0, -8);
+            textView.scrollUp();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-            cameraview.move(0, 8);
+            textView.scrollDown();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-            cameraview.rotate(1.5f);
+            textView.rotateLeft();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-            cameraview.rotate(-1.5f);
+            textView.rotateRight();
         }
 
         window.clear();
 
-        window.setView(cameraview);
+        window.setView(textView.getCameraView());
 
         textView.drawLines(window, doc);
+
         window.display();
     }
 
