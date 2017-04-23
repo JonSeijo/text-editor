@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "TextViewContent.h"
-#include "TextViewCamera.h"
 
 class TextView {
 
@@ -24,6 +23,9 @@ class TextView {
         void rotateLeft();
         void rotateRight();
 
+        void zoomIn();
+        void zoomOut();
+
         sf::View getCameraView();
 
         void setDeltaScroll(float delta);
@@ -36,6 +38,7 @@ class TextView {
         sf::View camera;
         float deltaScroll;
         float deltaRotation;
+        float deltaZoomIn, deltaZoomOut;
 };
 
 #endif
