@@ -5,15 +5,11 @@ TextViewContent::TextViewContent() {
     this->font.loadFromFile("FreeMono.ttf");
 }
 
+// TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     sf::Vector2u windowSize = window.getSize();
-    int fontSize = 20;
 
     for (int i = 0; i < document.getLineCount(); i++) {
-        sf::Vertex line[] = {
-            sf::Vertex(sf::Vector2f(0, i * this->fontSize)),
-            sf::Vertex(sf::Vector2f(windowSize.x, i * this->fontSize))
-        };
 
         sf::Text textLine;
         textLine.setFont(font);
