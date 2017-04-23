@@ -30,6 +30,7 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
     }
 }
 
+// [start, end] is inclusive
 void TextViewContent::selectText(int start, int end) {
     this->selections.addSelection(start, end);
 }
