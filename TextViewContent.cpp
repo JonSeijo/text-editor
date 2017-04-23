@@ -1,17 +1,17 @@
-#include "TextView.h"
+#include "TextViewContent.h"
 
-TextView::TextView() {
+TextViewContent::TextViewContent() {
     this->fontSize = 20;
     this->font.loadFromFile("FreeMono.ttf");
 }
 
-TextView::~TextView() {
+TextViewContent::~TextViewContent() {
 
 }
 
-// TODO: Limites del textview podrian pasarse por parametros idk
+// TODO: Limites del textviewContent podrian pasarse por parametros idk
 // La idea es usar window.draw para dibujar las lineas del documento
-void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
+void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     sf::Vector2u windowSize = window.getSize();
     int fontSize = 20;
 
@@ -37,11 +37,11 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
 }
 
 
-void TextView::setFontSize(int fontSize) {
+void TextViewContent::setFontSize(int fontSize) {
     this->fontSize = fontSize;
 }
 
-sf::String TextView::toUtf32(const std::string& inString) {
+sf::String TextViewContent::toUtf32(const std::string& inString) {
     sf::String outString = "";
     auto iterEnd = inString.cend();
 

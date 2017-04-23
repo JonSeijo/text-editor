@@ -1,14 +1,14 @@
-#ifndef TextView_H
-#define TextView_H
+#ifndef TextViewContent_H
+#define TextViewContent_H
 
 #include <SFML/Graphics.hpp>
 #include "TextDocument.h"
-#include "TextViewCamera.h"
+#include "TextViewContent.h"
 
-class TextView {
+class TextViewContent {
     public:
-        TextView();
-        ~TextView();
+        TextViewContent();
+        ~TextViewContent();
         void setFontSize(int fontSize);
         void drawLines(sf::RenderWindow &window, TextDocument &document);
         sf::View getView();
