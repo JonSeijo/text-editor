@@ -4,6 +4,18 @@ void SelectionData::addSelection(int start, int end) {
     this->selections.push_back(Selection(start, end));
 }
 
+// Extremos de una seleccion son inclusives a ambos lados
+// NOTA: En el caso extremo puedo tener muchisimos bloques de seleccion,
+//   en ese caso podria refactorearse y hacer una busqueda binaria. Por ahora no vale la pena.
+bool SelectionData::isSelected(int pos) {
+    for (int sel = 0; sel < (int)this->selections.size(); sel++) {
+        if (this->selections[sel].start <= pos && pos <= this->selections[sel].end) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void SelectionData::removeSelection(int index) {
     this->validIndex(index);
     this->selections.erase(this->selections.begin() + index);

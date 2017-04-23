@@ -12,6 +12,8 @@ class SelectionData {
         void removeSelection(int index);
         void removeSelection(int start, int end);
 
+        bool isSelected(int pos);
+
         int getStart(int index);
         int getEnd(int index);
 
