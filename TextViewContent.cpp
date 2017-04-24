@@ -6,6 +6,7 @@ TextViewContent::TextViewContent() {
 }
 
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
+// TODO: Que el texto de seleccion tenga tambien un rectangulo coloreado de fondo
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     int charIndexInFullText = 0;
 
