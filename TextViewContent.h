@@ -14,6 +14,7 @@ class TextViewContent {
         void drawLines(sf::RenderWindow &window, TextDocument &document);
 
         void selectText(int start, int end);
+        void removeSelections();
 
     private:
         int fontSize;

@@ -12,6 +12,9 @@ class TextView {
         void drawLines(sf::RenderWindow &window, TextDocument &document);
         void setFontSize(int fontSize);
 
+        void selectText(int begin, int end);
+        void removeSelections();
+
         void scrollUp();
         void scrollDown();
         void scrollLeft();

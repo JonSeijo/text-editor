@@ -8,14 +8,8 @@ class SelectionData {
 
     public:
         void addSelection(int start, int end);
-
-        void removeSelection(int index);
-        void removeSelection(int start, int end);
-
+        void removeSelections();
         bool isSelected(int pos);
-
-        int getStart(int index);
-        int getEnd(int index);
 
     private:
         struct Selection {
@@ -28,7 +22,11 @@ class SelectionData {
         };
         std::vector<Selection> selections;
         bool validIndex(int index);
-};
 
+        void removeSelection(int index);
+        void removeSelection(int start, int end);
+        int getStart(int index);
+        int getEnd(int index);
+};
 
 #endif

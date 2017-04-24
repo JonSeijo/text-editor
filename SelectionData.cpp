@@ -16,6 +16,13 @@ bool SelectionData::isSelected(int pos) {
     return false;
 }
 
+void SelectionData::removeSelections() {
+    int lastIndex = this->selections.size()-1;
+    for (int i = lastIndex; i >= 0; i--) {
+        this->removeSelection(i);
+    }
+}
+
 void SelectionData::removeSelection(int index) {
     this->validIndex(index);
     this->selections.erase(this->selections.begin() + index);
