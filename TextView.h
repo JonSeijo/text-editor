@@ -15,6 +15,8 @@ class TextView {
         void selectText(int begin, int end);
         void removeSelections();
 
+        void mouseClick(int x, int y);
+
         void scrollUp();
         void scrollDown();
         void scrollLeft();

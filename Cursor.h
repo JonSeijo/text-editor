@@ -2,10 +2,11 @@
 #define Cursor_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Cursor {
     public:
-        Cursor(int height, int charWidth);
+        Cursor(int height=20, int charWidth=20);
         Cursor(int height, int charWidth, int posX, int posY);
 
         void draw(sf::RenderWindow &window);

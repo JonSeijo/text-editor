@@ -5,6 +5,7 @@
 #include "TextDocument.h"
 #include "TextViewContent.h"
 #include "SelectionData.h"
+#include "Cursor.h"
 
 class TextViewContent {
     public:
@@ -16,12 +17,15 @@ class TextViewContent {
         void selectText(int start, int end);
         void removeSelections();
 
+        void moveCursorDown();
+
     private:
         int fontSize;
         sf::Font font;
         sf::String toUtf32(const std::string& text);
 
         SelectionData selections;
+        Cursor cursor;
 };
 
 #endif

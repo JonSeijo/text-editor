@@ -12,6 +12,10 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
     this->content.drawLines(window, document);
 }
 
+void TextView::mouseClick(int x, int y) {
+    this->content.moveCursorDown();
+}
+
 void TextView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);
 }

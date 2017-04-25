@@ -3,6 +3,13 @@
 TextViewContent::TextViewContent() {
     this->fontSize = 20;
     this->font.loadFromFile("FreeMono.ttf");
+
+    // TODO: que el 4 deje de ser un magic number
+    this->cursor = Cursor(20, 20, 0, 4);
+}
+
+void TextViewContent::moveCursorDown() {
+    this->cursor.moveDown();
 }
 
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
@@ -48,6 +55,8 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
             charIndexInFullText++;
         }
     }
+
+    this->cursor.draw(window);
 }
 
 // [start, end] is inclusive

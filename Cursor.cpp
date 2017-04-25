@@ -11,6 +11,7 @@ Cursor::Cursor(int height, int charWidth, int posX, int posY) {
     this->posY = posY;
     this->rect = sf::RectangleShape(sf::Vector2f(2, height));
     this->rect.setPosition(posX, posY);
+    this->rect.setFillColor(sf::Color::White);
 }
 
 void Cursor::draw(sf::RenderWindow &window) {
@@ -18,12 +19,12 @@ void Cursor::draw(sf::RenderWindow &window) {
 }
 
 void Cursor::moveUp() {
-    this->posY += this->height;
+    this->posY -= this->height;
     this->updatePos(this->posX, this->posY);
 }
 
 void Cursor::moveDown() {
-    this->posY -= this->height;
+    this->posY += this->height;
     this->updatePos(this->posX, this->posY);
 }
 

@@ -51,7 +51,8 @@ int main() {
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 std::cout << "click\n";
-                // textView.mouseClick(event.x, event.y);
+                auto mousepos = sf::Mouse::getPosition();
+                textView.mouseClick(mousepos.x, mousepos.y);
             }
 
             if (event.type == sf::Event::KeyPressed) {
