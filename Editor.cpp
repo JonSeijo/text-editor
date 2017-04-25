@@ -48,12 +48,18 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+
+            if (event.type == sf::Event::MouseButtonPressed) {
+                std::cout << "click\n";
+                // textView.mouseClick(event.x, event.y);
+            }
+
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.control) {
-                    if (event.key.code == sf::Keyboard::Add){
+                    if (event.key.code == sf::Keyboard::Add) {
                         textView.zoomIn();
                     }
-                    if (event.key.code == sf::Keyboard::Subtract){
+                    if (event.key.code == sf::Keyboard::Subtract) {
                         textView.zoomOut();
                     }
                 }
