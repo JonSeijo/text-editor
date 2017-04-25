@@ -16,18 +16,12 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
 // TODO: Renombrarla
 void TextView::mouseClick(int mouseX, int mouseY) {
 
-    // Consigo el numero de linea usando la coordenada
-    // FIX: Errores de redondeo
+    // No considera que los tabs existen
     int lineN = mouseY / this->content.getLineHeight();
-    std::cout << mouseY << "\n";
-    std::cout << lineN << "\n";
-
-    // Consigo la posicion del caracter tocado
-    // sarasa
+    int charN = mouseX / this->content.getCharWidth();
 
     // Eliminar selecciones
-    // Mover cursor (setear posicion directamente usando charN y lineN)
-    this->content.setCursorPos(lineN, 5);
+    this->content.setCursorPos(lineN, charN);
 }
 
 void TextView::setFontSize(int fontSize) {

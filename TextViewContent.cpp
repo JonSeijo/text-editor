@@ -1,9 +1,9 @@
 #include "TextViewContent.h"
 
 TextViewContent::TextViewContent() {
-    this->fontSize = 20;
     this->font.loadFromFile("FreeMono.ttf");
-    this->cursor = Cursor(this->fontSize, this->fontSize);
+    this->setFontSize(20);  // Important to call
+    this->cursor = Cursor(this->lineHeight, this->charWidth);
 }
 
 void TextViewContent::moveCursorDown() {
@@ -75,11 +75,25 @@ void TextViewContent::removeSelections() {
 
 void TextViewContent::setFontSize(int fontSize) {
     this->fontSize = fontSize;
+    this->lineHeight = fontSize;
+
+    // HACK: Because I use only monospace fonts, every char is the same width
+    //       so I get the width drawing a single character
+    sf::Text tmpText;
+    tmpText.setFont(this->font);
+    tmpText.setCharacterSize(this->fontSize);
+    tmpText.setString("c");
+    float textwidth = tmpText.getGlobalBounds().width;
+    this->charWidth = textwidth;
 }
 
 // TODO: Divide fontsize from lineheight
 int TextViewContent::getLineHeight() {
-    return this->fontSize;
+    return this->lineHeight;
+}
+
+int TextViewContent::getCharWidth() {
+    return this->charWidth;
 }
 
 sf::String TextViewContent::toUtf32(const std::string& inString) {

@@ -21,9 +21,12 @@ class TextViewContent {
         void setCursorPos(int line, int charPos);
 
         int getLineHeight();
+        int getCharWidth();
 
     private:
         int fontSize;
+        int lineHeight;
+        int charWidth;
         sf::Font font;
         sf::String toUtf32(const std::string& text);
 
