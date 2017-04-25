@@ -50,9 +50,11 @@ int main() {
             }
 
             if (event.type == sf::Event::MouseButtonPressed) {
-                std::cout << "click\n";
-                auto mousepos = sf::Mouse::getPosition();
-                textView.mouseClick(mousepos.x, mousepos.y);
+                auto mousepos = sf::Mouse::getPosition(window);
+                auto mousepos_text = window.mapPixelToCoords(mousepos);
+                std::cout << "click: \n";
+
+                textView.mouseClick(mousepos_text.x, mousepos_text.y);
             }
 
             if (event.type == sf::Event::KeyPressed) {

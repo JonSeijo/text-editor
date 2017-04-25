@@ -20,6 +20,8 @@ class TextViewContent {
         void moveCursorDown();
         void setCursorPos(int line, int charPos);
 
+        int getLineHeight();
+
     private:
         int fontSize;
         sf::Font font;

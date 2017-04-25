@@ -3,9 +3,7 @@
 TextViewContent::TextViewContent() {
     this->fontSize = 20;
     this->font.loadFromFile("FreeMono.ttf");
-
-    // TODO: que el 4 deje de ser un magic number
-    this->cursor = Cursor(20, 20, 0, 4);
+    this->cursor = Cursor(this->fontSize, this->fontSize);
 }
 
 void TextViewContent::moveCursorDown() {
@@ -77,6 +75,11 @@ void TextViewContent::removeSelections() {
 
 void TextViewContent::setFontSize(int fontSize) {
     this->fontSize = fontSize;
+}
+
+// TODO: Divide fontsize from lineheight
+int TextViewContent::getLineHeight() {
+    return this->fontSize;
 }
 
 sf::String TextViewContent::toUtf32(const std::string& inString) {

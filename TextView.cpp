@@ -12,25 +12,29 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
     this->content.drawLines(window, document);
 }
 
-void TextView::mouseClick(int x, int y) {
+// Esta funcion se encarga de transformar las cordenadas de mouse en coordenadas de texto
+// TODO: Renombrarla
+void TextView::mouseClick(int mouseX, int mouseY) {
 
-    // Consigo el numero de linea usando la coordenada y
-    // sarasa
+    // Consigo el numero de linea usando la coordenada
+    // FIX: Errores de redondeo
+    int lineN = mouseY / this->content.getLineHeight();
+    std::cout << mouseY << "\n";
+    std::cout << lineN << "\n";
 
     // Consigo la posicion del caracter tocado
     // sarasa
 
     // Eliminar selecciones
     // Mover cursor (setear posicion directamente usando charN y lineN)
-
-    this->content.moveCursorDown();
+    this->content.setCursorPos(lineN, 5);
 }
 
 void TextView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);
 }
 
-// [start, end] inclusive
+// [begin, end] inclusive
 void TextView::selectText(int begin, int end) {
     this->content.selectText(begin, end);
 }

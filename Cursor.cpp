@@ -1,17 +1,18 @@
 #include "Cursor.h"
 
-Cursor::Cursor(int height, int charWidth) {
-    Cursor(height, charWidth, 0, 0);
-}
+Cursor::Cursor() : Cursor(0, 0) {};
+
+Cursor::Cursor(int height, int charWidth) : Cursor(height, charWidth, 0, 0) {}
 
 Cursor::Cursor(int height, int charWidth, int posX, int posY) {
     this->height = height;
     this->charWidth = charWidth;
     this->posX = posX;
     this->posY = posY;
+    this->offsetY = 4;
     this->rect = sf::RectangleShape(sf::Vector2f(2, height));
-    this->rect.setPosition(posX, posY);
     this->rect.setFillColor(sf::Color::White);
+    this->updatePos(this->posX, this->posY);
 }
 
 void Cursor::draw(sf::RenderWindow &window) {
@@ -58,5 +59,5 @@ void Cursor::setCharWidth(int charWidth) {
 }
 
 void Cursor::updatePos(int x, int y) {
-    this->rect.setPosition(x, y);
+    this->rect.setPosition(x, y + this->offsetY);
 }

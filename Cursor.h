@@ -9,7 +9,8 @@
 
 class Cursor {
     public:
-        Cursor(int height=20, int charWidth=20);
+        Cursor();
+        Cursor(int height, int charWidth);
         Cursor(int height, int charWidth, int posX, int posY);
 
         void draw(sf::RenderWindow &window);
@@ -30,6 +31,7 @@ class Cursor {
         int height;
         int charWidth;
         int posX, posY;
+        int offsetY;
 
         void updatePos(int posX, int posY);
 };
