@@ -12,8 +12,15 @@ void TextViewContent::moveCursorDown() {
     this->cursor.moveDown();
 }
 
+// TODO: Considerar la posicion correcta cuando no hay los suficientes caracteres o la linea no existe
+//       Pensar si me conviene manejarlo desde aca o desde el TextView
+void TextViewContent::setCursorPos(int line, int charPos) {
+    this->cursor.setPosition(line, charPos);
+}
+
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 // TODO: Que el texto de seleccion tenga tambien un rectangulo coloreado de fondo
+// TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     int charIndexInFullText = 0;
 

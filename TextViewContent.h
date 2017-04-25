@@ -18,6 +18,7 @@ class TextViewContent {
         void removeSelections();
 
         void moveCursorDown();
+        void setCursorPos(int line, int charPos);
 
     private:
         int fontSize;

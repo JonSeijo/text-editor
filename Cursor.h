@@ -4,6 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+// TODO: Estoy teniendo que mantener las posiciones en posX, posY y tambien actualizarlas en el rect
+//       Quiza convenga hacerlo de forma mas automatica, con algun "movePos" o algo asi
+
 class Cursor {
     public:
         Cursor(int height=20, int charWidth=20);
@@ -16,6 +19,8 @@ class Cursor {
         void moveLeft();
         void moveRight();
         void nextLine();
+
+        void setPosition(int lineN, int charN);
 
         void setHeight(int height);
         void setCharWidth(int charWidth);

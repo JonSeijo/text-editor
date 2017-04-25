@@ -13,6 +13,16 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
 }
 
 void TextView::mouseClick(int x, int y) {
+
+    // Consigo el numero de linea usando la coordenada y
+    // sarasa
+
+    // Consigo la posicion del caracter tocado
+    // sarasa
+
+    // Eliminar selecciones
+    // Mover cursor (setear posicion directamente usando charN y lineN)
+
     this->content.moveCursorDown();
 }
 

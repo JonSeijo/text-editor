@@ -18,6 +18,12 @@ void Cursor::draw(sf::RenderWindow &window) {
     window.draw(this->rect);
 }
 
+void Cursor::setPosition(int lineN, int charN) {
+    this->posY = this->height * lineN;
+    this->posX = this->charWidth * charN;
+    this->updatePos(this->posX, this->posY);
+}
+
 void Cursor::moveUp() {
     this->posY -= this->height;
     this->updatePos(this->posX, this->posY);
