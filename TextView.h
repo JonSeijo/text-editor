@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "TextViewContent.h"
+#include <cmath>
 
 class TextView {
 
@@ -15,7 +16,7 @@ class TextView {
         void selectText(int begin, int end);
         void removeSelections();
 
-        void mouseClick(int x, int y);
+        void mouseClick(float x, float y);
 
         void scrollUp();
         void scrollDown();
