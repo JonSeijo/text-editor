@@ -11,27 +11,31 @@ class SelectionData {
     public:
         SelectionData();
 
-        void addSelection(int start, int end);
-        void updateLastSelection(int start, int end);
+        void addSelection(int startLineN, int startCharN, int endLineN, int endCharN);
+        void updateLastSelection(int startLineN, int startCharN, int endLineN, int endCharN);
 
         // TODO: Para cuando use multiples selecciones con teclado
         //       util para mover todas x caractes hacia un lado.
         //       Hay que tener en cuenta el no salirse del documento y cambios de linea, colisiones etc
-        void moveSelectionsRight(int amount);
-        void moveSelectionsLeft(int amount);
+        void moveSelectionsRight(int charAmount);
+        void moveSelectionsLeft(int charAmount);
 
         void removeSelections();
-        bool isSelected(int pos);
+        bool isSelected(int lineN, int charN);
 
     private:
         struct Selection {
-            int start;
-            int end;
+            int startLineN;
+            int startCharN;
+            int endLineN;
+            int endCharN;
 
-            Selection() : start(-1), end(-1) {}
-            Selection(int start, int end) : start(start), end(end) {}
+            Selection() : startLineN(-1), startCharN(-1), endLineN(-1), endCharN(-1) {}
+            Selection(int startLineN, int startCharN, int endLineN, int endCharN) :
+                 startLineN(startLineN), startCharN(startCharN), endLineN(endLineN), endCharN(endCharN) {}
 
         };
+
         std::vector<Selection> selections;
         int lastSelectionIndex;
 
