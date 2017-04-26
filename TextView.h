@@ -16,7 +16,7 @@ class TextView {
         void selectText(int begin, int end);
         void removeSelections();
 
-        void mouseClick(float x, float y, const TextDocument &document);
+        void cursorChange(float mouseX, float mouseY, const TextDocument &document);
 
         void scrollUp();
         void scrollDown();

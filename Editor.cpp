@@ -34,7 +34,7 @@ void controlarAccionesMouse(sf::RenderWindow &window, TextView &textView, bool i
     if (isMouseDown) {
         auto mousepos = sf::Mouse::getPosition(window);
         auto mousepos_text = window.mapPixelToCoords(mousepos);
-        textView.mouseClick(mousepos_text.x, mousepos_text.y, document);
+        textView.cursorChange(mousepos_text.x, mousepos_text.y, document);
     }
 }
 
@@ -63,7 +63,7 @@ int main() {
                 textView.removeSelections();
                 auto mousepos = sf::Mouse::getPosition(window);
                 auto mousepos_text = window.mapPixelToCoords(mousepos);
-                textView.mouseClick(mousepos_text.x, mousepos_text.y, doc);
+                textView.cursorChange(mousepos_text.x, mousepos_text.y, doc);
                 isMouseDown = true;
             }
 

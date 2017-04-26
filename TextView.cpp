@@ -12,8 +12,8 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
     this->content.drawLines(window, document);
 }
 
-// TODO: Renombrarla
-void TextView::mouseClick(float mouseX, float mouseY, const TextDocument &document) {
+// TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
+void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &document) {
     // No considera que los tabs existen
     int lineN = mouseY / this->content.getLineHeight();
     int charN = std::round(mouseX / this->content.getCharWidth());
