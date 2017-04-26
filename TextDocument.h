@@ -22,7 +22,8 @@ class TextDocument {
 
         bool init(string &filename);
         string getLine(int lineNumber);
-        const int getLineCount();
+        int charsInLine(int line) const;
+        int getLineCount() const;
 
     private:
         bool init_linebuffer();

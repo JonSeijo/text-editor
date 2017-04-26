@@ -14,11 +14,24 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
 
 // Esta funcion se encarga de transformar las cordenadas de mouse en coordenadas de texto
 // TODO: Renombrarla
-void TextView::mouseClick(float mouseX, float mouseY) {
+void TextView::mouseClick(float mouseX, float mouseY, const TextDocument &document) {
 
     // No considera que los tabs existen
     int lineN = mouseY / this->content.getLineHeight();
     int charN = std::round(mouseX / this->content.getCharWidth());
+
+    // Restrinjo numero de linea a la altura del documento
+    int lastLine = document.getLineCount() - 1;
+    if (lineN < 0 || lineN > lastLine) {
+        charN = 0;
+    }
+    lineN = std::max(lineN, 0);
+    lineN = std::min(lineN, lastLine);
+
+    // Restrinjo numero de caracter a cant de caracteres de la linea
+    int charsInLine = document.charsInLine(lineN);
+    charN = std::max(charN, 0);
+    charN = std::min(charN, charsInLine);
 
     // Eliminar selecciones
     this->content.setCursorPos(lineN, charN);

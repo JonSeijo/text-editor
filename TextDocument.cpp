@@ -58,6 +58,10 @@ string TextDocument::getLine(int lineNumber) {
     return this->buffer.substr(bufferStart, cantidad);
 }
 
-const int TextDocument::getLineCount() {
+int TextDocument::charsInLine(int line) const {
+    return this->lineBuffer[line+1] - this->lineBuffer[line] - 1;
+}
+
+int TextDocument::getLineCount() const {
     return (int)this->lineBuffer.size();
 }
