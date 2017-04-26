@@ -12,8 +12,17 @@ void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
     this->content.drawLines(window, document);
 }
 
+// TODO: Esta funcion no sirve para cambio de cursor con teclado, podria hacer que funcione con coords de texto,
+//       y que la funcion de cursor change con mouse la llame despues de la conversion
 // TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
-void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &document) {
+void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &document, bool keepSelection) {
+
+    // IDEA:
+    // Podria obtener datos del ultimo cursor para saber si me movi hacia adelante o hacia atras,
+    // y en base a eso actualizar los rangos de la ultima seleccion
+    // Digase, obtener un delta de linea y caracter, y eso lo sumo a la ultima seleccion para moverla
+
+
     // No considera que los tabs existen
     int lineN = mouseY / this->content.getLineHeight();
     int charN = std::round(mouseX / this->content.getCharWidth());
@@ -30,6 +39,17 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
     int charsInLine = document.charsInLine(lineN);
     charN = std::max(charN, 0);
     charN = std::min(charN, charsInLine);
+
+    if (keepSelection) {
+
+    } else {
+        this->content.removeSelections();
+        // Agrego una seleccion fantasma que no contenga ningun caracter,
+        // para en el caso de mantenerla activa siempre haya una que pueda expandir
+
+        // this->content.addSelection();
+    }
+
 
     this->content.setCursorPos(lineN, charN);
 }
