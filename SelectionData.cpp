@@ -1,7 +1,10 @@
 #include "SelectionData.h"
 
+SelectionData::SelectionData() : lastSelectionIndex(-1) {}
+
 void SelectionData::addSelection(int start, int end) {
     this->selections.push_back(Selection(start, end));
+    this->lastSelectionIndex++;
 }
 
 // Extremos de una seleccion son inclusives a ambos lados
@@ -26,6 +29,7 @@ void SelectionData::removeSelections() {
 void SelectionData::removeSelection(int index) {
     this->validIndex(index);
     this->selections.erase(this->selections.begin() + index);
+    this->lastSelectionIndex--;
 }
 
 void SelectionData::removeSelection(int start, int end) {
@@ -56,3 +60,7 @@ bool SelectionData::validIndex(int index) {
     return true;
 }
 
+void SelectionData::updateLastSelection(int start, int end) {
+    this->selections[this->lastSelectionIndex].start = start;
+    this->selections[this->lastSelectionIndex].end = end;
+}
