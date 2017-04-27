@@ -13,7 +13,7 @@ class TextView {
         void drawLines(sf::RenderWindow &window, TextDocument &document);
         void setFontSize(int fontSize);
 
-        void selectText(int begin, int end);
+        void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
         void removeSelections();
 
         void cursorChange(float mouseX, float mouseY, const TextDocument &document, bool keepSelection=false);

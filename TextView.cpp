@@ -59,8 +59,8 @@ void TextView::setFontSize(int fontSize) {
 }
 
 // [begin, end] inclusive
-void TextView::selectText(int begin, int end) {
-    this->content.selectText(begin, end);
+void TextView::selectText(int startLineN, int startCharN, int endLineN, int endCharN) {
+    this->content.selectText(startLineN, startCharN, endLineN, endCharN);
 }
 
 void TextView::removeSelections() {

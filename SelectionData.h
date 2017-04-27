@@ -1,6 +1,7 @@
 #ifndef SelectionData_H
 #define SelectionData_H
 
+#include "TextDocument.h"
 #include <iostream>
 #include <vector>
 
@@ -17,11 +18,11 @@ class SelectionData {
         // TODO: Para cuando use multiples selecciones con teclado
         //       util para mover todas x caractes hacia un lado.
         //       Hay que tener en cuenta el no salirse del documento y cambios de linea, colisiones etc
-        void moveSelectionsRight(int charAmount);
-        void moveSelectionsLeft(int charAmount);
+        void moveSelectionsRight(int charAmount, const TextDocument &doc);
+        void moveSelectionsLeft(int charAmount, const TextDocument &doc);
 
         void removeSelections();
-        bool isSelected(int lineN, int charN);
+        bool isSelected(int lineN, int charN) const;
 
     private:
         struct Selection {
@@ -40,11 +41,7 @@ class SelectionData {
         int lastSelectionIndex;
 
         bool validIndex(int index);
-
         void removeSelection(int index);
-        void removeSelection(int start, int end);
-        int getStart(int index);
-        int getEnd(int index);
 };
 
 #endif

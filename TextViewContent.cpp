@@ -20,8 +20,6 @@ void TextViewContent::setCursorPos(int line, int charPos) {
 // TODO: Que el texto de seleccion tenga tambien un rectangulo coloreado de fondo
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
-    int charIndexInFullText = 0;
-
     for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
 
         string line = document.getLine(lineNumber);
@@ -33,9 +31,9 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
         for (int charIndexInLine = 0; charIndexInLine < (int)line.size(); charIndexInLine++) {
 
             // En general hay una unica seleccion, en el futuro podria haber mas de una
-            bool currentSelected = this->selections.isSelected(charIndexInFullText);
+            bool currentSelected = this->selections.isSelected(lineNumber, charIndexInLine);
 
-            // Cuando hay un cambio, dibujo el tipo de seleccion anterior (que fue acumulado en charIndexInFullText)
+            // Cuando hay un cambio, dibujo el tipo de seleccion anterior
             // Tambien dibujo cuando es el fin de la linea actual
             if (currentSelected != previousSelected || charIndexInLine == (int)line.size()-1) {
 
@@ -55,9 +53,6 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
 
             // Voy acumulando la string de la linea actual
             currentLineText += line[charIndexInLine];
-
-            // Importante para saber cual es el caracter actual pertenece a una seleccion
-            charIndexInFullText++;
         }
     }
 
@@ -65,8 +60,8 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
 }
 
 // [start, end] is inclusive
-void TextViewContent::selectText(int start, int end) {
-    this->selections.addSelection(start, end);
+void TextViewContent::selectText(int startLineN, int startCharN, int endLineN, int endCharN) {
+    this->selections.addSelection(startLineN, startCharN, endLineN, endCharN);
 }
 
 void TextViewContent::removeSelections() {

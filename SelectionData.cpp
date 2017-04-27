@@ -2,17 +2,28 @@
 
 SelectionData::SelectionData() : lastSelectionIndex(-1) {}
 
-void SelectionData::addSelection(int start, int end) {
-    this->selections.push_back(Selection(start, end));
+void SelectionData::addSelection(int startLineN, int startCharN, int endLineN, int endCharN) {
+    this->selections.push_back(Selection(startLineN, startCharN, endLineN, endCharN));
     this->lastSelectionIndex++;
 }
 
 // Extremos de una seleccion son inclusives a ambos lados
 // NOTA: En el caso extremo puedo tener muchisimos bloques de seleccion,
 //   en ese caso podria refactorearse y hacer una busqueda binaria. Por ahora no vale la pena.
-bool SelectionData::isSelected(int pos) {
-    for (int sel = 0; sel < (int)this->selections.size(); sel++) {
-        if (this->selections[sel].start <= pos && pos <= this->selections[sel].end) {
+bool SelectionData::isSelected(int lineN, int charN) const{
+    for (const Selection sel : this->selections) {
+        // Si esta estrictamente entre las lineas, esta seleccionado.
+        if (sel.startLineN < lineN  && lineN < sel.endLineN) {
+            return true;
+        }
+        // Si esta en la linea de start:
+        //      esta seleccionado si startCharN <= charN
+        if (sel.startLineN == lineN && sel.startCharN <= charN) {
+            return true;
+        }
+        // Si esta en la linea de end:
+        //      esta seleccionado si charN <= endCharN
+        if (sel.endLineN == lineN && charN <= sel.startCharN) {
             return true;
         }
     }
@@ -32,26 +43,6 @@ void SelectionData::removeSelection(int index) {
     this->lastSelectionIndex--;
 }
 
-void SelectionData::removeSelection(int start, int end) {
-    for (int i = 0; i < (int)this->selections.size(); i++) {
-        if (this->selections[i].start == start && this->selections[i].end == end) {
-            this->removeSelection(i);
-            return;
-        }
-    }
-    std::cerr << "Start: " << start << "  end: " << end << " is not a valid range for Selections" << std::endl;
-}
-
-int SelectionData::getStart(int index) {
-    this->validIndex(index);
-    return this->selections[index].start;
-}
-
-int SelectionData::getEnd(int index) {
-    this->validIndex(index);
-    return this->selections[index].end;
-}
-
 bool SelectionData::validIndex(int index) {
     if (index < 0 || index >= (int)this->selections.size()) {
         std::cerr << "Index: " << index << " is not a valid index for Selections" << std::endl;
@@ -60,7 +51,9 @@ bool SelectionData::validIndex(int index) {
     return true;
 }
 
-void SelectionData::updateLastSelection(int start, int end) {
-    this->selections[this->lastSelectionIndex].start = start;
-    this->selections[this->lastSelectionIndex].end = end;
+void SelectionData::updateLastSelection(int startLineN, int startCharN, int endLineN, int endCharN) {
+    this->selections[this->lastSelectionIndex].startLineN = startLineN;
+    this->selections[this->lastSelectionIndex].startCharN = startCharN;
+    this->selections[this->lastSelectionIndex].endLineN = endLineN;
+    this->selections[this->lastSelectionIndex].endCharN = endCharN;
 }
