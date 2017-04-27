@@ -10,19 +10,35 @@ void SelectionData::addSelection(int startLineN, int startCharN, int endLineN, i
 // Extremos de una seleccion son inclusives a ambos lados
 bool SelectionData::isSelected(int lineN, int charN) const{
     for (const Selection sel : this->selections) {
-        // Si esta estrictamente entre las lineas, esta seleccionado.
-        if (sel.startLineN < lineN  && lineN < sel.endLineN) {
-            return true;
-        }
-        // Si esta en la linea de start:
-        //      esta seleccionado si startCharN <= charN
-        if (sel.startLineN == lineN && sel.startCharN <= charN) {
-            return true;
-        }
-        // Si esta en la linea de end:
-        //      esta seleccionado si charN <= endCharN
-        if (sel.endLineN == lineN && charN <= sel.startCharN) {
-            return true;
+        // Si esta estrictamente entre las lineas puede estar seleccionado.
+        if (sel.startLineN <= lineN && lineN <= sel.endLineN) {
+
+            // Si la linea esta estrictamente contenida es porque esta seleccionada
+            if (sel.startLineN < lineN && lineN < sel.endLineN) {
+                return true;
+            }
+
+            // Si hay mas de una linea de seleccion y esta en el inicio
+            if (sel.startLineN == lineN && lineN < sel.endLineN) {
+                if (sel.startCharN <= charN) {
+                    return true;
+                }
+            }
+
+            // Si hay mas de una linea de seleccion y esta en el final
+            if (sel.startLineN < lineN && lineN == sel.endLineN) {
+                if (charN <= sel.endCharN) {
+                    return true;
+                }
+            }
+
+            // Si hay una unica linea de seleccion y está ahi
+            if (sel.startLineN == lineN && lineN == sel.endLineN) {
+                if (sel.startCharN <= charN && charN <= sel.endCharN) {
+                    return true;
+                }
+            }
+
         }
     }
     return false;

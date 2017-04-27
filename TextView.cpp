@@ -36,15 +36,21 @@ TextView::DocCoords TextView::getDocumentCoords(float mouseX, float mouseY, cons
 // TODO: Esta funcion no sirve para cambio de cursor con teclado, podria hacer que funcione con coords de texto,
 //       y que la funcion de cursor change con mouse la llame despues de la conversion
 // TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
+// TODO: Esta funcion borra todas las selecciones anteriores, por lo que no funcionaria para multiples selecciones
 void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &document, bool keepSelection) {
 
     TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
     int lineN = docCoords.lineN;
     int charN = docCoords.charN;
 
+    // Ubico el cursor donde corresponde
+    this->content.setCursorPos(lineN, charN);
+
     if (keepSelection) {
         // Podria hacer un "hasSelection"
         SelectionData::Selection ultimaSelec = this->content.getLastSelection();
+
+        this->content.removeSelections();
 
         // Quiero actualizar la ultima seleccion dependiendo de la ultimaActual
 
@@ -53,32 +59,18 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
 
         // Si la linea nueva esta antes de la linea del principio, es porque me "movi hacia atras"
         if (lineN < ultimaSelec.startLineN) {
-            this->content.removeSelections();
             this->content.selectText(lineN, charN, ultimaSelec.startLineN, ultimaSelec.startCharN);
         }
-
         // Si la linea nueva esta despues de la linea del principio, es porque me "movi hacia adelante"
         else if (lineN > ultimaSelec.endLineN) {
-            this->content.removeSelections();
+            this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
+        }
+        // start <= lineN  <= end
+        else {
             this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
         }
 
-        // Caso me movi dentro de la misma seleccion
-        else if (false) {
-
-        }
-
-
-    } else {
-        this->content.removeSelections();
-        // Agrego una seleccion fantasma que no contenga ningun caracter,
-        // para en el caso de mantenerla activa siempre haya una que pueda expandir
-
-        // this->content.addSelection();
     }
-
-
-    this->content.setCursorPos(lineN, charN);
 }
 
 // Una seleccion inicial selecciona el propio caracter en el que estoy
