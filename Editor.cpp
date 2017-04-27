@@ -61,7 +61,11 @@ int main() {
                 textView.removeSelections();
                 auto mousepos = sf::Mouse::getPosition(window);
                 auto mousepos_text = window.mapPixelToCoords(mousepos);
-                textView.cursorChange(mousepos_text.x, mousepos_text.y, doc);
+
+                // inicio seleccion cuando clickeo.
+                // Borro desde fuera explicitamente las selecciones
+                // TODO: Multiples selecciones, sin borrar anteriores si presiono ctrl
+                textView.startSelection(mousepos_text.x, mousepos_text.y, doc);
                 isMouseDown = true;
             }
 

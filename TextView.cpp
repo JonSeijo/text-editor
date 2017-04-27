@@ -81,6 +81,12 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
     this->content.setCursorPos(lineN, charN);
 }
 
+// Una seleccion inicial selecciona el propio caracter en el que estoy
+void TextView::startSelection(float mouseX, float mouseY, const TextDocument &document) {
+    TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
+    this->selectText(docCoords.lineN, docCoords.charN, docCoords.lineN, docCoords.charN);
+}
+
 void TextView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);
 }
