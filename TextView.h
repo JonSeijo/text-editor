@@ -16,6 +16,7 @@ class TextView {
         void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
         void removeSelections();
 
+        void startSelection(float mouseX, float mouseY, const TextDocument &document);
         void cursorChange(float mouseX, float mouseY, const TextDocument &document, bool keepSelection=false);
 
         void scrollUp();
@@ -40,6 +41,15 @@ class TextView {
 
     private:
         TextViewContent content;
+
+        struct DocCoords {
+            int lineN;
+            int charN;
+            DocCoords() : lineN(-1), charN(-1) {}
+            DocCoords(int lineN, int charN) : lineN(lineN), charN(charN) {}
+        };
+
+        DocCoords getDocumentCoords(float mouseX, float mouseY, const TextDocument &document);
 
         sf::View camera;
         float deltaScroll;

@@ -31,11 +31,9 @@ void controlarMovimientos(TextView &textView) {
 }
 
 void controlarAccionesMouse(sf::RenderWindow &window, TextView &textView, bool isMouseDown, const TextDocument &document) {
-    if (isMouseDown) {
-        auto mousepos = sf::Mouse::getPosition(window);
-        auto mousepos_text = window.mapPixelToCoords(mousepos);
-        textView.cursorChange(mousepos_text.x, mousepos_text.y, document);
-    }
+    auto mousepos = sf::Mouse::getPosition(window);
+    auto mousepos_text = window.mapPixelToCoords(mousepos);
+    textView.cursorChange(mousepos_text.x, mousepos_text.y, document, isMouseDown);
 }
 
 int main() {
