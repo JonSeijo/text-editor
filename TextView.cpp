@@ -59,15 +59,27 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
 
         // Si la linea nueva esta antes de la linea del principio, es porque me "movi hacia atras"
         if (lineN < ultimaSelec.startLineN) {
+            std::cout << "1\n";
             this->content.selectText(lineN, charN, ultimaSelec.startLineN, ultimaSelec.startCharN);
         }
         // Si la linea nueva esta despues de la linea del principio, es porque me "movi hacia adelante"
         else if (lineN > ultimaSelec.endLineN) {
+            std::cout << "2\n";
             this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
         }
         // start <= lineN  <= end
         else {
-            this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
+            if (ultimaSelec.startCharN < charN) {
+                std::cout << "3\n";
+                this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
+            }
+            else {
+                std::cout << "4\n";
+                std::cout << lineN << " " << charN << "    ult: " << ultimaSelec.startLineN << " " << ultimaSelec.startCharN << "\n";
+                this->content.selectText(lineN, charN, ultimaSelec.endLineN, ultimaSelec.endCharN);
+            }
+
+            // this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
         }
 
     }
