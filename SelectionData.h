@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 
-// TODO: Creo que conviene que la seleccion este manejada por lineN y charN
 // TODO: Pensar si la seleccion no deberia conocer al documento, para arreglar quilombos con los multiples
 class SelectionData {
 
@@ -14,6 +13,7 @@ class SelectionData {
 
         void addSelection(int startLineN, int startCharN, int endLineN, int endCharN);
         void updateLastSelection(int startLineN, int startCharN, int endLineN, int endCharN);
+
 
         // TODO: Para cuando use multiples selecciones con teclado
         //       util para mover todas x caractes hacia un lado.
@@ -24,7 +24,6 @@ class SelectionData {
         void removeSelections();
         bool isSelected(int lineN, int charN) const;
 
-    private:
         struct Selection {
             int startLineN;
             int startCharN;
@@ -36,6 +35,10 @@ class SelectionData {
                  startLineN(startLineN), startCharN(startCharN), endLineN(endLineN), endCharN(endCharN) {}
 
         };
+
+        Selection getLastSelection();
+
+    private:
 
         std::vector<Selection> selections;
         int lastSelectionIndex;

@@ -41,6 +41,31 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
     charN = std::min(charN, charsInLine);
 
     if (keepSelection) {
+        // Podria hacer un "hasSelection"
+        SelectionData::Selection ultimaSelec = this->content.getLastSelection();
+
+        // Quiero actualizar la ultima seleccion dependiendo de la ultimaActual
+
+        // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
+        // TODO: Usar los metodos moveSelections para mover todas las selecciones.
+
+        // Si la linea nueva esta antes de la linea del principio, es porque me "movi hacia atras"
+        if (lineN < ultimaSelec.startLineN) {
+            this->content.removeSelections();
+            this->content.selectText(lineN, charN, ultimaSelec.startLineN, ultimaSelec.startCharN);
+        }
+
+        // Si la linea nueva esta despues de la linea del principio, es porque me "movi hacia adelante"
+        else if (lineN > ultimaSelec.endLineN) {
+            this->content.removeSelections();
+            this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
+        }
+
+        // Caso me movi dentro de la misma seleccion
+        else if (false) {
+
+        }
+
 
     } else {
         this->content.removeSelections();

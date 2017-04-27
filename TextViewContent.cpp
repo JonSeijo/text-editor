@@ -68,6 +68,10 @@ void TextViewContent::removeSelections() {
     this->selections.removeSelections();
 }
 
+SelectionData::Selection TextViewContent::getLastSelection() {
+    return this->selections.getLastSelection();
+}
+
 void TextViewContent::setFontSize(int fontSize) {
     this->fontSize = fontSize;
     this->lineHeight = fontSize;

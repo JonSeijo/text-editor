@@ -16,6 +16,8 @@ class TextViewContent {
 
         void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
         void removeSelections();
+        SelectionData::Selection getLastSelection();
+
 
         void moveCursorDown();
         void setCursorPos(int line, int charPos);

@@ -8,8 +8,6 @@ void SelectionData::addSelection(int startLineN, int startCharN, int endLineN, i
 }
 
 // Extremos de una seleccion son inclusives a ambos lados
-// NOTA: En el caso extremo puedo tener muchisimos bloques de seleccion,
-//   en ese caso podria refactorearse y hacer una busqueda binaria. Por ahora no vale la pena.
 bool SelectionData::isSelected(int lineN, int charN) const{
     for (const Selection sel : this->selections) {
         // Si esta estrictamente entre las lineas, esta seleccionado.
@@ -41,6 +39,13 @@ void SelectionData::removeSelection(int index) {
     this->validIndex(index);
     this->selections.erase(this->selections.begin() + index);
     this->lastSelectionIndex--;
+}
+
+SelectionData::Selection SelectionData::getLastSelection() {
+    if (this->validIndex(this->lastSelectionIndex)) {
+        return this->selections[this->lastSelectionIndex];
+    }
+    return SelectionData::Selection();
 }
 
 bool SelectionData::validIndex(int index) {
