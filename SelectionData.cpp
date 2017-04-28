@@ -2,39 +2,66 @@
 
 SelectionData::SelectionData() : lastSelectionIndex(-1) {}
 
-void SelectionData::addSelection(int startLineN, int startCharN, int endLineN, int endCharN) {
-    this->selections.push_back(Selection(startLineN, startCharN, endLineN, endCharN));
+// Inactiva por defecto pues solo inicializo el ancla
+void SelectionData::createNewSelection(int anclaLine, int anclaChar) {
+    this->selections.push_back(Selection(anclaLine, anclaChar));
     this->lastSelectionIndex++;
+}
+
+void SelectionData::updateLastSelection(int extremoLine, int extremoChar) {
+    int anclaLine = this->getLastAnclaLine();
+    int anclaChar = this->getLastAnclaChar();
+
+    bool nuevaInactiva = (anclaLine == extremoLine) && (anclaChar == extremoChar);
+    this->selections[this->lastSelectionIndex].activa = nuevaInactiva;
+
+    this->selections[this->lastSelectionIndex].extremo.lineN = extremoLine;
+    this->selections[this->lastSelectionIndex].extremo.charN = extremoChar;
 }
 
 // Extremos de una seleccion son inclusives a ambos lados
 bool SelectionData::isSelected(int lineN, int charN) const{
     for (const Selection sel : this->selections) {
+        if (!sel.activa) {
+            continue;
+        }
+
+        SelectionData::Extremo start;
+        SelectionData::Extremo end;
+
+        if (sel.ancla < sel.extremo) {
+            start = sel.ancla;
+            end = sel.extremo;
+        } else {
+            start = sel.extremo;
+            end = sel.ancla;
+        }
+
         // Si esta estrictamente entre las lineas puede estar seleccionado.
-        if (sel.startLineN <= lineN && lineN <= sel.endLineN) {
+        if (start.lineN <= lineN && lineN <= end.lineN) {
 
             // Si la linea esta estrictamente contenida es porque esta seleccionada
-            if (sel.startLineN < lineN && lineN < sel.endLineN) {
+            if (start.lineN < lineN && lineN < end.lineN) {
                 return true;
             }
 
             // Si hay mas de una linea de seleccion y esta en el inicio
-            if (sel.startLineN == lineN && lineN < sel.endLineN) {
-                if (sel.startCharN <= charN) {
+            if (start.lineN == lineN && lineN < end.lineN) {
+                if (start.charN <= charN) {
                     return true;
                 }
             }
 
             // Si hay mas de una linea de seleccion y esta en el final
-            if (sel.startLineN < lineN && lineN == sel.endLineN) {
-                if (charN <= sel.endCharN) {
+            if (start.lineN < lineN && lineN == end.lineN) {
+                if (charN <= end.charN) {
                     return true;
                 }
             }
 
             // Si hay una unica linea de seleccion y está ahi
-            if (sel.startLineN == lineN && lineN == sel.endLineN) {
-                if (sel.startCharN <= charN && charN <= sel.endCharN) {
+            if (start.lineN == lineN && lineN == end.lineN) {
+                if (start.charN <= charN && charN <= end.charN) {
                     return true;
                 }
             }
@@ -72,9 +99,14 @@ bool SelectionData::validIndex(int index) {
     return true;
 }
 
-void SelectionData::updateLastSelection(int startLineN, int startCharN, int endLineN, int endCharN) {
-    this->selections[this->lastSelectionIndex].startLineN = startLineN;
-    this->selections[this->lastSelectionIndex].startCharN = startCharN;
-    this->selections[this->lastSelectionIndex].endLineN = endLineN;
-    this->selections[this->lastSelectionIndex].endCharN = endCharN;
+int SelectionData::getLastAnclaLine() {
+    return this->selections[this->lastSelectionIndex].ancla.lineN;
+}
+
+int SelectionData::getLastAnclaChar() {
+    return this->selections[this->lastSelectionIndex].ancla.charN;
+}
+
+int SelectionData::getLastIsActive() {
+    return this->selections[this->lastSelectionIndex].ancla.active;
 }
