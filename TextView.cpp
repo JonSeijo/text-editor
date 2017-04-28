@@ -42,20 +42,12 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
 
     // Ubico el cursor donde corresponde
     // TODO: Cambiar posicion del cursor cuando clickeo o cuando estoy seleccionando, no siempre que lo mueva
-    this->content.setCursorPos(lineN, charN);
 
     if (keepSelection) {
+        this->content.setCursorPos(lineN, charN);
         SelectionData::Selection ultimaSelec = this->content.getLastSelection();
-
-        // this->content.removeSelections();
-
-        // Quiero actualizar la ultima seleccion dependiendo de la ultimaActual
-
         // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
         // TODO: Usar los metodos moveSelections para mover todas las selecciones.
-
-        // Si la linea nueva esta antes de la linea del principio, es porque me "movi hacia atras"
-
         this->content.updateLastSelection(lineN, charN);
     }
 }
@@ -69,11 +61,6 @@ void TextView::startSelection(float mouseX, float mouseY, const TextDocument &do
 void TextView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);
 }
-
-// // [begin, end] inclusive
-// void TextView::selectText(int startLineN, int startCharN, int endLineN, int endCharN) {
-//     this->content.selectText(startLineN, startCharN, endLineN, endCharN);
-// }
 
 void TextView::removeSelections() {
     this->content.removeSelections();
