@@ -54,7 +54,7 @@ bool SelectionData::isSelected(int lineN, int charN) const{
 
             // Si hay mas de una linea de seleccion y esta en el final
             else if (start.lineN < lineN && lineN == end.lineN) {
-                if (charN <= end.charN) {
+                if (charN < end.charN) {
                     return true;
                 }
             }
