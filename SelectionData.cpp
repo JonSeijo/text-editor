@@ -12,8 +12,8 @@ void SelectionData::updateLastSelection(int extremoLine, int extremoChar) {
     int anclaLine = this->getLastAnclaLine();
     int anclaChar = this->getLastAnclaChar();
 
-    bool nuevaInactiva = (anclaLine == extremoLine) && (anclaChar == extremoChar);
-    this->selections[this->lastSelectionIndex].activa = nuevaInactiva;
+    bool nuevaActiva = (anclaLine != extremoLine) || (anclaChar != extremoChar);
+    this->selections[this->lastSelectionIndex].activa = nuevaActiva;
 
     this->selections[this->lastSelectionIndex].extremo.lineN = extremoLine;
     this->selections[this->lastSelectionIndex].extremo.charN = extremoChar;
