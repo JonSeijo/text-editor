@@ -34,22 +34,17 @@ TextView::DocCoords TextView::getDocumentCoords(float mouseX, float mouseY, cons
 //       y que la funcion de cursor change con mouse la llame despues de la conversion
 // TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
 // TODO: Esta funcion solo sirve para la ultima seleccion, manejarlo por parametros??
-void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &document, bool keepSelection) {
+void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &document) {
 
     TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
     int lineN = docCoords.lineN;
     int charN = docCoords.charN;
 
-    // Ubico el cursor donde corresponde
-    // TODO: Cambiar posicion del cursor cuando clickeo o cuando estoy seleccionando, no siempre que lo mueva
-
-    if (keepSelection) {
-        this->content.setCursorPos(lineN, charN);
-        SelectionData::Selection ultimaSelec = this->content.getLastSelection();
-        // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
-        // TODO: Usar los metodos moveSelections para mover todas las selecciones.
-        this->content.updateLastSelection(lineN, charN);
-    }
+    this->content.setCursorPos(lineN, charN);
+    SelectionData::Selection ultimaSelec = this->content.getLastSelection();
+    // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
+    // TODO: Usar los metodos moveSelections para mover todas las selecciones.
+    this->content.updateLastSelection(lineN, charN);
 }
 
 // Una seleccion inicial selecciona el propio caracter en el que estoy

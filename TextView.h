@@ -17,7 +17,7 @@ class TextView {
         void removeSelections();
 
         void startSelection(float mouseX, float mouseY, const TextDocument &document);
-        void cursorChange(float mouseX, float mouseY, const TextDocument &document, bool keepSelection=false);
+        void cursorActive(float mouseX, float mouseY, const TextDocument &document);
 
         void scrollUp();
         void scrollDown();

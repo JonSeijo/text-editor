@@ -30,12 +30,6 @@ void controlarMovimientos(TextView &textView) {
     }
 }
 
-void controlarAccionesMouse(sf::RenderWindow &window, TextView &textView, bool isMouseDown, const TextDocument &document) {
-    auto mousepos = sf::Mouse::getPosition(window);
-    auto mousepos_text = window.mapPixelToCoords(mousepos);
-    textView.cursorChange(mousepos_text.x, mousepos_text.y, document, isMouseDown);
-}
-
 int main() {
     sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor", sf::Style::Close);
     window.setVerticalSyncEnabled(true);
@@ -44,9 +38,9 @@ int main() {
     std::string fileName = "TextView.cpp";
 
     TextView textView(window);
-    TextDocument doc;
+    TextDocument document;
 
-    doc.init(fileName);
+    document.init(fileName);
 
     bool isMouseDown = false;
 
@@ -65,7 +59,7 @@ int main() {
                 // inicio seleccion cuando clickeo.
                 // Borro desde fuera explicitamente las selecciones
                 // TODO: Multiples selecciones, sin borrar anteriores si presiono ctrl
-                textView.startSelection(mousepos_text.x, mousepos_text.y, doc);
+                textView.startSelection(mousepos_text.x, mousepos_text.y, document);
                 isMouseDown = true;
             }
 
@@ -87,13 +81,19 @@ int main() {
         }
 
         controlarMovimientos(textView);
-        controlarAccionesMouse(window, textView, isMouseDown, doc);
+
+        // TODO: Esto asume que siempre que esta el mouse presionado se esta seleccionando
+        if (isMouseDown) {
+            auto mousepos = sf::Mouse::getPosition(window);
+            auto mousepos_text = window.mapPixelToCoords(mousepos);
+            textView.cursorActive(mousepos_text.x, mousepos_text.y, document);
+        }
 
         window.clear();
 
         window.setView(textView.getCameraView());
 
-        textView.drawLines(window, doc);
+        textView.drawLines(window, document);
 
         window.display();
     }
