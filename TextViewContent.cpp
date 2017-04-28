@@ -59,9 +59,12 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
     this->cursor.draw(window);
 }
 
-// [start, end] is inclusive
-void TextViewContent::selectText(int startLineN, int startCharN, int endLineN, int endCharN) {
-    this->selections.addSelection(startLineN, startCharN, endLineN, endCharN);
+void TextViewContent::createNewSelection(int anclaLine, int anclaChar) {
+    this->selections.createNewSelection(anclaLine, anclaChar);
+}
+
+void TextViewContent::updateLastSelection(int lineN, int charN) {
+    this->selections.updateLastSelection(lineN, charN);
 }
 
 void TextViewContent::removeSelections() {
@@ -72,6 +75,7 @@ SelectionData::Selection TextViewContent::getLastSelection() {
     return this->selections.getLastSelection();
 }
 
+// TODO: Divide fontsize from lineheight
 void TextViewContent::setFontSize(int fontSize) {
     this->fontSize = fontSize;
     this->lineHeight = fontSize;
@@ -86,7 +90,6 @@ void TextViewContent::setFontSize(int fontSize) {
     this->charWidth = textwidth;
 }
 
-// TODO: Divide fontsize from lineheight
 int TextViewContent::getLineHeight() {
     return this->lineHeight;
 }

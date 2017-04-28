@@ -9,17 +9,29 @@
 // TODO: CAMBIAR TODO. Idea de puntos de anclaje
 class SelectionData {
 
+    private:
+        struct Extremo {
+            int lineN;
+            int charN;
+            Extremo() : lineN(-1), charN(-1) {}
+            Extremo(int lineN, int charN) : lineN(lineN), charN(charN) {};
+
+            bool operator<(const Extremo& ex) const {
+                return lineN < ex.lineN || (lineN <= ex.lineN && charN < ex.charN);
+            }
+        };
+
     public:
         SelectionData();
 
         struct Selection {
-            Extremo ancla;
-            Extremo extremo;
+            SelectionData::Extremo ancla;
+            SelectionData::Extremo extremo;
             bool activa;
 
             Selection() : ancla(), activa(false), extremo() {}
             Selection(int anclaLine, int anclaChar) : ancla(anclaLine, anclaChar), activa(false), extremo() {}
-        }
+        };
 
         void createNewSelection(int anclaLine, int anclaChar);
         void updateLastSelection(int extremoLine, int extremoChar);
@@ -40,17 +52,6 @@ class SelectionData {
         void moveSelectionsLeft(int charAmount, const TextDocument &doc);
 
     private:
-        struct Extremo {
-            int lineN;
-            int charN;
-            Extremo() : lineN(-1), charN(-1) {}
-            Extremo(int lineN, int charN) : lineN(lineN), charN(charN) {};
-
-            bool operator<(const Extremo& ex) const {
-                return lineN < ex.lineN || (lineN <= ex.lineN && charN < ex.charN);
-            }
-        }
-
         std::vector<Selection> selections;
         int lastSelectionIndex;
 

@@ -14,10 +14,11 @@ class TextViewContent {
         void setFontSize(int fontSize);
         void drawLines(sf::RenderWindow &window, TextDocument &document);
 
-        void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
+        void createNewSelection(int anclaLine, int anclaChar);
+        void updateLastSelection(int lineN, int charN);
+
         void removeSelections();
         SelectionData::Selection getLastSelection();
-
 
         void moveCursorDown();
         void setCursorPos(int line, int charPos);

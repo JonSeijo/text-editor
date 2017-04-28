@@ -108,5 +108,5 @@ int SelectionData::getLastAnclaChar() {
 }
 
 int SelectionData::getLastIsActive() {
-    return this->selections[this->lastSelectionIndex].ancla.active;
+    return this->selections[this->lastSelectionIndex].activa;
 }
