@@ -60,7 +60,7 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
         // Si la linea nueva esta antes de la linea del principio, es porque me "movi hacia atras"
         if (lineN < ultimaSelec.startLineN) {
             std::cout << "1\n";
-            this->content.selectText(lineN, charN, ultimaSelec.startLineN, ultimaSelec.startCharN);
+            this->content.selectText(lineN, charN, ultimaSelec.endLineN, ultimaSelec.endCharN);
         }
         // Si la linea nueva esta despues de la linea del principio, es porque me "movi hacia adelante"
         else if (lineN > ultimaSelec.endLineN) {
@@ -68,20 +68,36 @@ void TextView::cursorChange(float mouseX, float mouseY, const TextDocument &docu
             this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
         }
         // start <= lineN  <= end
-        else {
-            if (ultimaSelec.startCharN < charN) {
-                std::cout << "3\n";
+
+
+        // Hay mas de una linea y esta en la primera
+        else if (ultimaSelec.startLineN == lineN) { // && lineN < ultimaSelec.endLineN) {
+            std::cout << "3\n";
+            // Soy mas chico que el primer caracter de la ultima seleccion
+            if (charN <= ultimaSelec.startCharN) {
+                this->content.selectText(lineN, charN, ultimaSelec.endLineN, ultimaSelec.endCharN);
+            } else {
+                // Caso contrario muevo el final de la seleccion
                 this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
             }
-            else {
-                std::cout << "4\n";
-                std::cout << lineN << " " << charN << "    ult: " << ultimaSelec.startLineN << " " << ultimaSelec.startCharN << "\n";
-                this->content.selectText(lineN, charN, ultimaSelec.endLineN, ultimaSelec.endCharN);
-            }
-
-            // this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
         }
 
+        // Hay mas de una linea y esta en la segunda
+        else if (ultimaSelec.startLineN < lineN) {
+            std::cout << "4\n";
+            this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
+        }
+
+        // Esta en la unica linea restante
+        else if (ultimaSelec.startLineN == lineN && lineN == ultimaSelec.endLineN) {
+            std::cout << "5\n";
+            if (charN <= ultimaSelec.startCharN) {
+                this->content.selectText(lineN, charN, ultimaSelec.startLineN, ultimaSelec.startCharN);
+            } else {
+                // Caso contrario muevo el final de la seleccion
+                this->content.selectText(ultimaSelec.startLineN, ultimaSelec.startCharN, lineN, charN);
+            }
+        }
     }
 }
 

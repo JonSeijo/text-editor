@@ -6,6 +6,7 @@
 #include <vector>
 
 // TODO: Pensar si la seleccion no deberia conocer al documento, para arreglar quilombos con los multiples
+// TODO: CAMBIAR TODO. Idea de puntos de anclaje
 class SelectionData {
 
     public:
