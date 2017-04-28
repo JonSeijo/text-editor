@@ -46,22 +46,22 @@ bool SelectionData::isSelected(int lineN, int charN) const{
             }
 
             // Si hay mas de una linea de seleccion y esta en el inicio
-            if (start.lineN == lineN && lineN < end.lineN) {
+            else if (start.lineN == lineN && lineN < end.lineN) {
                 if (start.charN <= charN) {
                     return true;
                 }
             }
 
             // Si hay mas de una linea de seleccion y esta en el final
-            if (start.lineN < lineN && lineN == end.lineN) {
+            else if (start.lineN < lineN && lineN == end.lineN) {
                 if (charN <= end.charN) {
                     return true;
                 }
             }
 
             // Si hay una unica linea de seleccion y está ahi
-            if (start.lineN == lineN && lineN == end.lineN) {
-                if (start.charN <= charN && charN <= end.charN) {
+            else if (start.lineN == lineN && lineN == end.lineN) {
+                if (start.charN <= charN && charN < end.charN) {
                     return true;
                 }
             }
