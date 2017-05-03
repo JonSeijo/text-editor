@@ -84,6 +84,8 @@ int main() {
 
         // TODO: Esto asume que siempre que esta el mouse presionado se esta seleccionando
         // TODO: Ubicar el textview con variables genericas (No magic numbers)
+        // TODO: Que la velocidad del scroll varie dependiendo de cuan fuera de la ventana estoy
+        // TODO: No permitir scrollear mas alla del textview
         if (isMouseDown) {
             auto mousepos = sf::Mouse::getPosition(window);
             auto mousepos_text = window.mapPixelToCoords(mousepos);
