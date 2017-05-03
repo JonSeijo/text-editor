@@ -38,7 +38,6 @@ class TextView {
         void setDeltaScroll(float delta);
         void setDeltaRotation(float delta);
 
-
     private:
         TextViewContent content;
 

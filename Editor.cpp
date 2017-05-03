@@ -5,16 +5,16 @@
 void controlarMovimientos(TextView &textView) {
     // Scrolling
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        textView.scrollDown();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         textView.scrollUp();
     }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        textView.scrollDown();
+    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        textView.scrollRight();
+        textView.scrollLeft();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        textView.scrollLeft();
+        textView.scrollRight();
     }
 
     // Rotating
@@ -83,10 +83,25 @@ int main() {
         controlarMovimientos(textView);
 
         // TODO: Esto asume que siempre que esta el mouse presionado se esta seleccionando
+        // TODO: Ubicar el textview con variables genericas (No magic numbers)
         if (isMouseDown) {
             auto mousepos = sf::Mouse::getPosition(window);
             auto mousepos_text = window.mapPixelToCoords(mousepos);
+
             textView.cursorActive(mousepos_text.x, mousepos_text.y, document);
+
+            if (mousepos.y < 0) {
+                textView.scrollUp();
+            } else if (mousepos.y > 400) {
+                textView.scrollDown();
+            }
+
+            if (mousepos.x < 0) {
+                textView.scrollLeft();
+            } else if (mousepos.x > 720) {
+                textView.scrollRight();
+            }
+
         }
 
         window.clear();

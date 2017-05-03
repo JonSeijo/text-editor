@@ -62,19 +62,19 @@ void TextView::removeSelections() {
 }
 
 void TextView::scrollUp() {
-    this->camera.move(0, this->deltaScroll);
-}
-
-void TextView::scrollDown() {
     this->camera.move(0, -this->deltaScroll);
 }
 
+void TextView::scrollDown() {
+    this->camera.move(0, this->deltaScroll);
+}
+
 void TextView::scrollLeft() {
-    this->camera.move(this->deltaScroll, 0);
+    this->camera.move(-this->deltaScroll, 0);
 }
 
 void TextView::scrollRight() {
-    this->camera.move(-this->deltaScroll, 0);
+    this->camera.move(this->deltaScroll, 0);
 }
 
 void TextView::rotateLeft() {
