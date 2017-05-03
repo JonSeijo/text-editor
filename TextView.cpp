@@ -77,6 +77,10 @@ void TextView::scrollRight() {
     this->camera.move(this->deltaScroll, 0);
 }
 
+void TextView::scroll(float dx, float dy) {
+    this->camera.move(dx, dy);
+}
+
 void TextView::rotateLeft() {
     this->camera.rotate(this->deltaRotation);
 }

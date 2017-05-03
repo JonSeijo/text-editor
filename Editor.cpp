@@ -2,7 +2,7 @@
 #include "TextView.h"
 #include "TextDocument.h"
 
-void controlarMovimientos(TextView &textView) {
+void controlarMovimientosTeclado(TextView &textView) {
     // Scrolling
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         textView.scrollUp();
@@ -80,11 +80,10 @@ int main() {
             }
         }
 
-        controlarMovimientos(textView);
+        controlarMovimientosTeclado(textView);
 
         // TODO: Esto asume que siempre que esta el mouse presionado se esta seleccionando
         // TODO: Ubicar el textview con variables genericas (No magic numbers)
-        // TODO: Que la velocidad del scroll varie dependiendo de cuan fuera de la ventana estoy
         // TODO: No permitir scrollear mas alla del textview
         if (isMouseDown) {
             auto mousepos = sf::Mouse::getPosition(window);
@@ -92,18 +91,34 @@ int main() {
 
             textView.cursorActive(mousepos_text.x, mousepos_text.y, document);
 
-            if (mousepos.y < 0) {
-                textView.scrollUp();
-            } else if (mousepos.y > 400) {
-                textView.scrollDown();
+            float scrollDeltaX = 0;
+            float scrollDeltaY = 0;
+
+            float textViewTop = 0;
+            float textViewBottom = 400;
+            float textViewLeft = 0;
+            float textViewRight = 720;
+
+            float relativeFactor = 3;
+
+            float distanceToTop = std::abs(mousepos.y - textViewTop);
+            float distanceToBottom = std::abs(mousepos.y - textViewBottom);
+            float distanceToLeft = std::abs(mousepos.x - textViewLeft);
+            float distanceToRight = std::abs(mousepos.x - textViewRight);
+
+            if (mousepos.x < textViewLeft) {
+                scrollDeltaX = -distanceToLeft / relativeFactor;
+            } else if (mousepos.x > textViewRight) {
+                scrollDeltaX = distanceToRight / relativeFactor;
             }
 
-            if (mousepos.x < 0) {
-                textView.scrollLeft();
-            } else if (mousepos.x > 720) {
-                textView.scrollRight();
+            if (mousepos.y < textViewTop) {
+                scrollDeltaY = -distanceToTop / relativeFactor;
+            } else if (mousepos.y > textViewBottom) {
+                scrollDeltaY = distanceToBottom / relativeFactor;
             }
 
+            textView.scroll(scrollDeltaX, scrollDeltaY);
         }
 
         window.clear();
