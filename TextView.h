@@ -53,6 +53,7 @@ class TextView {
         sf::Font font;
         int fontSize;
         int marginXOffset;
+        sf::Color colorMargin;
 
         sf::View camera;
         float deltaScroll;

@@ -9,7 +9,7 @@ Cursor::Cursor(int height, int charWidth, int posX, int posY) {
     this->charWidth = charWidth;
     this->posX = posX;
     this->posY = posY;
-    this->offsetY = 4;
+    this->offsetY = 2;
     this->rect = sf::RectangleShape(sf::Vector2f(2, height));
     this->rect.setFillColor(sf::Color::White);
     this->updatePos(this->posX, this->posY);

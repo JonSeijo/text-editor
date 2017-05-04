@@ -31,6 +31,7 @@ void controlarMovimientosTeclado(TextView &textView) {
 }
 
 int main() {
+    // TODO: Poder expandir la ventada a gusto
     sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor", sf::Style::Close);
     window.setVerticalSyncEnabled(true);
 

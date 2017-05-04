@@ -1,7 +1,7 @@
 #include "TextView.h"
 
 TextView::TextView(const sf::RenderWindow &window)
-    : camera(sf::FloatRect(-45, 0, window.getSize().x, window.getSize().y)),
+    : camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)),
       deltaScroll(10), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
 
     // this->font.loadFromFile("FreeMono.ttf");
@@ -10,6 +10,7 @@ TextView::TextView(const sf::RenderWindow &window)
 
     // TODO: Cambiarlo en relacion a la fontsize
     this->marginXOffset = 45;
+    this->colorMargin = sf::Color(32, 44, 68);
 }
 
 void TextView::draw(sf::RenderWindow &window, TextDocument &document) {
@@ -22,12 +23,21 @@ void TextView::draw(sf::RenderWindow &window, TextDocument &document) {
     // TODO: Hacer una clase separada para el margin
     for (int lineNumber = 1; lineNumber <= document.getLineCount(); lineNumber++) {
         int lineHeight = 1;
+
+        int blockHeight = lineHeight * this->fontSize;
+
         sf::Text lineNumberText;
         lineNumberText.setColor(sf::Color::White);
         lineNumberText.setFont(this->font);
         lineNumberText.setString(std::to_string(lineNumber));
         lineNumberText.setCharacterSize(this->fontSize-1);
-        lineNumberText.setPosition(-this->marginXOffset, lineHeight * (lineNumber-1) * this->fontSize);
+        lineNumberText.setPosition(-this->marginXOffset, blockHeight * (lineNumber-1));
+
+        sf::RectangleShape marginRect(sf::Vector2f(this->marginXOffset-5, blockHeight));
+        marginRect.setFillColor(this->colorMargin);
+        marginRect.setPosition(-this->marginXOffset, blockHeight * (lineNumber-1));
+
+        window.draw(marginRect);
         window.draw(lineNumberText);
     }
 }
