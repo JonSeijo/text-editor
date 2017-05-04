@@ -34,6 +34,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor", sf::Style::Close);
     window.setVerticalSyncEnabled(true);
 
+    sf::Color backgroundColor = sf::Color(21, 29, 45);
+
     // std::string fileName = "textoDePrueba.txt";
     std::string fileName = "TextView.cpp";
 
@@ -121,7 +123,7 @@ int main() {
             textView.scroll(scrollDeltaX, scrollDeltaY);
         }
 
-        window.clear();
+        window.clear(backgroundColor);
 
         window.setView(textView.getCameraView());
 
