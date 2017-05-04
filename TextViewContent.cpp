@@ -1,8 +1,9 @@
 #include "TextViewContent.h"
 
 TextViewContent::TextViewContent() {
-    this->font.loadFromFile("FreeMono.ttf");
-    this->setFontSize(20);  // Important to call
+    // this->font.loadFromFile("FreeMono.ttf");
+    this->font.loadFromFile("DejaVuSansMono.ttf");
+    this->setFontSize(18);  // Important to call
     this->cursor = Cursor(this->lineHeight, this->charWidth);
 
     this->colorChar = sf::Color::White;
@@ -52,7 +53,8 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
                 if (previousSelected) {
                     sf::RectangleShape selectionRect(sf::Vector2f(texto.getLocalBounds().width, this->fontSize));
                     selectionRect.setFillColor(this->colorSelection);
-                    selectionRect.setPosition(offsetx, 5 + lineNumber*this->fontSize);
+                    // TODO: Que el +2 no sea un numero magico
+                    selectionRect.setPosition(offsetx, 2+lineNumber*this->fontSize);
                     window.draw(selectionRect);
                 }
 

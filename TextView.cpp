@@ -4,8 +4,9 @@ TextView::TextView(const sf::RenderWindow &window)
     : camera(sf::FloatRect(-45, 0, window.getSize().x, window.getSize().y)),
       deltaScroll(10), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
 
-    this->font.loadFromFile("FreeMono.ttf");
-    this->fontSize = 20;
+    // this->font.loadFromFile("FreeMono.ttf");
+    this->font.loadFromFile("DejaVuSansMono.ttf");
+    this->fontSize = 18;
 
     // TODO: Cambiarlo en relacion a la fontsize
     this->marginXOffset = 45;
