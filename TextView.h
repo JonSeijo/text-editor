@@ -10,7 +10,7 @@ class TextView {
     public:
         TextView(const sf::RenderWindow &window);
 
-        void drawLines(sf::RenderWindow &window, TextDocument &document);
+        void draw(sf::RenderWindow &window, TextDocument &document);
         void setFontSize(int fontSize);
 
         void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
@@ -49,6 +49,10 @@ class TextView {
         };
 
         DocCoords getDocumentCoords(float mouseX, float mouseY, const TextDocument &document);
+
+        sf::Font font;
+        int fontSize;
+        int marginXOffset;
 
         sf::View camera;
         float deltaScroll;

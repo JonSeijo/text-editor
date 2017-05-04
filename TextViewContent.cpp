@@ -16,9 +16,11 @@ void TextViewContent::setCursorPos(int line, int charPos) {
     this->cursor.setPosition(line, charPos);
 }
 
+// TODO: Es un poco raro que el textviewContent maneje el cursor, mejor que lo maneje TextView
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 // TODO: Que el texto de seleccion tenga tambien un rectangulo coloreado de fondo
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
+// TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
 
@@ -111,4 +113,3 @@ sf::String TextViewContent::toUtf32(const std::string& inString) {
 
     return outString;
 }
-

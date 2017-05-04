@@ -1,12 +1,34 @@
 #include "TextView.h"
 
 TextView::TextView(const sf::RenderWindow &window)
-    : camera(sf::FloatRect(0, 0, window.getSize().x, window.getSize().y)),
+    : camera(sf::FloatRect(-45, 0, window.getSize().x, window.getSize().y)),
       deltaScroll(10), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
+
+    this->font.loadFromFile("FreeMono.ttf");
+    this->fontSize = 20;
+
+    // TODO: Cambiarlo en relacion a la fontsize
+    this->marginXOffset = 45;
 }
 
-void TextView::drawLines(sf::RenderWindow &window, TextDocument &document) {
+void TextView::draw(sf::RenderWindow &window, TextDocument &document) {
+    // TODO: El content devuelve un vector diciendo que alto tiene cada linea,
+    //      por ahora asumo que todas miden "1" de alto
     this->content.drawLines(window, document);
+
+    // Dibujo los numeros de la izquierda
+
+    // TODO: Hacer una clase separada para el margin
+    for (int lineNumber = 1; lineNumber <= document.getLineCount(); lineNumber++) {
+        int lineHeight = 1;
+        sf::Text lineNumberText;
+        lineNumberText.setColor(sf::Color::White);
+        lineNumberText.setFont(this->font);
+        lineNumberText.setString(std::to_string(lineNumber));
+        lineNumberText.setCharacterSize(this->fontSize-1);
+        lineNumberText.setPosition(-this->marginXOffset, lineHeight * (lineNumber-1) * this->fontSize);
+        window.draw(lineNumberText);
+    }
 }
 
 // TODO: Esto no considera que los tabs \t existen

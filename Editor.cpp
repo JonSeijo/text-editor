@@ -125,7 +125,7 @@ int main() {
 
         window.setView(textView.getCameraView());
 
-        textView.drawLines(window, document);
+        textView.draw(window, document);
 
         window.display();
     }
