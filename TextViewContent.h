@@ -33,6 +33,9 @@ class TextViewContent {
         sf::Font font;
         sf::String toUtf32(const std::string& text);
 
+        sf::Color colorChar;
+        sf::Color colorSelection;
+
         SelectionData selections;
         Cursor cursor;
 };

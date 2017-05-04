@@ -6,7 +6,7 @@
 #include <vector>
 
 // TODO: Pensar si la seleccion no deberia conocer al documento, para arreglar quilombos con los multiples
-// TODO: CAMBIAR TODO. Idea de puntos de anclaje
+// TODO: Avanzar/retroceder un char. Avanzar/retroceder una palabra
 class SelectionData {
 
     private:

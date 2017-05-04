@@ -4,6 +4,9 @@ TextViewContent::TextViewContent() {
     this->font.loadFromFile("FreeMono.ttf");
     this->setFontSize(20);  // Important to call
     this->cursor = Cursor(this->lineHeight, this->charWidth);
+
+    this->colorChar = sf::Color::White;
+    this->colorSelection = sf::Color(106, 154, 232);
 }
 
 void TextViewContent::moveCursorDown() {
@@ -40,11 +43,18 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
             if (currentSelected != previousSelected || charIndexInLine == (int)line.size()-1) {
 
                 sf::Text texto;
-                texto.setColor(previousSelected ? sf::Color::Magenta : sf::Color::White);
+                texto.setColor(this->colorChar);
                 texto.setFont(font);
                 texto.setString(this->toUtf32(currentLineText));
                 texto.setCharacterSize(this->fontSize);
                 texto.setPosition(offsetx, lineNumber*this->fontSize);
+
+                if (previousSelected) {
+                    sf::RectangleShape selectionRect(sf::Vector2f(texto.getLocalBounds().width, this->fontSize));
+                    selectionRect.setFillColor(this->colorSelection);
+                    selectionRect.setPosition(offsetx, 5 + lineNumber*this->fontSize);
+                    window.draw(selectionRect);
+                }
 
                 window.draw(texto);
 
