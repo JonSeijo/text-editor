@@ -27,30 +27,32 @@ void TextViewContent::setCursorPos(int line, int charPos) {
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
 
-        string line = document.getLine(lineNumber);
+        sf::String line = document.getLine(lineNumber);
 
-        string currentLineText = "";
+        sf::String currentLineText = "";
         float offsetx = 0;
         bool previousSelected = false;
 
-        for (int charIndexInLine = 0; charIndexInLine < (int)line.size(); charIndexInLine++) {
+        for (int charIndexInLine = 0; charIndexInLine < (int)line.getSize(); charIndexInLine++) {
 
             // En general hay una unica seleccion, en el futuro podria haber mas de una
             bool currentSelected = this->selections.isSelected(lineNumber, charIndexInLine);
 
             // Cuando hay un cambio, dibujo el tipo de seleccion anterior
             // Tambien dibujo cuando es el fin de la linea actual
-            if (currentSelected != previousSelected || charIndexInLine == (int)line.size()-1) {
+            if (currentSelected != previousSelected || charIndexInLine == (int)line.getSize()-1) {
 
                 sf::Text texto;
                 texto.setFillColor(this->colorChar);
                 texto.setFont(font);
-                texto.setString(this->toUtf32(currentLineText));
+                // texto.setString(this->toUtf32(currentLineText));
+                texto.setString(currentLineText);
                 texto.setCharacterSize(this->fontSize);
                 texto.setPosition(offsetx, lineNumber*this->fontSize);
 
                 if (previousSelected) {
-                    sf::RectangleShape selectionRect(sf::Vector2f(texto.getLocalBounds().width, this->fontSize));
+                    // sf::RectangleShape selectionRect(sf::Vector2f(texto.getLocalBounds().width, this->fontSize));
+                    sf::RectangleShape selectionRect(sf::Vector2f(this->charWidth * currentLineText.getSize() , this->fontSize));
                     selectionRect.setFillColor(this->colorSelection);
                     // TODO: Que el +2 no sea un numero magico
                     selectionRect.setPosition(offsetx, 2+lineNumber*this->fontSize);
@@ -60,8 +62,9 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
                 window.draw(texto);
 
                 previousSelected = currentSelected;
+                // offsetx += texto.getLocalBounds().width;
+                offsetx += this->charWidth * currentLineText.getSize();
                 currentLineText = "";
-                offsetx += texto.getLocalBounds().width;
             }
 
             // Voy acumulando la string de la linea actual
@@ -94,12 +97,12 @@ void TextViewContent::setFontSize(int fontSize) {
     this->lineHeight = fontSize;
 
     // HACK: Because I use only monospace fonts, every char is the same width
-    //       so I get the width drawing a single character
+    //       so I get the width drawing a single character (A WIDE ONE TO BE SURE)
     sf::Text tmpText;
     tmpText.setFont(this->font);
     tmpText.setCharacterSize(this->fontSize);
-    tmpText.setString("c");
-    float textwidth = tmpText.getGlobalBounds().width;
+    tmpText.setString("_");
+    float textwidth = tmpText.getLocalBounds().width;
     this->charWidth = textwidth;
 }
 
@@ -109,18 +112,4 @@ int TextViewContent::getLineHeight() {
 
 int TextViewContent::getCharWidth() {
     return this->charWidth;
-}
-
-sf::String TextViewContent::toUtf32(const std::string& inString) {
-    sf::String outString = "";
-    auto iterEnd = inString.cend();
-
-    // Decode avanza el iterador
-    for (auto iter = inString.cbegin(); iter != iterEnd; ) {
-        sf::Uint32 out;
-        iter = sf::Utf8::decode(iter, iterEnd, out);
-        outString += out;
-    }
-
-    return outString;
 }

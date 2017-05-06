@@ -1,15 +1,5 @@
 #include "TextDocument.h"
 
-
-TextDocument::TextDocument() {
-
-}
-
-TextDocument::~TextDocument() {
-
-}
-
-
 // La idea es leer el file y guardarlo en buffer (quiero cargarlo en la memoria)
 // Para esto uso std::ifstream para levantar el archivo
 bool TextDocument::init(string &filename) {
@@ -20,8 +10,11 @@ bool TextDocument::init(string &filename) {
     }
     std::stringstream inputStringStream;
     inputStringStream << inputFile.rdbuf();
-    this->buffer = inputStringStream.str();
-    this->length = buffer.size();  // Posiblemente no sea necesario
+
+    // TODO: Ver si con esto no arruino encoding
+    this->buffer = this->toUtf32(inputStringStream.str());
+    // this->buffer = inputStringStream.str();
+    this->length = buffer.getSize();  // Posiblemente no sea necesario
 
     inputFile.close();
     this->init_linebuffer();
@@ -32,7 +25,7 @@ bool TextDocument::init(string &filename) {
 // TODO: Otros sistemas operativos manejan newlines de otras formas (ej \r)
 bool TextDocument::init_linebuffer() {
     int lineStart = 0;
-    int bufferSize = this->buffer.size();
+    int bufferSize = this->buffer.getSize();
     for (int i = 0; i < bufferSize; i++) {
         if (this->buffer[i] == '\n') {
             this->lineBuffer.push_back(lineStart);
@@ -44,7 +37,7 @@ bool TextDocument::init_linebuffer() {
 }
 
 // Devuelve una copia de la linea que esta en mi buffer
-string TextDocument::getLine(int lineNumber) {
+sf::String TextDocument::getLine(int lineNumber) {
     if (lineNumber < 0 || lineNumber >= (int)this->lineBuffer.size()) {
         std::cerr << "lineNumber " << lineNumber << " is not a valid number line. "
             << "Max is: " << this->lineBuffer.size() << std::endl;
@@ -55,8 +48,23 @@ string TextDocument::getLine(int lineNumber) {
     int nextBufferStart = this->lineBuffer[lineNumber + 1];  // Final no inclusive
     int cantidad = nextBufferStart - bufferStart;
 
-    return this->buffer.substr(bufferStart, cantidad);
+    return this->buffer.substring(bufferStart, cantidad);
 }
+
+sf::String TextDocument::toUtf32(const std::string& inString) {
+    sf::String outString = "";
+    auto iterEnd = inString.cend();
+
+    // Decode avanza el iterador
+    for (auto iter = inString.cbegin(); iter != iterEnd; ) {
+        sf::Uint32 out;
+        iter = sf::Utf8::decode(iter, iterEnd, out);
+        outString += out;
+    }
+
+    return outString;
+}
+
 
 int TextDocument::charsInLine(int line) const {
     return this->lineBuffer[line+1] - this->lineBuffer[line] - 1;
