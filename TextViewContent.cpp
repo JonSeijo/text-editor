@@ -43,7 +43,7 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
             if (currentSelected != previousSelected || charIndexInLine == (int)line.size()-1) {
 
                 sf::Text texto;
-                texto.setColor(this->colorChar);
+                texto.setFillColor(this->colorChar);
                 texto.setFont(font);
                 texto.setString(this->toUtf32(currentLineText));
                 texto.setCharacterSize(this->fontSize);

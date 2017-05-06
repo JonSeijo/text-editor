@@ -27,7 +27,7 @@ void TextView::draw(sf::RenderWindow &window, TextDocument &document) {
         int blockHeight = lineHeight * this->fontSize;
 
         sf::Text lineNumberText;
-        lineNumberText.setColor(sf::Color::White);
+        lineNumberText.setFillColor(sf::Color::White);
         lineNumberText.setFont(this->font);
         lineNumberText.setString(std::to_string(lineNumber));
         lineNumberText.setCharacterSize(this->fontSize-1);
