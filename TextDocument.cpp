@@ -75,21 +75,18 @@ sf::String TextDocument::toUtf32(const std::string& inString) {
     return outString;
 }
 
+// TODO: Borrar esta funcion
+// TODO: Crear funcion que inserte caracteres en posicion arbitraria
+// TODO: Crear funcion que inserte enters en posicion arbitraria
+// TODO: Crear funcion que borre caracteres en posiscion arbitraria
 void TextDocument::addToLastLine(sf::String text) {
     this->buffer += text;
-
-    // this->lineBuffer[this->lineBuffer.size()-1] += text.getSize();
-
-
-    std::cout << "ultimo char: " << this->buffer[this->buffer.getSize()-1] << "\n";
-
 }
-
 
 int TextDocument::charsInLine(int line) const {
     // Si es ultima linea, no puedo compararla con inicio de siguiente pues no hay siguiente
     if (line == this->lineBuffer.size() - 1) {
-        return this->buffer.getSize() - this->lineBuffer[this->lineBuffer.size() - 1] - 1;
+        return this->buffer.getSize() - this->lineBuffer[this->lineBuffer.size() - 1];
     } else {
         return this->lineBuffer[line+1] - this->lineBuffer[line] - 1;
     }

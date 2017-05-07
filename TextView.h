@@ -38,6 +38,8 @@ class TextView {
         void setDeltaScroll(float delta);
         void setDeltaRotation(float delta);
 
+        void addToLastLine(sf::String text, TextDocument &document);
+
     private:
         TextViewContent content;
 
