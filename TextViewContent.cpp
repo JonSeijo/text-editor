@@ -1,7 +1,6 @@
 #include "TextViewContent.h"
 
 TextViewContent::TextViewContent() {
-    // this->font.loadFromFile("FreeMono.ttf");
     this->font.loadFromFile("DejaVuSansMono.ttf");
     this->setFontSize(18);  // Important to call
     this->cursor = Cursor(this->lineHeight, this->charWidth);
@@ -29,24 +28,11 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
 
         sf::String line = document.getLine(lineNumber);
 
-        if (lineNumber == document.getLineCount()-1) {
-            // std::cout << (std::string)line;
-        }
-
         sf::String currentLineText = "";
         float offsetx = 0;
         bool previousSelected = false;
 
         for (int charIndexInLine = 0; charIndexInLine <= (int)line.getSize(); charIndexInLine++) {
-
-
-
-            if (lineNumber == document.getLineCount()-1) {
-                // std::cout << (std::string)line;
-                // std::cout << (char)line[charIndexInLine] << "";
-                std::cout << "cant act: " << currentLineText.getSize() << ":" << (std::string)currentLineText << "\n";
-            }
-
             // En general hay una unica seleccion, en el futuro podria haber mas de una
             bool currentSelected = this->selections.isSelected(lineNumber, charIndexInLine);
 
@@ -57,13 +43,11 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
                 sf::Text texto;
                 texto.setFillColor(this->colorChar);
                 texto.setFont(font);
-                // texto.setString(this->toUtf32(currentLineText));
                 texto.setString(currentLineText);
                 texto.setCharacterSize(this->fontSize);
                 texto.setPosition(offsetx, lineNumber*this->fontSize);
 
                 if (previousSelected) {
-                    // sf::RectangleShape selectionRect(sf::Vector2f(texto.getLocalBounds().width, this->fontSize));
                     sf::RectangleShape selectionRect(sf::Vector2f(this->charWidth * currentLineText.getSize() , this->fontSize));
                     selectionRect.setFillColor(this->colorSelection);
                     // TODO: Que el +2 no sea un numero magico
@@ -74,7 +58,6 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
                 window.draw(texto);
 
                 previousSelected = currentSelected;
-                // offsetx += texto.getLocalBounds().width;
                 offsetx += this->charWidth * currentLineText.getSize();
                 currentLineText = "";
             }
