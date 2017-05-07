@@ -49,16 +49,21 @@ TextView::DocCoords TextView::getDocumentCoords(float mouseX, float mouseY, cons
 
     // Restrinjo numero de linea a la altura del documento
     int lastLine = document.getLineCount() - 1;
-    if (lineN < 0 || lineN > lastLine) {
-        charN = 0;
-    }
-    lineN = std::max(lineN, 0);
-    lineN = std::min(lineN, lastLine);
 
-    // Restrinjo numero de caracter a cant de caracteres de la linea
-    int charsInLine = document.charsInLine(lineN);
-    charN = std::max(charN, 0);
-    charN = std::min(charN, charsInLine);
+    if (lineN < 0) {
+        lineN = 0;
+        charN = 0;
+    } else if (lineN > lastLine) {
+        lineN = lastLine;
+        charN = document.charsInLine(lineN);
+    } else {
+        lineN = std::max(lineN, 0);
+        lineN = std::min(lineN, lastLine);
+
+        // Restrinjo numero de caracter a cant de caracteres de la linea
+        charN = std::max(charN, 0);
+        charN = std::min(charN, document.charsInLine(lineN));
+    }
 
     return TextView::DocCoords(lineN, charN);
 }
