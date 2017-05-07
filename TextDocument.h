@@ -22,6 +22,8 @@ class TextDocument {
         int charsInLine(int line) const;
         int getLineCount() const;
 
+        void addToLastLine(sf::String text);
+
     private:
         bool init_linebuffer();
         sf::String buffer;

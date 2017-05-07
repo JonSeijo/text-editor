@@ -25,30 +25,40 @@ bool TextDocument::init(string &filename) {
 // TODO: Otros sistemas operativos manejan newlines de otras formas (ej \r)
 bool TextDocument::init_linebuffer() {
     int lineStart = 0;
+    this->lineBuffer.push_back(lineStart);
+
     int bufferSize = this->buffer.getSize();
+
     for (int i = 0; i < bufferSize; i++) {
         if (this->buffer[i] == '\n') {
-            this->lineBuffer.push_back(lineStart);
             lineStart = i+1;
+            this->lineBuffer.push_back(lineStart);
         }
     }
-    this->lineBuffer.push_back(bufferSize); // Marco el final del archivo, quiza deberia ser la ultima lineStart ver
     return true;
 }
 
 // Devuelve una copia de la linea que esta en mi buffer
 sf::String TextDocument::getLine(int lineNumber) {
-    if (lineNumber < 0 || lineNumber >= (int)this->lineBuffer.size()) {
+
+    int lastLine = this->lineBuffer.size();
+
+    if (lineNumber < 0 || lineNumber > lastLine) {
         std::cerr << "lineNumber " << lineNumber << " is not a valid number line. "
-            << "Max is: " << this->lineBuffer.size() << std::endl;
+            << "Max is: " << this->lineBuffer.size()-1 << std::endl;
         return "";
     }
 
-    int bufferStart = this->lineBuffer[lineNumber];
-    int nextBufferStart = this->lineBuffer[lineNumber + 1];  // Final no inclusive
-    int cantidad = nextBufferStart - bufferStart;
+    if (lineNumber == lastLine) {
+        return this->buffer.substring(this->lineBuffer[lineNumber]);
 
-    return this->buffer.substring(bufferStart, cantidad);
+    } else {
+        int bufferStart = this->lineBuffer[lineNumber];
+        int nextBufferStart = this->lineBuffer[lineNumber + 1];  // Final no inclusive
+        int cantidad = nextBufferStart - bufferStart - 1;
+
+        return this->buffer.substring(bufferStart, cantidad);
+    }
 }
 
 sf::String TextDocument::toUtf32(const std::string& inString) {
@@ -65,9 +75,24 @@ sf::String TextDocument::toUtf32(const std::string& inString) {
     return outString;
 }
 
+void TextDocument::addToLastLine(sf::String text) {
+    this->buffer += text;
+
+    // this->lineBuffer[this->lineBuffer.size()-1] += text.getSize();
+
+
+    std::cout << "ultimo char: " << this->buffer[this->buffer.getSize()-1] << "\n";
+
+}
+
 
 int TextDocument::charsInLine(int line) const {
-    return this->lineBuffer[line+1] - this->lineBuffer[line] - 1;
+    // Si es ultima linea, no puedo compararla con inicio de siguiente pues no hay siguiente
+    if (line == this->lineBuffer.size() - 1) {
+        return this->buffer.getSize() - this->lineBuffer[this->lineBuffer.size() - 1] - 1;
+    } else {
+        return this->lineBuffer[line+1] - this->lineBuffer[line] - 1;
+    }
 }
 
 int TextDocument::getLineCount() const {

@@ -29,18 +29,30 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
 
         sf::String line = document.getLine(lineNumber);
 
+        if (lineNumber == document.getLineCount()-1) {
+            // std::cout << (std::string)line;
+        }
+
         sf::String currentLineText = "";
         float offsetx = 0;
         bool previousSelected = false;
 
-        for (int charIndexInLine = 0; charIndexInLine < (int)line.getSize(); charIndexInLine++) {
+        for (int charIndexInLine = 0; charIndexInLine <= (int)line.getSize(); charIndexInLine++) {
+
+
+
+            if (lineNumber == document.getLineCount()-1) {
+                // std::cout << (std::string)line;
+                // std::cout << (char)line[charIndexInLine] << "";
+                std::cout << "cant act: " << currentLineText.getSize() << ":" << (std::string)currentLineText << "\n";
+            }
 
             // En general hay una unica seleccion, en el futuro podria haber mas de una
             bool currentSelected = this->selections.isSelected(lineNumber, charIndexInLine);
 
             // Cuando hay un cambio, dibujo el tipo de seleccion anterior
             // Tambien dibujo cuando es el fin de la linea actual
-            if (currentSelected != previousSelected || charIndexInLine == (int)line.getSize()-1) {
+            if (currentSelected != previousSelected || charIndexInLine == (int)line.getSize()) {
 
                 sf::Text texto;
                 texto.setFillColor(this->colorChar);

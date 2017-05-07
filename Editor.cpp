@@ -81,6 +81,11 @@ int main() {
                 }
 
             }
+
+            if (event.type == sf::Event::TextEntered) {
+                sf::String input(event.text.unicode);
+                document.addToLastLine(input);
+            }
         }
 
         controlarMovimientosTeclado(textView);
