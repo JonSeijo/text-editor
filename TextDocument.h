@@ -26,7 +26,7 @@ class TextDocument {
         void removeTextFromPos(int amount, int line, int charN);
 
     private:
-        bool init_linebuffer();
+        bool initLinebuffer();
         sf::String buffer;
         int length;
         vector<int> lineBuffer;

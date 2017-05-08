@@ -17,14 +17,15 @@ bool TextDocument::init(string &filename) {
     this->length = buffer.getSize();  // Posiblemente no sea necesario
 
     inputFile.close();
-    this->init_linebuffer();
+    this->initLinebuffer();
     return true;
 }
 
 // TODO: Contar newlines mientras leo el archivo en el init
 // TODO: Otros sistemas operativos manejan newlines de otras formas (ej \r)
-bool TextDocument::init_linebuffer() {
+bool TextDocument::initLinebuffer() {
     int lineStart = 0;
+    this->lineBuffer.clear();
     this->lineBuffer.push_back(lineStart);
 
     int bufferSize = this->buffer.getSize();
@@ -85,26 +86,14 @@ void TextDocument::addTextToPos(sf::String text, int line, int charN) {
     }
 }
 
-// TODO: Controlar que pasa cuando borro \n
+// TODO: Optimizar
 void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
     int bufferStartPos = this->getBufferPos(lineN, charN);
-
-    // Podria optimizarse haciendo calculos con el lineBuffer
-    int cantDeNewLines = 0;
-    for (int i = bufferStartPos; i < bufferStartPos + amount; i++) {
-        if (this->buffer[i] == '\n') {
-            cantDeNewLines++;
-        }
-    }
-    // std::cout << "lineN: " << lineN << "    "  << "charN: " << charN << "  cant new lines: " << cantDeNewLines << "\n";
-
     this->buffer.erase(bufferStartPos, amount);
 
-    int lineAmount = this->lineBuffer.size();
-    for (int l = lineN + 1; l < lineAmount; l++) {
-        this->lineBuffer[l] -= (amount);
-    }
-    this->lineBuffer.erase(this->lineBuffer.begin() + lineN, this->lineBuffer.begin() + lineN + cantDeNewLines);
+    // TODO: SUPER OVERKILL. Esto es O(#buffer) y podria ser O(#lineas)
+    // Revisitar idea de correr los lineBuffers en amount, teniendo en cuenta la cantidad de newlines borradas
+    this->initLinebuffer();
 }
 
 int TextDocument::getBufferPos(int line, int charN) {
