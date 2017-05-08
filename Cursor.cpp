@@ -7,12 +7,10 @@ Cursor::Cursor(int height, int charWidth) : Cursor(height, charWidth, 0, 0) {}
 Cursor::Cursor(int height, int charWidth, int posX, int posY) {
     this->height = height;
     this->charWidth = charWidth;
-    this->posX = posX;
-    this->posY = posY;
     this->offsetY = 2;
     this->rect = sf::RectangleShape(sf::Vector2f(2, height));
     this->rect.setFillColor(sf::Color::White);
-    this->updatePos(this->posX, this->posY);
+    this->updatePos(posX, posY);
 }
 
 void Cursor::draw(sf::RenderWindow &window) {
@@ -20,9 +18,7 @@ void Cursor::draw(sf::RenderWindow &window) {
 }
 
 void Cursor::setPosition(int lineN, int charN) {
-    this->posY = lineN;
-    this->posX = charN;
-    this->updatePos(this->posX, this->posY);
+    this->updatePos(lineN, charN);
 }
 
 int Cursor::getPosY() {
@@ -34,23 +30,19 @@ int Cursor::getPosX() {
 }
 
 void Cursor::moveUp() {
-    this->posY -= this->height;
-    this->updatePos(this->posX, this->posY);
+    this->updatePos(this->posX, this->posY - 1);
 }
 
 void Cursor::moveDown() {
-    this->posY += this->height;
-    this->updatePos(this->posX, this->posY);
+    this->updatePos(this->posX, this->posY + 1);
 }
 
 void Cursor::moveLeft() {
-    this->posX -= this->charWidth;
-    this->updatePos(this->posX, this->posY);
+    this->updatePos(this->posX - 1, this->posY);
 }
 
 void Cursor::moveRight() {
-    this->posX += 1;
-    this->updatePos(this->posX, this->posY);
+    this->updatePos(this->posX + 1, this->posY);
 }
 
 void Cursor::nextLine() {
@@ -67,5 +59,7 @@ void Cursor::setCharWidth(int charWidth) {
 }
 
 void Cursor::updatePos(int x, int y) {
+    this->posX = x;
+    this->posY = y;
     this->rect.setPosition(x*this->charWidth, y*this->height + this->offsetY);
 }
