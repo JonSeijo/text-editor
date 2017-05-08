@@ -91,6 +91,17 @@ void TextView::startSelection(float mouseX, float mouseY, const TextDocument &do
     this->content.createNewSelection(docCoords.lineN, docCoords.charN);
 }
 
+
+void TextView::addTextInCursor(sf::String text, TextDocument &document) {
+    int textSize = text.getSize();
+    int lineN = this->content.getCursorLine();
+    int charN = this->content.getCursorCharN();
+    document.addToPos(text, lineN, charN);
+    for (int i = 0; i < textSize; i++) {
+        this->content.moveCursorRight();
+    }
+}
+
 // TODO: Esta funcion ni debe existir, hay que hacer una que agregue caracteres en pos arbitraria
 void TextView::addToLastLine(sf::String text, TextDocument &document) {
     document.addToLastLine(text);

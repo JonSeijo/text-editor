@@ -84,7 +84,7 @@ int main() {
 
             if (event.type == sf::Event::TextEntered) {
                 sf::String input(event.text.unicode);
-                textView.addToLastLine(input, document);
+                textView.addTextInCursor(input, document);
             }
         }
 

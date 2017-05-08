@@ -22,6 +22,8 @@ class TextDocument {
         int charsInLine(int line) const;
         int getLineCount() const;
 
+        void addToPos(sf::String text, int line, int charN);
+
         void addToLastLine(sf::String text);
 
     private:
@@ -29,6 +31,8 @@ class TextDocument {
         sf::String buffer;
         int length;
         vector<int> lineBuffer;
+
+        int getBufferPos(int line, int charN);
 
         sf::String toUtf32(const std::string& inString);
 };

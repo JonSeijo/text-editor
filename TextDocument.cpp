@@ -75,6 +75,21 @@ sf::String TextDocument::toUtf32(const std::string& inString) {
     return outString;
 }
 
+void TextDocument::addToPos(sf::String text, int line, int charN) {
+    int textSize = text.getSize();
+    this->buffer.insert(this->getBufferPos(line, charN), text);
+
+    int lineAmount = this->lineBuffer.size();
+    for (int l = line + 1; l < lineAmount; l++) {
+        this->lineBuffer[l] += textSize;
+    }
+}
+
+int TextDocument::getBufferPos(int line, int charN) {
+    return this->lineBuffer[line] + charN;
+}
+
+
 // TODO: Borrar esta funcion
 // TODO: Crear funcion que inserte caracteres en posicion arbitraria
 // TODO: Crear funcion que inserte enters en posicion arbitraria
