@@ -102,13 +102,15 @@ void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
 
     this->buffer.erase(bufferStartPos, amount);
     int lineAmount = this->lineBuffer.size();
+
+    this->lineBuffer.erase(this->lineBuffer.begin() + lineN, this->lineBuffer.begin() + lineN + cantDeNewLines);
+
     for (int l = lineN + 1; l < lineAmount; l++) {
-        this->lineBuffer[l] -= amount;
+        this->lineBuffer[l] -= amount + cantDeNewLines;
     }
 
     std::cout << "charN: " << charN << "  cant new lines: " << cantDeNewLines << "\n";
     std::cout << "lineBufferSize PRE: " << lineBuffer.size() << "\n";
-    this->lineBuffer.erase(this->lineBuffer.end() - cantDeNewLines, this->lineBuffer.end());
     std::cout << "lineBufferSize POST: " << lineBuffer.size() << "\n";
 }
 
