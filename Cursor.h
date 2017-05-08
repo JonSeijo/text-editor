@@ -4,39 +4,36 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-// TODO: Estoy teniendo que mantener las posiciones en posX, posY y tambien actualizarlas en el rect
-//       Quiza convenga hacerlo de forma mas automatica, con algun "movePos" o algo asi
-
 class Cursor {
     public:
         Cursor();
         Cursor(int height, int charWidth);
-        Cursor(int height, int charWidth, int posX, int posY);
+        Cursor(int height, int charWidth, int lineN, int charN);
 
         void draw(sf::RenderWindow &window);
+        void setHeight(int height);
+        void setCharWidth(int charWidth);
 
         void moveUp();
         void moveDown();
         void moveLeft();
         void moveRight();
+
         void nextLine();
 
-        int getPosY();
-        int getPosX();
+        int getLineN();
+        int getCharN();
 
         void setPosition(int lineN, int charN);
-
-        void setHeight(int height);
-        void setCharWidth(int charWidth);
 
     private:
         sf::RectangleShape rect;
         int height;
         int charWidth;
-        int posX, posY;
+        int lineN, charN;
         int offsetY;
 
-        void updatePos(int posX, int posY);
+        void updatePos(int posY, int posX);
 };
 
 

@@ -1,8 +1,10 @@
 #include "TextView.h"
 
 TextView::TextView(const sf::RenderWindow &window)
-    : camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)),
+    : content(), camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)),
       deltaScroll(10), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
+
+    this->cursor = Cursor(this->content.getLineHeight(), this->content.getCharWidth());
 
     // this->font.loadFromFile("FreeMono.ttf");
     this->font.loadFromFile("DejaVuSansMono.ttf");
@@ -40,6 +42,8 @@ void TextView::draw(sf::RenderWindow &window, TextDocument &document) {
         window.draw(marginRect);
         window.draw(lineNumberText);
     }
+
+    this->cursor.draw(window);
 }
 
 // TODO: Esto no considera que los tabs \t existen
@@ -78,7 +82,8 @@ void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &docu
     int lineN = docCoords.lineN;
     int charN = docCoords.charN;
 
-    this->content.setCursorPos(lineN, charN);
+    this->cursor.setPosition(lineN, charN);
+
     SelectionData::Selection ultimaSelec = this->content.getLastSelection();
     // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
     // TODO: Usar los metodos moveSelections para mover todas las selecciones.
@@ -94,11 +99,11 @@ void TextView::startSelection(float mouseX, float mouseY, const TextDocument &do
 
 void TextView::addTextInCursor(sf::String text, TextDocument &document) {
     int textSize = text.getSize();
-    int lineN = this->content.getCursorLine();
-    int charN = this->content.getCursorCharN();
+    int lineN = this->cursor.getLineN();
+    int charN = this->cursor.getCharN();
     document.addToPos(text, lineN, charN);
     for (int i = 0; i < textSize; i++) {
-        this->content.moveCursorRight();
+        this->cursor.moveRight();
     }
 }
 

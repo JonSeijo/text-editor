@@ -5,7 +5,6 @@
 #include "TextDocument.h"
 #include "TextViewContent.h"
 #include "SelectionData.h"
-#include "Cursor.h"
 
 class TextViewContent {
     public:
@@ -20,13 +19,6 @@ class TextViewContent {
         void removeSelections();
         SelectionData::Selection getLastSelection();
 
-        void moveCursorDown();
-        void moveCursorRight();
-        void setCursorPos(int line, int charPos);
-
-        int getCursorLine();
-        int getCursorCharN();
-
         int getLineHeight();
         int getCharWidth();
 
@@ -40,7 +32,6 @@ class TextViewContent {
         sf::Color colorSelection;
 
         SelectionData selections;
-        Cursor cursor;
 };
 
 #endif

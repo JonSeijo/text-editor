@@ -3,23 +3,10 @@
 TextViewContent::TextViewContent() {
     this->font.loadFromFile("DejaVuSansMono.ttf");
     this->setFontSize(18);  // Important to call
-    this->cursor = Cursor(this->lineHeight, this->charWidth);
-
     this->colorChar = sf::Color::White;
     this->colorSelection = sf::Color(106, 154, 232);
 }
 
-void TextViewContent::moveCursorDown() {
-    this->cursor.moveDown();
-}
-
-// TODO: Considerar la posicion correcta cuando no hay los suficientes caracteres o la linea no existe
-//       Pensar si me conviene manejarlo desde aca o desde el TextView
-void TextViewContent::setCursorPos(int line, int charPos) {
-    this->cursor.setPosition(line, charPos);
-}
-
-// TODO: Es un poco raro que el textviewContent maneje el cursor, mejor que lo maneje TextView
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 // TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
@@ -66,8 +53,6 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
             currentLineText += line[charIndexInLine];
         }
     }
-
-    this->cursor.draw(window);
 }
 
 void TextViewContent::createNewSelection(int anclaLine, int anclaChar) {
@@ -99,19 +84,6 @@ void TextViewContent::setFontSize(int fontSize) {
     tmpText.setString("_");
     float textwidth = tmpText.getLocalBounds().width;
     this->charWidth = textwidth;
-}
-
-
-int TextViewContent::getCursorLine() {
-    return this->cursor.getPosY();
-}
-
-int TextViewContent::getCursorCharN() {
-    return this->cursor.getPosX();
-}
-
-void TextViewContent::moveCursorRight() {
-    this->cursor.moveRight();
 }
 
 int TextViewContent::getLineHeight() {

@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "TextViewContent.h"
+#include "Cursor.h"
 #include <cmath>
 
 class TextView {
@@ -51,6 +52,8 @@ class TextView {
         };
 
         DocCoords getDocumentCoords(float mouseX, float mouseY, const TextDocument &document);
+
+        Cursor cursor;
 
         sf::Font font;
         int fontSize;
