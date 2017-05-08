@@ -109,12 +109,17 @@ void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
 
 void TextView::deleteTextInCursorPos(int amount, TextDocument &document) {
     for (int i = 0; i < amount; i++) {
-        this->cursor.moveLeft();
+        if (this->cursor.getCharN() <= 0) {
+            int newCursorLine = this->cursor.getLineN() - 1;
+            int newCursorChar = document.charsInLine(newCursorLine);
+            this->cursor.setPosition(newCursorLine, std::max(newCursorChar - 1, 0));
+        } else {
+            this->cursor.moveLeft();
+        }
     }
     int lineN = this->cursor.getLineN();
     int charN = this->cursor.getCharN();
     document.removeTextFromPos(amount, lineN, charN);
-
 }
 
 void TextView::setFontSize(int fontSize) {

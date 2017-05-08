@@ -41,7 +41,7 @@ bool TextDocument::init_linebuffer() {
 // Devuelve una copia de la linea que esta en mi buffer
 sf::String TextDocument::getLine(int lineNumber) {
 
-    int lastLine = this->lineBuffer.size();
+    int lastLine = this->lineBuffer.size() - 1;
 
     if (lineNumber < 0 || lineNumber > lastLine) {
         std::cerr << "lineNumber " << lineNumber << " is not a valid number line. "
@@ -87,12 +87,29 @@ void TextDocument::addTextToPos(sf::String text, int line, int charN) {
 
 // TODO: Controlar que pasa cuando borro \n
 void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
-    this->buffer.erase(this->getBufferPos(lineN, charN), amount);
 
+    int bufferStartPos = this->getBufferPos(lineN, charN);
+
+    // Podria optimizarse haciendo calculos con el lineBuffer
+    int cantDeNewLines = 0;
+    for (int i = bufferStartPos; i < bufferStartPos + amount; i++) {
+        std::cout << "borro:" << this->buffer[i] << "\n";
+        if (this->buffer[i] == '\n') {
+            std::cout << "HEYYYY:" << this->buffer[i] << "\n";
+            cantDeNewLines++;
+        }
+    }
+
+    this->buffer.erase(bufferStartPos, amount);
     int lineAmount = this->lineBuffer.size();
     for (int l = lineN + 1; l < lineAmount; l++) {
         this->lineBuffer[l] -= amount;
     }
+
+    std::cout << "charN: " << charN << "  cant new lines: " << cantDeNewLines << "\n";
+    std::cout << "lineBufferSize PRE: " << lineBuffer.size() << "\n";
+    this->lineBuffer.erase(this->lineBuffer.end() - cantDeNewLines, this->lineBuffer.end());
+    std::cout << "lineBufferSize POST: " << lineBuffer.size() << "\n";
 }
 
 int TextDocument::getBufferPos(int line, int charN) {
