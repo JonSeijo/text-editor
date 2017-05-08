@@ -24,8 +24,6 @@ class TextDocument {
 
         void addToPos(sf::String text, int line, int charN);
 
-        void addToLastLine(sf::String text);
-
     private:
         bool init_linebuffer();
         sf::String buffer;

@@ -89,15 +89,6 @@ int TextDocument::getBufferPos(int line, int charN) {
     return this->lineBuffer[line] + charN;
 }
 
-
-// TODO: Borrar esta funcion
-// TODO: Crear funcion que inserte caracteres en posicion arbitraria
-// TODO: Crear funcion que inserte enters en posicion arbitraria
-// TODO: Crear funcion que borre caracteres en posiscion arbitraria
-void TextDocument::addToLastLine(sf::String text) {
-    this->buffer += text;
-}
-
 int TextDocument::charsInLine(int line) const {
     // Si es ultima linea, no puedo compararla con inicio de siguiente pues no hay siguiente
     if (line == this->lineBuffer.size() - 1) {

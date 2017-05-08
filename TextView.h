@@ -39,7 +39,6 @@ class TextView {
         void setDeltaRotation(float delta);
 
         void addTextInCursor(sf::String text, TextDocument &document);
-        void addToLastLine(sf::String text, TextDocument &document);
 
     private:
         TextViewContent content;
