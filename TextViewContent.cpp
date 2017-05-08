@@ -101,6 +101,19 @@ void TextViewContent::setFontSize(int fontSize) {
     this->charWidth = textwidth;
 }
 
+
+int TextViewContent::getCursorLine() {
+    return this->cursor.getPosY();
+}
+
+int TextViewContent::getCursorCharN() {
+    return this->cursor.getPosX();
+}
+
+void TextViewContent::moveCursorRight() {
+    this->cursor.moveRight();
+}
+
 int TextViewContent::getLineHeight() {
     return this->lineHeight;
 }

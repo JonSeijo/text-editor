@@ -21,6 +21,9 @@ class Cursor {
         void moveRight();
         void nextLine();
 
+        int getPosY();
+        int getPosX();
+
         void setPosition(int lineN, int charN);
 
         void setHeight(int height);

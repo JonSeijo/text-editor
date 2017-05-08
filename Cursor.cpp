@@ -20,9 +20,17 @@ void Cursor::draw(sf::RenderWindow &window) {
 }
 
 void Cursor::setPosition(int lineN, int charN) {
-    this->posY = this->height * lineN;
-    this->posX = this->charWidth * charN;
+    this->posY = lineN;
+    this->posX = charN;
     this->updatePos(this->posX, this->posY);
+}
+
+int Cursor::getPosY() {
+    return this->posY;
+}
+
+int Cursor::getPosX() {
+    return this->posX;
 }
 
 void Cursor::moveUp() {
@@ -41,7 +49,7 @@ void Cursor::moveLeft() {
 }
 
 void Cursor::moveRight() {
-    this->posX += this->charWidth;
+    this->posX += 1;
     this->updatePos(this->posX, this->posY);
 }
 
@@ -59,5 +67,5 @@ void Cursor::setCharWidth(int charWidth) {
 }
 
 void Cursor::updatePos(int x, int y) {
-    this->rect.setPosition(x, y + this->offsetY);
+    this->rect.setPosition(x*this->charWidth, y*this->height + this->offsetY);
 }

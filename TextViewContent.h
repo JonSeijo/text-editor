@@ -21,7 +21,11 @@ class TextViewContent {
         SelectionData::Selection getLastSelection();
 
         void moveCursorDown();
+        void moveCursorRight();
         void setCursorPos(int line, int charPos);
+
+        int getCursorLine();
+        int getCursorCharN();
 
         int getLineHeight();
         int getCharWidth();
