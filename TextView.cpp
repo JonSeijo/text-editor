@@ -102,16 +102,6 @@ void TextView::addTextInCursor(sf::String text, TextDocument &document) {
     }
 }
 
-// TODO: Esta funcion ni debe existir, hay que hacer una que agregue caracteres en pos arbitraria
-void TextView::addToLastLine(sf::String text, TextDocument &document) {
-    document.addToLastLine(text);
-
-    int lastLine = document.getLineCount() - 1;
-    int lastChar = document.charsInLine(lastLine);
-
-    this->content.setCursorPos(lastLine, lastChar);
-}
-
 void TextView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);
 }
