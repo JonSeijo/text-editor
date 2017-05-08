@@ -97,14 +97,24 @@ void TextView::startSelection(float mouseX, float mouseY, const TextDocument &do
 }
 
 
-void TextView::addTextInCursor(sf::String text, TextDocument &document) {
+void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
     int textSize = text.getSize();
     int lineN = this->cursor.getLineN();
     int charN = this->cursor.getCharN();
-    document.addToPos(text, lineN, charN);
+    document.addTextToPos(text, lineN, charN);
     for (int i = 0; i < textSize; i++) {
         this->cursor.moveRight();
     }
+}
+
+void TextView::deleteTextInCursorPos(int amount, TextDocument &document) {
+    for (int i = 0; i < amount; i++) {
+        this->cursor.moveLeft();
+    }
+    int lineN = this->cursor.getLineN();
+    int charN = this->cursor.getCharN();
+    document.removeTextFromPos(amount, lineN, charN);
+
 }
 
 void TextView::setFontSize(int fontSize) {

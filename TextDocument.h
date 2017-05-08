@@ -22,7 +22,8 @@ class TextDocument {
         int charsInLine(int line) const;
         int getLineCount() const;
 
-        void addToPos(sf::String text, int line, int charN);
+        void addTextToPos(sf::String text, int line, int charN);
+        void removeTextFromPos(int amount, int line, int charN);
 
     private:
         bool init_linebuffer();

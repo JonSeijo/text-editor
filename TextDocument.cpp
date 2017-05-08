@@ -75,13 +75,23 @@ sf::String TextDocument::toUtf32(const std::string& inString) {
     return outString;
 }
 
-void TextDocument::addToPos(sf::String text, int line, int charN) {
+void TextDocument::addTextToPos(sf::String text, int line, int charN) {
     int textSize = text.getSize();
     this->buffer.insert(this->getBufferPos(line, charN), text);
 
     int lineAmount = this->lineBuffer.size();
     for (int l = line + 1; l < lineAmount; l++) {
         this->lineBuffer[l] += textSize;
+    }
+}
+
+// TODO: Controlar que pasa cuando borro \n
+void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
+    this->buffer.erase(this->getBufferPos(lineN, charN), amount);
+
+    int lineAmount = this->lineBuffer.size();
+    for (int l = lineN + 1; l < lineAmount; l++) {
+        this->lineBuffer[l] -= amount;
     }
 }
 

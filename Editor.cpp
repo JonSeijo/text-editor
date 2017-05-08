@@ -84,7 +84,12 @@ int main() {
 
             if (event.type == sf::Event::TextEntered) {
                 sf::String input(event.text.unicode);
-                textView.addTextInCursor(input, document);
+                if (event.text.unicode == '\b') {
+                    textView.deleteTextInCursorPos(1, document);
+                } else {
+                    textView.addTextInCursorPos(input, document);
+                }
+
             }
         }
 
