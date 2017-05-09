@@ -103,7 +103,11 @@ void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
     int charN = this->cursor.getCharN();
     document.addTextToPos(text, lineN, charN);
     for (int i = 0; i < textSize; i++) {
-        this->cursor.moveRight();
+        if (text[i] == 13 || text[i] == '\n') { // If has a new line
+            this->cursor.nextLine();
+        } else {
+            this->cursor.moveRight();
+        }
     }
 }
 

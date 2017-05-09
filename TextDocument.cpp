@@ -31,7 +31,7 @@ bool TextDocument::initLinebuffer() {
     int bufferSize = this->buffer.getSize();
 
     for (int i = 0; i < bufferSize; i++) {
-        if (this->buffer[i] == '\n') {
+        if (this->buffer[i] == '\n' || this->buffer[i] == 13) {
             lineStart = i+1;
             this->lineBuffer.push_back(lineStart);
         }
@@ -78,11 +78,25 @@ sf::String TextDocument::toUtf32(const std::string& inString) {
 
 void TextDocument::addTextToPos(sf::String text, int line, int charN) {
     int textSize = text.getSize();
-    this->buffer.insert(this->getBufferPos(line, charN), text);
+    int bufferInsertPos = this->getBufferPos(line, charN);
+    this->buffer.insert(bufferInsertPos, text);
 
     int lineAmount = this->lineBuffer.size();
     for (int l = line + 1; l < lineAmount; l++) {
         this->lineBuffer[l] += textSize;
+    }
+
+    for (int i = 0; i < text.getSize(); i++) {
+        if (text[i] == '\n' || text[i] == 13) {  // text[i] == \n
+            int newLineStart = bufferInsertPos + i + 1; // Nueva linea comienza despues del nuevo \n
+
+            // Inserto O(#lineas) y uso busqueda binaria pues los inicios de lineas son crecientes
+            this->lineBuffer.insert(
+               std::lower_bound(this->lineBuffer.begin(), this->lineBuffer.end(), newLineStart),
+               newLineStart
+            );
+
+        }
     }
 }
 

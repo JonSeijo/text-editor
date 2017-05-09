@@ -8,6 +8,7 @@
 #include <fstream>
 
 #include <string>
+#include <algorithm>
 
 typedef void* HANDLE;
 
