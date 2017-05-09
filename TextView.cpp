@@ -2,7 +2,7 @@
 
 TextView::TextView(const sf::RenderWindow &window)
     : content(), camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)),
-      deltaScroll(10), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
+      deltaScroll(20), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
 
     this->cursor = Cursor(this->content.getLineHeight(), this->content.getCharWidth());
 

@@ -53,7 +53,13 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-
+            if(event.type == sf::Event::MouseWheelScrolled) {
+                if (event.mouseWheelScroll.delta > 0) {
+                    textView.scrollUp();
+                } else {
+                    textView.scrollDown();
+                }
+            }
             if (event.type == sf::Event::MouseButtonPressed) {
                 textView.removeSelections();
                 auto mousepos = sf::Mouse::getPosition(window);
