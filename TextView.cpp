@@ -103,29 +103,69 @@ void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
     int charN = this->cursor.getCharN();
     document.addTextToPos(text, lineN, charN);
     for (int i = 0; i < textSize; i++) {
-        if (text[i] == 13 || text[i] == '\n') { // If has a new line
-            this->cursor.nextLine();
-        } else {
-            this->cursor.moveRight();
-        }
+        this->moveCursorRight(document);
     }
 }
 
 void TextView::deleteTextInCursorPos(int amount, TextDocument &document) {
     for (int i = 0; i < amount; i++) {
-        if (this->cursor.getCharN() <= 0) {
-            int newCursorLine = this->cursor.getLineN() - 1;
-            int newCursorChar = document.charsInLine(newCursorLine);
-            this->cursor.setPosition(newCursorLine, newCursorChar);
-        } else {
-            this->cursor.moveLeft();
-        }
+        this->moveCursorLeft(document);
     }
 
     int newLineN = this->cursor.getLineN();
     int newCharN = this->cursor.getCharN();
     document.removeTextFromPos(amount, newLineN, newCharN);
 }
+
+
+void TextView::moveCursorLeft(const TextDocument &document) {
+    if (this->cursor.getCharN() <= 0) {
+        int newCursorLine = std::max(this->cursor.getLineN() - 1, 0);
+        int newCursorChar = document.charsInLine(newCursorLine);
+        this->cursor.setPosition(newCursorLine, newCursorChar);
+    } else {
+        this->cursor.moveLeft();
+    }
+}
+
+void TextView::moveCursorRight(const TextDocument &document) {
+    int charsInLine = document.charsInLine(this->cursor.getLineN());
+    if (this->cursor.getCharN() >= charsInLine) {
+        int newCursorLine = std::min(this->cursor.getLineN() + 1, document.getLineCount());
+        this->cursor.setPosition(newCursorLine, 0);
+    } else {
+        this->cursor.moveRight();
+    }
+}
+
+void TextView::moveCursorUp(const TextDocument &document) {
+    if (this->cursor.getLineN() > 0) {
+        int charsInPreviousLine = document.charsInLine(this->cursor.getLineN() - 1);
+        int currentCharPos = this->cursor.getCharN();
+
+        // Si el caracter actual existe en la linea de arriba, voy solo arriba, sino voy al final de la linea de arriba
+        if (currentCharPos <= charsInPreviousLine) {
+            this->cursor.moveUp();
+        } else {
+            this->cursor.setPosition(this->cursor.getLineN() - 1, charsInPreviousLine);
+        }
+    }
+}
+
+void TextView::moveCursorDown(const TextDocument &document) {
+    if (this->cursor.getLineN() < document.getLineCount()) {
+        int charsInNextLine = document.charsInLine(this->cursor.getLineN() + 1);
+        int currentCharPos = this->cursor.getCharN();
+
+        if (currentCharPos <= charsInNextLine) {
+            this->cursor.moveDown();
+        } else {
+            this->cursor.setPosition(this->cursor.getLineN() + 1, charsInNextLine);
+        }
+    }
+}
+
+
 
 void TextView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);

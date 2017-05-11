@@ -20,6 +20,14 @@ class TextView {
         void startSelection(float mouseX, float mouseY, const TextDocument &document);
         void cursorActive(float mouseX, float mouseY, const TextDocument &document);
 
+        void addTextInCursorPos(sf::String text, TextDocument &document);
+        void deleteTextInCursorPos(int amount, TextDocument &document);
+
+        void moveCursorLeft(const TextDocument &document);
+        void moveCursorRight(const TextDocument &document);
+        void moveCursorUp(const TextDocument &document);
+        void moveCursorDown(const TextDocument &document);
+
         void scrollUp();
         void scrollDown();
         void scrollLeft();
@@ -38,9 +46,6 @@ class TextView {
 
         void setDeltaScroll(float delta);
         void setDeltaRotation(float delta);
-
-        void addTextInCursorPos(sf::String text, TextDocument &document);
-        void deleteTextInCursorPos(int amount, TextDocument &document);
 
     private:
         TextViewContent content;
