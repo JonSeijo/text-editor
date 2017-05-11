@@ -3,20 +3,6 @@
 #include "TextDocument.h"
 
 void controlarMovimientosTeclado(TextView &textView) {
-    // Scrolling
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        textView.scrollUp();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        textView.scrollDown();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        textView.scrollLeft();
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        textView.scrollRight();
-    }
-
     // Rotating
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
@@ -77,6 +63,20 @@ int main() {
             }
 
             if (event.type == sf::Event::KeyPressed) {
+
+                if (event.key.code == sf::Keyboard::Up) {
+                    textView.moveCursorUp(document);
+                }
+                if (event.key.code == sf::Keyboard::Down) {
+                    textView.moveCursorDown(document);
+                }
+                if (event.key.code == sf::Keyboard::Left) {
+                    textView.moveCursorLeft(document);
+                }
+                if (event.key.code == sf::Keyboard::Right) {
+                    textView.moveCursorRight(document);
+                }
+
                 if (event.key.control) {
                     if (event.key.code == sf::Keyboard::Add) {
                         textView.zoomIn();
