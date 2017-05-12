@@ -3,7 +3,7 @@
 // La idea es leer el file y guardarlo en buffer (quiero cargarlo en la memoria)
 // Para esto uso std::ifstream para levantar el archivo
 bool TextDocument::init(string &filename) {
-    std::ifstream inputFile(filename.c_str());
+    std::ifstream inputFile(filename);
     if (!inputFile.is_open()) {
         std::cerr << "Error opening file: " << filename << std::endl;
         return false;
@@ -19,6 +19,41 @@ bool TextDocument::init(string &filename) {
     inputFile.close();
     this->initLinebuffer();
     return true;
+}
+
+bool TextDocument::saveFile(string &filename) {
+    std::ofstream outputFile(filename);
+    if (!outputFile.is_open()) {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return false;
+    }
+
+    for (int i = 0; i < this->buffer.getSize(); i++) {
+        std::string s = this->convertSpecialChar(this->buffer[i], outputFile);
+        outputFile << s;
+    }
+
+    outputFile.close();
+    return true;
+}
+
+// TODO: Extraer a una clase externa
+// TODO: Manejar otros caracteres
+std::string TextDocument::convertSpecialChar(sf::Uint32 c, std::ofstream &outputFile) {
+    switch(c) {
+        case 225: return "á";
+        case 233: return "é";
+        case 237: return "í";
+        case 243: return "ó";
+        case 250: return "ú";
+        case 241: return "ñ";
+    }
+    if (c < 128){
+        return sf::String(c);
+    } else {
+        outputFile.close();
+        std::cerr << "\nERROR: Can't save character: " << c << std::endl;
+    }
 }
 
 // TODO: Contar newlines mientras leo el archivo en el init
