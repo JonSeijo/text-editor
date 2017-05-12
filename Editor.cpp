@@ -23,8 +23,9 @@ int main() {
 
     sf::Color backgroundColor = sf::Color(21, 29, 45);
 
-    // std::string fileName = "textoDePrueba.txt";
-    std::string fileName = "TextView.cpp";
+    std::string saveFileName = "textoDePruebaGuardado.txt";
+    std::string fileName = "textoDePruebaGuardado.txt";
+    // std::string fileName = "TextView.cpp";
 
     TextView textView(window);
     TextDocument document;
@@ -77,6 +78,12 @@ int main() {
                     textView.moveCursorRight(document);
                 }
 
+                if (event.key.code == sf::Keyboard::S && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+                    std::cout << "CTRL + S = SAVE\n";
+                    document.saveFile(saveFileName);
+                    std::cout << "GUARDADO A: " << saveFileName << "\n";
+                }
+
                 if (event.key.control) {
                     if (event.key.code == sf::Keyboard::Add) {
                         textView.zoomIn();
@@ -85,10 +92,10 @@ int main() {
                         textView.zoomOut();
                     }
                 }
-
             }
 
             if (event.type == sf::Event::TextEntered) {
+                bool ctrlPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl);
                 sf::String input(event.text.unicode);
                 if (event.text.unicode == '\b') {
                     bool selecionDeleted = textView.deleteSelections(document);
@@ -100,9 +107,10 @@ int main() {
                     if (!selecionDeleted) {
                         textView.deleteTextAfterCursorPos(1, document);
                     }
-                } else {
+                // Escribir normalmente solo si ctrl no esta presionado
+                } else if (!ctrlPressed) {
                     if (event.text.unicode == '\t') {
-                        // TODO: Cantidad de espacios de tab un parametro
+                        // TODO: Cantidad de espacios de tab una variable
                         input = "    ";
                     }
                     textView.deleteSelections(document);
