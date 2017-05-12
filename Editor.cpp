@@ -95,6 +95,11 @@ int main() {
                     if (!selecionDeleted) {
                         textView.deleteTextBeforeCursorPos(1, document);
                     }
+                } else if (event.text.unicode == 127) {  // 127 = delete (supr)
+                    bool selecionDeleted = textView.deleteSelections(document);
+                    if (!selecionDeleted) {
+                        textView.deleteTextAfterCursorPos(1, document);
+                    }
                 } else {
                     if (event.text.unicode == '\t') {
                         // TODO: Cantidad de espacios de tab un parametro
