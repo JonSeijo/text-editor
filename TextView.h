@@ -16,6 +16,7 @@ class TextView {
 
         void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
         void removeSelections();
+        bool deleteSelections();
 
         void startSelection(float mouseX, float mouseY, const TextDocument &document);
         void cursorActive(float mouseX, float mouseY, const TextDocument &document);

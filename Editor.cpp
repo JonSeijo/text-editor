@@ -91,8 +91,12 @@ int main() {
             if (event.type == sf::Event::TextEntered) {
                 sf::String input(event.text.unicode);
                 if (event.text.unicode == '\b') {
-                    textView.deleteTextInCursorPos(1, document);
+                    bool selecionDeleted = textView.deleteSelections();
+                    if (!selecionDeleted) {
+                        textView.deleteTextInCursorPos(1, document);
+                    }
                 } else {
+                    textView.deleteSelections();
                     textView.addTextInCursorPos(input, document);
                 }
 

@@ -93,7 +93,7 @@ SelectionData::Selection SelectionData::getLastSelection() {
 
 bool SelectionData::validIndex(int index) {
     if (index < 0 || index >= (int)this->selections.size()) {
-        std::cerr << "Index: " << index << " is not a valid index for Selections" << std::endl;
+        // std::cerr << "Index: " << index << " is not a valid index for Selections" << std::endl;
         return false;
     }
     return true;

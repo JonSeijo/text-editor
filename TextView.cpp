@@ -72,8 +72,6 @@ TextView::DocCoords TextView::getDocumentCoords(float mouseX, float mouseY, cons
     return TextView::DocCoords(lineN, charN);
 }
 
-// TODO: Esta funcion no sirve para cambio de cursor con teclado, podria hacer que funcione con coords de texto,
-//       y que la funcion de cursor change con mouse la llame despues de la conversion
 // TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
 // TODO: Esta funcion solo sirve para la ultima seleccion, manejarlo por parametros??
 void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &document) {
@@ -106,6 +104,46 @@ void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
     for (int i = 0; i < textSize; i++) {
         this->moveCursorRight(document);
     }
+}
+
+// Borra el texto contenido en la seleccion y tambien la seleccion en si
+// Devuelve true si se borro una seleccion
+// TODO: Esta bien que actualize los cursores aca?
+bool TextView::deleteSelections() {
+    SelectionData::Selection lastSelection = this->content.getLastSelection();
+    this->removeSelections();
+
+    if (lastSelection.activa) {
+    // Tomar el inicio de lastSelection, calcular el largo y borrar desde el inicio,
+    // VER movimiento del cursor
+        auto ancla = lastSelection.ancla;
+        auto extremo = lastSelection.extremo;
+
+        int lineNStart = -1;
+        int charNStart = -1;
+        int lineNEnd = -1;
+        int charNEnd = -1;
+
+        // TODO: Mover esta logica a la clase de SelectionData
+        if (ancla < extremo) {
+            lineNStart = ancla.lineN;
+            charNStart = ancla.charN;
+            lineNEnd = extremo.lineN;
+            charNEnd = extremo.charN;
+        } else {
+            lineNStart = extremo.lineN;
+            charNStart = extremo.charN;
+            lineNEnd = ancla.lineN;
+            charNEnd = ancla.charN;
+
+        }
+
+        // Muevo el cursor al inicio de la seleccion
+        this->cursor.setPosition(lineNStart, charNStart, true);
+
+    }
+
+    return lastSelection.activa;
 }
 
 void TextView::deleteTextInCursorPos(int amount, TextDocument &document) {
