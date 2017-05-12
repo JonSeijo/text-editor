@@ -16,15 +16,21 @@ class Cursor {
 
         void moveUp();
         void moveDown();
-        void moveLeft();
-        void moveRight();
+        void moveLeft(bool updateMaxChar=false);
+        void moveRight(bool updateMaxChar=false);
 
         void nextLine();
 
         int getLineN();
         int getCharN();
 
-        void setPosition(int lineN, int charN);
+        void setPosition(int lineN, int charN, bool updateMaxChar=false);
+
+        void moveDownToMaxCharN();
+        void moveUpToMaxCharN();
+
+        int setMaxCharNReached(int charN);
+        int getMaxCharNReached();
 
     private:
         sf::RectangleShape rect;
@@ -32,6 +38,7 @@ class Cursor {
         int charWidth;
         int lineN, charN;
         int offsetY;
+        int maxCharNReached;
 
         void updatePos(int posY, int posX);
 };

@@ -83,6 +83,7 @@ void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &docu
     int charN = docCoords.charN;
 
     this->cursor.setPosition(lineN, charN);
+    this->cursor.setMaxCharNReached(charN);
 
     SelectionData::Selection ultimaSelec = this->content.getLastSelection();
     // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
@@ -117,24 +118,25 @@ void TextView::deleteTextInCursorPos(int amount, TextDocument &document) {
     document.removeTextFromPos(amount, newLineN, newCharN);
 }
 
-
+// Actualiza ademas el maximo char alcanzado
 void TextView::moveCursorLeft(const TextDocument &document) {
     if (this->cursor.getCharN() <= 0) {
         int newCursorLine = std::max(this->cursor.getLineN() - 1, 0);
         int newCursorChar = document.charsInLine(newCursorLine);
-        this->cursor.setPosition(newCursorLine, newCursorChar);
+        this->cursor.setPosition(newCursorLine, newCursorChar, true);
     } else {
-        this->cursor.moveLeft();
+        this->cursor.moveLeft(true);
     }
 }
 
+// Actualiza ademas el maximo char alcanzado
 void TextView::moveCursorRight(const TextDocument &document) {
     int charsInLine = document.charsInLine(this->cursor.getLineN());
     if (this->cursor.getCharN() >= charsInLine) {
         int newCursorLine = std::min(this->cursor.getLineN() + 1, document.getLineCount());
-        this->cursor.setPosition(newCursorLine, 0);
+        this->cursor.setPosition(newCursorLine, 0, true);
     } else {
-        this->cursor.moveRight();
+        this->cursor.moveRight(true);
     }
 }
 
@@ -144,8 +146,8 @@ void TextView::moveCursorUp(const TextDocument &document) {
         int currentCharPos = this->cursor.getCharN();
 
         // Si el caracter actual existe en la linea de arriba, voy solo arriba, sino voy al final de la linea de arriba
-        if (currentCharPos <= charsInPreviousLine) {
-            this->cursor.moveUp();
+        if (currentCharPos <= charsInPreviousLine && this->cursor.getMaxCharNReached() <= charsInPreviousLine) {
+            this->cursor.moveUpToMaxCharN();
         } else {
             this->cursor.setPosition(this->cursor.getLineN() - 1, charsInPreviousLine);
         }
@@ -157,15 +159,13 @@ void TextView::moveCursorDown(const TextDocument &document) {
         int charsInNextLine = document.charsInLine(this->cursor.getLineN() + 1);
         int currentCharPos = this->cursor.getCharN();
 
-        if (currentCharPos <= charsInNextLine) {
-            this->cursor.moveDown();
+        if (currentCharPos <= charsInNextLine && this->cursor.getMaxCharNReached() <= charsInNextLine) {
+            this->cursor.moveDownToMaxCharN();
         } else {
             this->cursor.setPosition(this->cursor.getLineN() + 1, charsInNextLine);
         }
     }
 }
-
-
 
 void TextView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);
