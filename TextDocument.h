@@ -6,25 +6,27 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
+#include <locale>
 
 #include <string>
 #include <algorithm>
-
-typedef void* HANDLE;
 
 using std::string;
 using std::vector;
 
 class TextDocument {
-
     public:
         bool init(string &filename);
+        bool saveFile(string &filename);
+
         sf::String getLine(int lineNumber);
         int charsInLine(int line) const;
         int getLineCount() const;
 
         void addTextToPos(sf::String text, int line, int charN);
         void removeTextFromPos(int amount, int line, int charN);
+
+        std::string convertSpecialChar(sf::Uint32 c, std::ofstream &outputFile);
 
         int charAmountContained(int startLineN, int startCharN, int endLineN, int endCharN);
 
