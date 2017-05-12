@@ -96,6 +96,10 @@ int main() {
                         textView.deleteTextBeforeCursorPos(1, document);
                     }
                 } else {
+                    if (event.text.unicode == '\t') {
+                        // TODO: Cantidad de espacios de tab un parametro
+                        input = "    ";
+                    }
                     textView.deleteSelections(document);
                     textView.addTextInCursorPos(input, document);
                 }
