@@ -26,6 +26,8 @@ class TextDocument {
         void addTextToPos(sf::String text, int line, int charN);
         void removeTextFromPos(int amount, int line, int charN);
 
+        int charAmountContained(int startLineN, int startCharN, int endLineN, int endCharN);
+
     private:
         bool initLinebuffer();
         sf::String buffer;

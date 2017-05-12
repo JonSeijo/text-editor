@@ -16,13 +16,14 @@ class TextView {
 
         void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
         void removeSelections();
-        bool deleteSelections();
+        bool deleteSelections(TextDocument &document);
 
         void startSelection(float mouseX, float mouseY, const TextDocument &document);
         void cursorActive(float mouseX, float mouseY, const TextDocument &document);
 
         void addTextInCursorPos(sf::String text, TextDocument &document);
-        void deleteTextInCursorPos(int amount, TextDocument &document);
+        void deleteTextAfterCursorPos(int amount, TextDocument &document);
+        void deleteTextBeforeCursorPos(int amount, TextDocument &document);
 
         void moveCursorLeft(const TextDocument &document);
         void moveCursorRight(const TextDocument &document);

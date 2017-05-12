@@ -108,8 +108,7 @@ void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
 
 // Borra el texto contenido en la seleccion y tambien la seleccion en si
 // Devuelve true si se borro una seleccion
-// TODO: Esta bien que actualize los cursores aca?
-bool TextView::deleteSelections() {
+bool TextView::deleteSelections(TextDocument &document) {
     SelectionData::Selection lastSelection = this->content.getLastSelection();
     this->removeSelections();
 
@@ -119,38 +118,43 @@ bool TextView::deleteSelections() {
         auto ancla = lastSelection.ancla;
         auto extremo = lastSelection.extremo;
 
-        int lineNStart = -1;
-        int charNStart = -1;
-        int lineNEnd = -1;
-        int charNEnd = -1;
+        int startLineNS = -1;
+        int startCharN = -1;
+        int endLineN = -1;
+        int endCharN = -1;
 
         // TODO: Mover esta logica a la clase de SelectionData
         if (ancla < extremo) {
-            lineNStart = ancla.lineN;
-            charNStart = ancla.charN;
-            lineNEnd = extremo.lineN;
-            charNEnd = extremo.charN;
+            startLineNS = ancla.lineN;
+            startCharN = ancla.charN;
+            endLineN = extremo.lineN;
+            endCharN = extremo.charN;
         } else {
-            lineNStart = extremo.lineN;
-            charNStart = extremo.charN;
-            lineNEnd = ancla.lineN;
-            charNEnd = ancla.charN;
-
+            startLineNS = extremo.lineN;
+            startCharN = extremo.charN;
+            endLineN = ancla.lineN;
+            endCharN = ancla.charN;
         }
 
         // Muevo el cursor al inicio de la seleccion
-        this->cursor.setPosition(lineNStart, charNStart, true);
+        this->cursor.setPosition(startLineNS, startCharN, true);
 
+        // -1 porque como funcionan los extremos de la seleccion
+        int amount = document.charAmountContained(startLineNS, startCharN, endLineN, endCharN) - 1;
+        this->deleteTextAfterCursorPos(amount, document);
     }
 
     return lastSelection.activa;
 }
 
-void TextView::deleteTextInCursorPos(int amount, TextDocument &document) {
+void TextView::deleteTextBeforeCursorPos(int amount, TextDocument &document) {
     for (int i = 0; i < amount; i++) {
         this->moveCursorLeft(document);
     }
+    this->deleteTextAfterCursorPos(amount, document);
+}
 
+void TextView::deleteTextAfterCursorPos(int amount, TextDocument &document) {
     int newLineN = this->cursor.getLineN();
     int newCharN = this->cursor.getCharN();
     document.removeTextFromPos(amount, newLineN, newCharN);

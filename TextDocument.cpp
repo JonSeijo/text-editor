@@ -110,6 +110,10 @@ void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
     this->initLinebuffer();
 }
 
+int TextDocument::charAmountContained(int startLineN, int startCharN, int endLineN, int endCharN) {
+    return this->getBufferPos(endLineN, endCharN) - this->getBufferPos(startLineN, startCharN) + 1;
+}
+
 int TextDocument::getBufferPos(int line, int charN) {
     return this->lineBuffer[line] + charN;
 }
