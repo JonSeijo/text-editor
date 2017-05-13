@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "TextDocument.h"
-#include "TextViewContent.h"
 #include "SelectionData.h"
 
 class TextViewContent {
