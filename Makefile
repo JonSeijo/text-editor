@@ -2,7 +2,7 @@
 
 GPP = g++
 # Agregar -Wall
-FLAGS = -std=c++11
+FLAGS = -std=c++11 -Wall
 LIBS= -lsfml-graphics -lsfml-window -lsfml-system
 
 # Final binary

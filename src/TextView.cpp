@@ -83,7 +83,6 @@ void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &docu
     this->cursor.setPosition(lineN, charN);
     this->cursor.setMaxCharNReached(charN);
 
-    SelectionData::Selection ultimaSelec = this->content.getLastSelection();
     // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
     // TODO: Usar los metodos moveSelections para mover todas las selecciones.
     this->content.updateLastSelection(lineN, charN);

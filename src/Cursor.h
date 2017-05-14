@@ -29,7 +29,7 @@ class Cursor {
         void moveDownToMaxCharN();
         void moveUpToMaxCharN();
 
-        int setMaxCharNReached(int charN);
+        void setMaxCharNReached(int charN);
         int getMaxCharNReached();
 
     private:

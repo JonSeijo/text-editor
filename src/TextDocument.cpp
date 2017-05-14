@@ -28,7 +28,7 @@ bool TextDocument::saveFile(string &filename) {
         return false;
     }
 
-    for (int i = 0; i < this->buffer.getSize(); i++) {
+    for (int i = 0; i < (int)this->buffer.getSize(); i++) {
         std::string s = this->convertSpecialChar(this->buffer[i], outputFile);
         outputFile << s;
     }
@@ -54,6 +54,7 @@ std::string TextDocument::convertSpecialChar(sf::Uint32 c, std::ofstream &output
         outputFile.close();
         std::cerr << "\nERROR: Can't save character: " << c << std::endl;
     }
+    return "";
 }
 
 // TODO: Contar newlines mientras leo el archivo en el init
@@ -121,7 +122,7 @@ void TextDocument::addTextToPos(sf::String text, int line, int charN) {
         this->lineBuffer[l] += textSize;
     }
 
-    for (int i = 0; i < text.getSize(); i++) {
+    for (int i = 0; i < (int)text.getSize(); i++) {
         if (text[i] == '\n' || text[i] == 13) {  // text[i] == \n
             int newLineStart = bufferInsertPos + i + 1; // Nueva linea comienza despues del nuevo \n
 
@@ -155,7 +156,9 @@ int TextDocument::getBufferPos(int line, int charN) {
 
 int TextDocument::charsInLine(int line) const {
     // Si es ultima linea, no puedo compararla con inicio de siguiente pues no hay siguiente
-    if (line == this->lineBuffer.size() - 1) {
+    int bufferSize = this->lineBuffer.size();
+
+    if (line == bufferSize - 1) {
         return this->buffer.getSize() - this->lineBuffer[this->lineBuffer.size() - 1];
     } else {
         return this->lineBuffer[line+1] - this->lineBuffer[line] - 1;

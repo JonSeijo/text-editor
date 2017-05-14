@@ -11,10 +11,10 @@ class SelectionData {
 
     private:
         struct Extremo {
-            int lineN;
-            int charN;
             Extremo() : lineN(-1), charN(-1) {}
             Extremo(int lineN, int charN) : lineN(lineN), charN(charN) {};
+            int lineN;
+            int charN;
 
             bool operator<(const Extremo& ex) const {
                 return lineN < ex.lineN || (lineN <= ex.lineN && charN < ex.charN);
@@ -25,12 +25,12 @@ class SelectionData {
         SelectionData();
 
         struct Selection {
+            Selection() : activa(false), ancla(), extremo() {}
+            Selection(int anclaLine, int anclaChar) :  activa(false), ancla(anclaLine, anclaChar), extremo() {}
+
+            bool activa;
             SelectionData::Extremo ancla;
             SelectionData::Extremo extremo;
-            bool activa;
-
-            Selection() : ancla(), activa(false), extremo() {}
-            Selection(int anclaLine, int anclaChar) : ancla(anclaLine, anclaChar), activa(false), extremo() {}
         };
 
         void createNewSelection(int anclaLine, int anclaChar);

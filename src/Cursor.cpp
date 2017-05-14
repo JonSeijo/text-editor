@@ -34,7 +34,7 @@ int Cursor::getCharN() {
     return this->charN;
 }
 
-int Cursor::setMaxCharNReached(int charN) {
+void Cursor::setMaxCharNReached(int charN) {
     this->maxCharNReached = charN;
 }
 
