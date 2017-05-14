@@ -1,33 +1,52 @@
-CPP=g++
-FLAGS= -std=c++11
+# Adaptado de http://stackoverflow.com/a/30142139
+
+GPP = g++
+# Agregar -Wall
+FLAGS = -std=c++11
 LIBS= -lsfml-graphics -lsfml-window -lsfml-system
 
-all: editor
+# Final binary
+BIN = editor
 
-# editor: Editor.cpp TextView.cpp TextViewContent.cpp TextDocument.cpp SelectionData.cpp Cursor.cpp
-# 		@echo "** Building main"
-# 		g++ $(FLAGS) -o editor Editor.cpp TextView.cpp TextViewContent.cpp SelectionData.cpp Cursor.cpp TextDocument.cpp $(LIBS)
+# Put all auto generated stuff to this build dir.
+BUILD_DIR = ./build
 
-editor: Editor.o TextView.o TextViewContent.o Cursor.o SelectionData.o TextDocument.o
-	g++ $(FLAGS)  Editor.o TextView.o TextViewContent.o Cursor.o SelectionData.o TextDocument.o -o editor $(LIBS)
+# List of all .cpp source files.
+# CPP = main.cpp $(wildcard dir1/*.cpp) $(wildcard dir2/*.cpp)
+CPP = Editor.cpp $(wildcard *.cpp)
 
-Editor.o: Editor.cpp TextView.cpp TextView.h TextDocument.cpp TextDocument.h
-	g++ $(FLAGS) -c Editor.cpp TextView.cpp TextDocument.cpp
+# All .o files go to build dir.
+OBJ = $(CPP:%.cpp=$(BUILD_DIR)/%.o)
 
-TextDocument.o: TextDocument.cpp TextDocument.h
-	g++ $(FLAGS) -c TextDocument.cpp
+# Gcc/Clang will create these .d files containing dependencies.
+DEP = $(OBJ:%.o=%.d)
 
-TextView.o: TextView.cpp TextView.h TextViewContent.cpp TextViewContent.h Cursor.cpp Cursor.h
-	g++ $(FLAGS) -c TextView.cpp TextViewContent.cpp Cursor.cpp
+# Default target named after the binary.
+$(BIN) : $(BUILD_DIR)/$(BIN)
 
-TextViewContent.o: TextViewContent.cpp TextViewContent.h TextDocument.cpp TextDocument.h SelectionData.cpp SelectionData.h
-	g++ $(FLAGS) -c TextViewContent.cpp TextDocument.cpp SelectionData.cpp
+# Actual target of the binary - depends on all .o files.
+$(BUILD_DIR)/$(BIN) : $(OBJ)
+# Create build directories - same structure as sources.
+	@mkdir -p $(@D)
+# Just link all the object files.
+	$(GPP) $(FLAGS) $^ -o $@ $(LIBS)
+# Solo por conveniencia, para poder hacer ./editor facilmente
+	@mv $(BUILD_DIR)/$(BIN) $(BIN)
 
-Cursor.o: Cursor.h Cursor.cpp
-	g++ $(FLAGS) -c Cursor.cpp
+# Include all .d files
+-include $(DEP)
 
-SelectionData.o: SelectionData.cpp SelectionData.h TextDocument.h TextDocument.cpp
-	g++ $(FLAGS) -c SelectionData.cpp TextDocument.cpp
+# Build target for every single object file.
+# The potential dependency on header files is covered
+# by calling `-include $(DEP)`.
+$(BUILD_DIR)/%.o : %.cpp
+	@mkdir -p $(@D)
+# The -MMD flags additionaly creates a .d file with
+# the same name as the .o file.
+	$(GPP) $(FLAGS) -MMD -c $< -o $@
 
-clean:
-	rm -f editor *.o
+.PHONY : clean
+clean :
+# This should remove all generated files.
+	-rm -f $(BUILD_DIR)/$(BIN) $(OBJ) $(DEP)
+	rm -f editor
