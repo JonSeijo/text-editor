@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "TextView.h"
 #include "TextDocument.h"
+#include "InputController.h"
 
 void controlarMovimientosTeclado(TextView &textView) {
     // Rotating
@@ -24,7 +25,6 @@ int main() {
     // TODO: Poder expandir la ventada a gusto
     sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "text-editor");
     window.setVerticalSyncEnabled(true);
-
     sf::Color backgroundColor = sf::Color(21, 29, 45);
 
     std::string saveFileName = "txt/textoDePruebaGuardado.txt";
@@ -33,6 +33,7 @@ int main() {
 
     TextView textView(window);
     TextDocument document;
+    InputController inputController;
 
     document.init(fileName);
 
