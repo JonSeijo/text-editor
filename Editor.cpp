@@ -23,8 +23,8 @@ int main() {
 
     sf::Color backgroundColor = sf::Color(21, 29, 45);
 
-    std::string saveFileName = "textoDePruebaGuardado.txt";
-    std::string fileName = "textoDePruebaGuardado.txt";
+    std::string saveFileName = "txt/textoDePruebaGuardado.txt";
+    std::string fileName = "txt/textoDePruebaGuardado.txt";
     // std::string fileName = "TextView.cpp";
 
     TextView textView(window);

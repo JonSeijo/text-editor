@@ -1,7 +1,7 @@
 #include "TextViewContent.h"
 
 TextViewContent::TextViewContent() {
-    this->font.loadFromFile("DejaVuSansMono.ttf");
+    this->font.loadFromFile("fonts/DejaVuSansMono.ttf");
     this->setFontSize(18);  // Important to call
     this->colorChar = sf::Color::White;
     this->colorSelection = sf::Color(106, 154, 232);

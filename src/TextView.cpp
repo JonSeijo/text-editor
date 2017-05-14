@@ -6,8 +6,8 @@ TextView::TextView(const sf::RenderWindow &window)
 
     this->cursor = Cursor(this->content.getLineHeight(), this->content.getCharWidth());
 
-    // this->font.loadFromFile("FreeMono.ttf");
-    this->font.loadFromFile("DejaVuSansMono.ttf");
+    // this->font.loadFromFile("fonts/FreeMono.ttf");
+    this->font.loadFromFile("fonts/DejaVuSansMono.ttf");
     this->fontSize = 18;
 
     // TODO: Cambiarlo en relacion a la fontsize

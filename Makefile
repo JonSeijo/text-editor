@@ -13,7 +13,7 @@ BUILD_DIR = ./build
 
 # List of all .cpp source files.
 # CPP = main.cpp $(wildcard dir1/*.cpp) $(wildcard dir2/*.cpp)
-CPP = Editor.cpp $(wildcard *.cpp)
+CPP = Editor.cpp $(wildcard src/*.cpp)
 
 # All .o files go to build dir.
 OBJ = $(CPP:%.cpp=$(BUILD_DIR)/%.o)
@@ -43,7 +43,7 @@ $(BUILD_DIR)/%.o : %.cpp
 	@mkdir -p $(@D)
 # The -MMD flags additionaly creates a .d file with
 # the same name as the .o file.
-	$(GPP) $(FLAGS) -MMD -c $< -o $@
+	$(GPP) $(FLAGS) -MMD -c $< -I src/ -o $@
 
 .PHONY : clean
 clean :
