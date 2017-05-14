@@ -25,7 +25,7 @@ class TextView {
         void deleteTextAfterCursorPos(int amount, TextDocument &document);
         void deleteTextBeforeCursorPos(int amount, TextDocument &document);
 
-        void moveCursorLeft(const TextDocument &document);
+        bool moveCursorLeft(const TextDocument &document);
         void moveCursorRight(const TextDocument &document);
         void moveCursorUp(const TextDocument &document);
         void moveCursorDown(const TextDocument &document);

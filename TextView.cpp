@@ -148,10 +148,12 @@ bool TextView::deleteSelections(TextDocument &document) {
 }
 
 void TextView::deleteTextBeforeCursorPos(int amount, TextDocument &document) {
+    int actuallyMoved = 0;
     for (int i = 0; i < amount; i++) {
-        this->moveCursorLeft(document);
+        bool moved = this->moveCursorLeft(document);
+        actuallyMoved += moved ? 1 : 0;
     }
-    this->deleteTextAfterCursorPos(amount, document);
+    this->deleteTextAfterCursorPos(actuallyMoved, document);
 }
 
 void TextView::deleteTextAfterCursorPos(int amount, TextDocument &document) {
@@ -161,14 +163,21 @@ void TextView::deleteTextAfterCursorPos(int amount, TextDocument &document) {
 }
 
 // Actualiza ademas el maximo char alcanzado
-void TextView::moveCursorLeft(const TextDocument &document) {
+bool TextView::moveCursorLeft(const TextDocument &document) {
+    bool moved = (this->cursor.getLineN() != 0)
+        || ((this->cursor.getLineN() == 0) && (this->cursor.getCharN() > 0));
+
     if (this->cursor.getCharN() <= 0) {
         int newCursorLine = std::max(this->cursor.getLineN() - 1, 0);
-        int newCursorChar = document.charsInLine(newCursorLine);
+        int newCursorChar = 0;
+        if (this->cursor.getLineN() != 0) {
+            newCursorChar = document.charsInLine(newCursorLine);
+        }
         this->cursor.setPosition(newCursorLine, newCursorChar, true);
     } else {
         this->cursor.moveLeft(true);
     }
+    return moved;
 }
 
 // Actualiza ademas el maximo char alcanzado
