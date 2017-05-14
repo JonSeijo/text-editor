@@ -10,8 +10,13 @@
 
 class InputController {
     public:
-        void handleConstantInput(TextDocument &document, TextView &view);
-        void handleEvents(TextDocument &document, TextView &view, sf::Event &event);
+        void handleConstantInput(TextDocument &document, TextView &textView);
+        void handleEvents(TextDocument &document, TextView &view, sf::RenderWindow &window, sf::Event &event);
+        bool isMouseDown();
+
+    private:
+        bool mouseDown;
+
 };
 
 #endif
