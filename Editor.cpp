@@ -17,8 +17,12 @@ void controlarMovimientosTeclado(TextView &textView) {
 }
 
 int main() {
+
+    int resolutionX = 720;
+    int resolutionY = 405;
+
     // TODO: Poder expandir la ventada a gusto
-    sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "text-editor");
     window.setVerticalSyncEnabled(true);
 
     sf::Color backgroundColor = sf::Color(21, 29, 45);
@@ -39,6 +43,11 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
+            }
+            if (event.type == sf::Event::Resized) {
+                resolutionX = event.size.width;
+                resolutionY = event.size.height;
+                textView.setCameraBounds(resolutionX, resolutionY);
             }
             if(event.type == sf::Event::MouseWheelScrolled) {
                 if (event.mouseWheelScroll.delta > 0) {
@@ -79,7 +88,6 @@ int main() {
                 }
 
                 if (event.key.code == sf::Keyboard::S && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-                    std::cout << "CTRL + S = SAVE\n";
                     document.saveFile(saveFileName);
                     std::cout << "GUARDADO A: " << saveFileName << "\n";
                 }
@@ -135,9 +143,9 @@ int main() {
             float scrollDeltaY = 0;
 
             float textViewTop = 0;
-            float textViewBottom = 400;
+            float textViewBottom = resolutionY - 5;
             float textViewLeft = 0;
-            float textViewRight = 720;
+            float textViewRight = resolutionX;
 
             float relativeFactor = 3;
 

@@ -45,6 +45,7 @@ class TextView {
         void zoomOut();
 
         sf::View getCameraView();
+        void setCameraBounds(int width, int height);
 
         void setDeltaScroll(float delta);
         void setDeltaRotation(float delta);

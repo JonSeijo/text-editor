@@ -262,6 +262,10 @@ void TextView::zoomOut() {
     this->camera.zoom(this->deltaZoomOut);
 }
 
+void TextView::setCameraBounds(int width, int height) {
+    this->camera = sf::View(sf::FloatRect(-50, 0, width, height));
+}
+
 sf::View TextView::getCameraView() {
     return this->camera;
 }
