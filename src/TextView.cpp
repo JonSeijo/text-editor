@@ -138,7 +138,7 @@ bool TextView::deleteSelections(TextDocument &document) {
         // Muevo el cursor al inicio de la seleccion
         this->cursor.setPosition(startLineNS, startCharN, true);
 
-        // -1 porque como funcionan los extremos de la seleccion
+        // -1 por como funcionan los extremos de la seleccion
         int amount = document.charAmountContained(startLineNS, startCharN, endLineN, endCharN) - 1;
         this->deleteTextAfterCursorPos(amount, document);
     }
@@ -205,7 +205,7 @@ void TextView::moveCursorUp(const TextDocument &document) {
 }
 
 void TextView::moveCursorDown(const TextDocument &document) {
-    if (this->cursor.getLineN() < document.getLineCount()) {
+    if (this->cursor.getLineN() < document.getLineCount() - 1) {
         int charsInNextLine = document.charsInLine(this->cursor.getLineN() + 1);
         int currentCharPos = this->cursor.getCharN();
 
