@@ -39,36 +39,22 @@ void InputController::handleConstantInput(TextDocument &document, TextView &text
 
         textView.cursorActive(mousepos_text.x, mousepos_text.y, document);
 
-        float scrollDeltaX = 0;
-        float scrollDeltaY = 0;
-
         float textViewTop = 0;
-        // float textViewBottom = resolutionY - 5;
         float textViewBottom = window.getView().getSize().y - 5;
         float textViewLeft = 0;
-        // float textViewRight = resolutionX;
         float textViewRight = window.getView().getSize().x;
 
-        float relativeFactor = 3;
-
-        float distanceToTop = std::abs(mousepos.y - textViewTop);
-        float distanceToBottom = std::abs(mousepos.y - textViewBottom);
-        float distanceToLeft = std::abs(mousepos.x - textViewLeft);
-        float distanceToRight = std::abs(mousepos.x - textViewRight);
-
         if (mousepos.x < textViewLeft) {
-            scrollDeltaX = -distanceToLeft / relativeFactor;
+            textView.scrollLeft(window);
         } else if (mousepos.x > textViewRight) {
-            scrollDeltaX = distanceToRight / relativeFactor;
+            textView.scrollRight(window);
         }
 
         if (mousepos.y < textViewTop) {
-            scrollDeltaY = -distanceToTop / relativeFactor;
+            textView.scrollUp(window);
         } else if (mousepos.y > textViewBottom) {
-            scrollDeltaY = distanceToBottom / relativeFactor;
+            textView.scrollDown(window);
         }
-
-        textView.scroll(scrollDeltaX, scrollDeltaY);
     }
 }
 
@@ -77,9 +63,9 @@ void InputController::handleMouseEvents(TextDocument &document, TextView &textVi
 
     if(event.type == sf::Event::MouseWheelScrolled) {
         if (event.mouseWheelScroll.delta > 0) {
-            textView.scrollUp();
+            textView.scrollUp(window);
         } else {
-            textView.scrollDown();
+            textView.scrollDown(window);
         }
     }
     if (event.type == sf::Event::MouseButtonPressed) {

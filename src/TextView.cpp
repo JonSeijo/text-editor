@@ -260,24 +260,24 @@ void TextView::removeSelections() {
     this->content.removeSelections();
 }
 
-void TextView::scrollUp() {
-    this->camera.move(0, -this->deltaScroll);
+void TextView::scrollUp(sf::RenderWindow &window) {
+    float height = window.getView().getSize().y;
+    auto vec = this->camera.getCenter();
+    if (vec.y - height/2 > 0) {
+        this->camera.move(0, -this->deltaScroll);
+    }
 }
 
-void TextView::scrollDown() {
+void TextView::scrollDown(sf::RenderWindow &window) {
     this->camera.move(0, this->deltaScroll);
 }
 
-void TextView::scrollLeft() {
+void TextView::scrollLeft(sf::RenderWindow &window) {
     this->camera.move(-this->deltaScroll, 0);
 }
 
-void TextView::scrollRight() {
+void TextView::scrollRight(sf::RenderWindow &window) {
     this->camera.move(this->deltaScroll, 0);
-}
-
-void TextView::scroll(float dx, float dy) {
-    this->camera.move(dx, dy);
 }
 
 void TextView::rotateLeft() {

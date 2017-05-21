@@ -33,12 +33,11 @@ class TextView {
 
         void duplicateCursorLine(TextDocument &document);
 
-        void scrollUp();
-        void scrollDown();
-        void scrollLeft();
-        void scrollRight();
+        void scrollUp(sf::RenderWindow &window);
+        void scrollDown(sf::RenderWindow &window);
+        void scrollLeft(sf::RenderWindow &window);
+        void scrollRight(sf::RenderWindow &window);
 
-        void scroll(float deltaX, float deltaY);
         void scrollTo(float x, float y);
 
         void rotateLeft();
