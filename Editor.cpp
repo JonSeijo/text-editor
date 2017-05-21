@@ -10,14 +10,14 @@ int main() {
     sf::Color backgroundColor = sf::Color(21, 29, 45);
 
     std::string saveFileName = "txt/textoDePruebaGuardado.txt";
-    std::string fileName = "txt/textoDePruebaGuardado.txt";
-    // std::string fileName = "TextView.cpp";
+    std::string loadFileName = "txt/textoDePruebaGuardado.txt";
+    // std::string loadFileName = "TextView.cpp";
 
     TextView textView(window);
     TextDocument document;
     InputController inputController;
 
-    document.init(fileName);
+    document.init(loadFileName);
 
     while (window.isOpen()) {
         sf::Event event;
