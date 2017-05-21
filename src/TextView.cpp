@@ -262,8 +262,9 @@ void TextView::removeSelections() {
 
 void TextView::scrollUp(sf::RenderWindow &window) {
     float height = window.getView().getSize().y;
-    auto vec = this->camera.getCenter();
-    if (vec.y - height/2 > 0) {
+    auto camPos = this->camera.getCenter();
+    // Scrolleo arriba solo si no me paso del limite superior
+    if (camPos.y - height/2 > 0) {
         this->camera.move(0, -this->deltaScroll);
     }
 }
@@ -273,7 +274,12 @@ void TextView::scrollDown(sf::RenderWindow &window) {
 }
 
 void TextView::scrollLeft(sf::RenderWindow &window) {
-    this->camera.move(-this->deltaScroll, 0);
+    float width = window.getView().getSize().x;
+    auto camPos = this->camera.getCenter();
+    // Scrolleo arriba si no me paso del limite izquierdo
+    if (camPos.x - width/2 > 0) {
+        this->camera.move(-this->deltaScroll, 0);
+    }
 }
 
 void TextView::scrollRight(sf::RenderWindow &window) {
