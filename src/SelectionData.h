@@ -51,6 +51,11 @@ class SelectionData {
         void moveSelectionsRight(int charAmount, const TextDocument &doc);
         void moveSelectionsLeft(int charAmount, const TextDocument &doc);
 
+        static int getStartLineN(Selection &selection);
+        static int getStartCharN(Selection &selection);
+        static int getEndLineN(Selection &selection);
+        static int getEndCharN(Selection &selection);
+
     private:
         std::vector<Selection> selections;
         int lastSelectionIndex;

@@ -95,6 +95,26 @@ SelectionData::Selection SelectionData::getLastSelection() {
     return SelectionData::Selection();
 }
 
+int SelectionData::getStartLineN(Selection &selection) {
+    auto extremoStart = selection.ancla < selection.extremo ? selection.ancla : selection.extremo;
+    return extremoStart.lineN;
+}
+
+int SelectionData::getStartCharN(Selection &selection) {
+    auto extremoStart = selection.ancla < selection.extremo ? selection.ancla : selection.extremo;
+    return extremoStart.charN;
+}
+
+int SelectionData::getEndLineN(Selection &selection) {
+    auto extremoEnd = selection.ancla < selection.extremo ? selection.extremo : selection.ancla;
+    return extremoEnd.lineN;
+}
+
+int SelectionData::getEndCharN(Selection &selection) {
+    auto extremoEnd = selection.ancla < selection.extremo ? selection.extremo : selection.ancla;
+    return extremoEnd.charN;
+}
+
 bool SelectionData::validIndex(int index) {
     if (index < 0 || index >= (int)this->selections.size()) {
         // std::cerr << "Index: " << index << " is not a valid index for Selections" << std::endl;

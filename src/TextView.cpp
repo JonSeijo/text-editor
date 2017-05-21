@@ -127,35 +127,18 @@ bool TextView::deleteSelections(TextDocument &document) {
     SelectionData::Selection lastSelection = this->content.getLastSelection();
     this->removeSelections();
 
-    if (lastSelection.activa) {
     // Tomar el inicio de lastSelection, calcular el largo y borrar desde el inicio,
-    // VER movimiento del cursor
-        auto ancla = lastSelection.ancla;
-        auto extremo = lastSelection.extremo;
-
-        int startLineNS = -1;
-        int startCharN = -1;
-        int endLineN = -1;
-        int endCharN = -1;
-
-        // TODO: Mover esta logica a la clase de SelectionData
-        if (ancla < extremo) {
-            startLineNS = ancla.lineN;
-            startCharN = ancla.charN;
-            endLineN = extremo.lineN;
-            endCharN = extremo.charN;
-        } else {
-            startLineNS = extremo.lineN;
-            startCharN = extremo.charN;
-            endLineN = ancla.lineN;
-            endCharN = ancla.charN;
-        }
+    if (lastSelection.activa) {
+        int startLineN = SelectionData::getStartLineN(lastSelection);
+        int startCharN = SelectionData::getStartCharN(lastSelection);
+        int endLineN = SelectionData::getEndLineN(lastSelection);
+        int endCharN = SelectionData::getEndCharN(lastSelection);
 
         // Muevo el cursor al inicio de la seleccion
-        this->cursor.setPosition(startLineNS, startCharN, true);
+        this->cursor.setPosition(startLineN, startCharN, true);
 
         // -1 por como funcionan los extremos de la seleccion
-        int amount = document.charAmountContained(startLineNS, startCharN, endLineN, endCharN) - 1;
+        int amount = document.charAmountContained(startLineN, startCharN, endLineN, endCharN) - 1;
         this->deleteTextAfterCursorPos(amount, document);
     }
 
