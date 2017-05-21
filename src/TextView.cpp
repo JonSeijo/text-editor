@@ -283,13 +283,19 @@ void TextView::scrollLeft(sf::RenderWindow &window) {
     float width = window.getView().getSize().x;
     auto camPos = this->camera.getCenter();
     // Scrolleo arriba si no me paso del limite izquierdo
-    if (camPos.x - width/2 > 0) {
+    if (camPos.x - width/2 > -this->marginXOffset) {
         this->camera.move(-this->deltaScroll, 0);
     }
 }
 
 void TextView::scrollRight(sf::RenderWindow &window) {
-    this->camera.move(this->deltaScroll, 0);
+    float width = window.getView().getSize().x;
+    float rightLimit = std::max(this->content.getRightLimitPx(), width);
+    auto camPos = this->camera.getCenter();
+    // Numero magico 20 como un plus
+    if (camPos.x + width/2 < rightLimit + 20) {
+        this->camera.move(this->deltaScroll, 0);
+    }
 }
 
 void TextView::rotateLeft() {
