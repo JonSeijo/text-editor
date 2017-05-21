@@ -1,6 +1,7 @@
 build/*
 sfml-app
 editor
+txt/notes.txt
 
 # Compiled Object files
 *.slo

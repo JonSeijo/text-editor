@@ -3,15 +3,22 @@
 #include "TextDocument.h"
 #include "InputController.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    std::string saveFileName;
+    std::string loadFileName;
+
+    if (argc == 2) {
+        saveFileName = argv[1];
+        loadFileName = argv[1];
+    } else {
+        saveFileName = "txt/textoDePruebaGuardado.txt";
+        loadFileName = "txt/textoDePruebaGuardado.txt";
+        // loadFileName = "TextView.cpp";
+    }
 
     sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor");
     window.setVerticalSyncEnabled(true);
     sf::Color backgroundColor = sf::Color(21, 29, 45);
-
-    std::string saveFileName = "txt/textoDePruebaGuardado.txt";
-    std::string loadFileName = "txt/textoDePruebaGuardado.txt";
-    // std::string loadFileName = "TextView.cpp";
 
     TextView textView(window);
     TextDocument document;
