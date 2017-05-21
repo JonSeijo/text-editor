@@ -7,7 +7,7 @@
 
 class TextViewContent {
     public:
-        TextViewContent();
+        TextViewContent(const sf::String &workingDirectory);
 
         void setFontSize(int fontSize);
         void drawLines(sf::RenderWindow &window, TextDocument &document);

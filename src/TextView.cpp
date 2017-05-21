@@ -1,13 +1,13 @@
 #include "TextView.h"
 
-TextView::TextView(const sf::RenderWindow &window)
-    : content(), camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)),
+TextView::TextView(const sf::RenderWindow &window, const sf::String &workingDirectory)
+    : content(workingDirectory), camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)),
       deltaScroll(20), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
 
     this->cursor = Cursor(this->content.getLineHeight(), this->content.getCharWidth());
 
     // this->font.loadFromFile("fonts/FreeMono.ttf");
-    this->font.loadFromFile("fonts/DejaVuSansMono.ttf");
+    this->font.loadFromFile(workingDirectory + "fonts/DejaVuSansMono.ttf");
     this->fontSize = 18;
 
     // TODO: Cambiarlo en relacion a la fontsize

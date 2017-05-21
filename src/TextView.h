@@ -9,7 +9,7 @@
 class TextView {
 
     public:
-        TextView(const sf::RenderWindow &window);
+        TextView(const sf::RenderWindow &window, const sf::String &workingDirectory);
 
         void draw(sf::RenderWindow &window, TextDocument &document);
         void setFontSize(int fontSize);

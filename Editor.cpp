@@ -2,25 +2,28 @@
 #include "TextView.h"
 #include "TextDocument.h"
 #include "InputController.h"
+#include "ImplementationUtils.h"
 
 int main(int argc, char* argv[]) {
+
+    std::string workingDirectory = ImplementationUtils::getWorkingDirectory(argv[0]);
+
     std::string saveFileName;
     std::string loadFileName;
 
     if (argc == 2) {
-        saveFileName = argv[1];
-        loadFileName = argv[1];
+        saveFileName = workingDirectory + argv[1];
+        loadFileName = workingDirectory + argv[1];
     } else {
-        saveFileName = "txt/textoDePruebaGuardado.txt";
-        loadFileName = "txt/textoDePruebaGuardado.txt";
-        // loadFileName = "TextView.cpp";
+        saveFileName = workingDirectory + "txt/textoDePruebaGuardado.txt";
+        loadFileName = workingDirectory + "txt/textoDePruebaGuardado.txt";
     }
 
-    sf::RenderWindow window(sf::VideoMode(720, 405), "text-editor");
+    sf::RenderWindow window(sf::VideoMode(720, 405), "Jonno-text");
     window.setVerticalSyncEnabled(true);
     sf::Color backgroundColor = sf::Color(21, 29, 45);
 
-    TextView textView(window);
+    TextView textView(window, workingDirectory);
     TextDocument document;
     InputController inputController;
 
