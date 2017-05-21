@@ -112,6 +112,12 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
             }
         }
 
+        if (event.key.code == sf::Keyboard::D) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+                textView.duplicateCursorLine(document);
+            }
+            textView.moveCursorUp(document, isShiftPressed);
+        }
         if (event.key.code == sf::Keyboard::Up) {
             textView.moveCursorUp(document, isShiftPressed);
         }

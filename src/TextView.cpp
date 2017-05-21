@@ -88,6 +88,20 @@ void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &docu
     this->content.updateLastSelection(lineN, charN);
 }
 
+// TODO: Duplicar seleccion en vez de removerla
+void TextView::duplicateCursorLine(TextDocument &document) {
+    this->content.removeSelections();
+
+    int lineN = this->cursor.getLineN();
+    sf::String lineToAdd = document.getLine(lineN);
+    lineToAdd += '\n';
+    document.addTextToPos(lineToAdd, lineN+1, 0);
+
+    // Double move down
+    this->moveCursorDown(document);
+    this->moveCursorDown(document);
+}
+
 // Una seleccion inicial selecciona el propio caracter en el que estoy
 void TextView::startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document) {
     TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);

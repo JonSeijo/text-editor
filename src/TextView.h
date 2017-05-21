@@ -31,6 +31,8 @@ class TextView {
         void moveCursorUp(const TextDocument &document, bool updateActiveSelections=false);
         void moveCursorDown(const TextDocument &document, bool updateActiveSelections=false);
 
+        void duplicateCursorLine(TextDocument &document);
+
         void scrollUp();
         void scrollDown();
         void scrollLeft();
