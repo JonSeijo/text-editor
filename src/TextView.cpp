@@ -97,8 +97,6 @@ void TextView::duplicateCursorLine(TextDocument &document) {
     lineToAdd += '\n';
     document.addTextToPos(lineToAdd, lineN+1, 0);
 
-    // Double move down
-    this->moveCursorDown(document);
     this->moveCursorDown(document);
 }
 
