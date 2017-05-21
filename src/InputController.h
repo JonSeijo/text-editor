@@ -10,6 +10,7 @@
 
 class InputController {
     public:
+        InputController();
         void handleConstantInput(TextDocument &document, TextView &view, sf::RenderWindow &window);
         void handleEvents(TextDocument &document, TextView &view, sf::RenderWindow &window, sf::Event &event);
         bool isMouseDown();
@@ -17,8 +18,10 @@ class InputController {
     private:
         void handleMouseEvents(TextDocument &document, TextView &view, sf::RenderWindow &window, sf::Event &event);
         void handleKeyPressedEvents(TextDocument &document, TextView &view, sf::Event &event);
+        void handleKeyReleasedEvents(sf::Event &event);
         void handleTextEnteredEvent(TextDocument &document, TextView &view, sf::Event &event);
         bool mouseDown;
+        bool shiftPresionado;
 
 };
 

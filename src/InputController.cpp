@@ -1,10 +1,16 @@
 #include "InputController.h"
 
+InputController::InputController() {
+    this->mouseDown = false;
+    this->shiftPresionado = false;
+}
+
 void InputController::handleEvents(TextDocument &document, TextView &textView,
     sf::RenderWindow &window, sf::Event &event) {
 
     this->handleMouseEvents(document, textView, window, event);
     this->handleKeyPressedEvents(document, textView, event);
+    this->handleKeyReleasedEvents(event);
     this->handleTextEnteredEvent(document, textView, event);
 }
 
@@ -95,7 +101,17 @@ void InputController::handleMouseEvents(TextDocument &document, TextView &textVi
 
 void InputController::handleKeyPressedEvents(TextDocument &document, TextView &textView, sf::Event &event) {
     if (event.type == sf::Event::KeyPressed) {
-        bool isShiftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+        bool isShiftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+
+        if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift) {
+            if (!this->shiftPresionado) {
+                this->shiftPresionado = true;
+                // Si no hay una seleccion activa, empiezo una seleccion donde esten los cursores
+                textView.startSelectionFromCursor();
+            }
+        }
+
         if (event.key.code == sf::Keyboard::Up) {
             textView.moveCursorUp(document, isShiftPressed);
         }
@@ -109,12 +125,6 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
             textView.moveCursorRight(document, isShiftPressed);
         }
 
-        if (event.key.code == sf::Keyboard::LShift) {
-            // Si no hay una seleccion activa, empiezo una seleccion donde esten los cursores
-            std::cout << "Empiezo seleccion\n";
-            textView.startSelectionFromCursor();
-        }
-
         if (event.key.control) {
             if (event.key.code == sf::Keyboard::Add) {
                 textView.zoomIn();
@@ -122,6 +132,15 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
             if (event.key.code == sf::Keyboard::Subtract) {
                 textView.zoomOut();
             }
+        }
+    }
+}
+
+void InputController::handleKeyReleasedEvents(sf::Event &event) {
+    if (event.type == sf::Event::KeyReleased) {
+        if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift) {
+            this->shiftPresionado = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+                        || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
         }
     }
 }
