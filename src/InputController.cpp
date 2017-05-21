@@ -84,7 +84,7 @@ void InputController::handleMouseEvents(TextDocument &document, TextView &textVi
         // inicio seleccion cuando clickeo.
         // Borro desde fuera explicitamente las selecciones
         // TODO: Multiples selecciones, sin borrar anteriores si presiono ctrl
-        textView.startSelection(mousepos_text.x, mousepos_text.y, document);
+        textView.startSelectionFromMouse(mousepos_text.x, mousepos_text.y, document);
         this->mouseDown = true;
     }
 
@@ -95,17 +95,24 @@ void InputController::handleMouseEvents(TextDocument &document, TextView &textVi
 
 void InputController::handleKeyPressedEvents(TextDocument &document, TextView &textView, sf::Event &event) {
     if (event.type == sf::Event::KeyPressed) {
+        bool isShiftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
         if (event.key.code == sf::Keyboard::Up) {
-            textView.moveCursorUp(document);
+            textView.moveCursorUp(document, isShiftPressed);
         }
         if (event.key.code == sf::Keyboard::Down) {
-            textView.moveCursorDown(document);
+            textView.moveCursorDown(document, isShiftPressed);
         }
         if (event.key.code == sf::Keyboard::Left) {
-            textView.moveCursorLeft(document);
+            textView.moveCursorLeft(document, isShiftPressed);
         }
         if (event.key.code == sf::Keyboard::Right) {
-            textView.moveCursorRight(document);
+            textView.moveCursorRight(document, isShiftPressed);
+        }
+
+        if (event.key.code == sf::Keyboard::LShift) {
+            // Si no hay una seleccion activa, empiezo una seleccion donde esten los cursores
+            std::cout << "Empiezo seleccion\n";
+            textView.startSelectionFromCursor();
         }
 
         if (event.key.control) {

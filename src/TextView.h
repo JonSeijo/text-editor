@@ -18,17 +18,18 @@ class TextView {
         void removeSelections();
         bool deleteSelections(TextDocument &document);
 
-        void startSelection(float mouseX, float mouseY, const TextDocument &document);
+        void startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document);
+        void startSelectionFromCursor();
         void cursorActive(float mouseX, float mouseY, const TextDocument &document);
 
         void addTextInCursorPos(sf::String text, TextDocument &document);
         void deleteTextAfterCursorPos(int amount, TextDocument &document);
         void deleteTextBeforeCursorPos(int amount, TextDocument &document);
 
-        bool moveCursorLeft(const TextDocument &document);
-        void moveCursorRight(const TextDocument &document);
-        void moveCursorUp(const TextDocument &document);
-        void moveCursorDown(const TextDocument &document);
+        bool moveCursorLeft(const TextDocument &document, bool updateActiveSelections=false);
+        void moveCursorRight(const TextDocument &document, bool updateActiveSelections=false);
+        void moveCursorUp(const TextDocument &document, bool updateActiveSelections=false);
+        void moveCursorDown(const TextDocument &document, bool updateActiveSelections=false);
 
         void scrollUp();
         void scrollDown();
@@ -51,6 +52,8 @@ class TextView {
         void setDeltaRotation(float delta);
 
     private:
+        void handleSelectionOnCursorMovement(bool updateActiveSelections);
+
         TextViewContent content;
 
         struct DocCoords {

@@ -9,6 +9,10 @@ void SelectionData::createNewSelection(int anclaLine, int anclaChar) {
 }
 
 void SelectionData::updateLastSelection(int extremoLine, int extremoChar) {
+    if (this->lastSelectionIndex < 0) {
+        return;
+    }
+
     int anclaLine = this->getLastAnclaLine();
     int anclaChar = this->getLastAnclaChar();
 

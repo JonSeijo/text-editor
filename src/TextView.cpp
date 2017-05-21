@@ -89,11 +89,15 @@ void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &docu
 }
 
 // Una seleccion inicial selecciona el propio caracter en el que estoy
-void TextView::startSelection(float mouseX, float mouseY, const TextDocument &document) {
+void TextView::startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document) {
     TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
     this->content.createNewSelection(docCoords.lineN, docCoords.charN);
 }
 
+void TextView::startSelectionFromCursor() {
+    this->content.removeSelections();
+    this->content.createNewSelection(this->cursor.getLineN(), this->cursor.getCharN());
+}
 
 void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
     int textSize = text.getSize();
@@ -162,7 +166,7 @@ void TextView::deleteTextAfterCursorPos(int amount, TextDocument &document) {
 }
 
 // Actualiza ademas el maximo char alcanzado
-bool TextView::moveCursorLeft(const TextDocument &document) {
+bool TextView::moveCursorLeft(const TextDocument &document, bool updateActiveSelections) {
     bool moved = (this->cursor.getLineN() != 0)
         || ((this->cursor.getLineN() == 0) && (this->cursor.getCharN() > 0));
 
@@ -176,11 +180,14 @@ bool TextView::moveCursorLeft(const TextDocument &document) {
     } else {
         this->cursor.moveLeft(true);
     }
+
+    this->handleSelectionOnCursorMovement(updateActiveSelections);
+
     return moved;
 }
 
 // Actualiza ademas el maximo char alcanzado
-void TextView::moveCursorRight(const TextDocument &document) {
+void TextView::moveCursorRight(const TextDocument &document, bool updateActiveSelections) {
     int charsInLine = document.charsInLine(this->cursor.getLineN());
     if (this->cursor.getCharN() >= charsInLine) {
         int newCursorLine = std::min(this->cursor.getLineN() + 1, document.getLineCount());
@@ -188,9 +195,11 @@ void TextView::moveCursorRight(const TextDocument &document) {
     } else {
         this->cursor.moveRight(true);
     }
+
+    this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
-void TextView::moveCursorUp(const TextDocument &document) {
+void TextView::moveCursorUp(const TextDocument &document, bool updateActiveSelections) {
     if (this->cursor.getLineN() > 0) {
         int charsInPreviousLine = document.charsInLine(this->cursor.getLineN() - 1);
         int currentCharPos = this->cursor.getCharN();
@@ -202,9 +211,11 @@ void TextView::moveCursorUp(const TextDocument &document) {
             this->cursor.setPosition(this->cursor.getLineN() - 1, charsInPreviousLine);
         }
     }
+
+    this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
-void TextView::moveCursorDown(const TextDocument &document) {
+void TextView::moveCursorDown(const TextDocument &document, bool updateActiveSelections) {
     if (this->cursor.getLineN() < document.getLineCount() - 1) {
         int charsInNextLine = document.charsInLine(this->cursor.getLineN() + 1);
         int currentCharPos = this->cursor.getCharN();
@@ -214,6 +225,16 @@ void TextView::moveCursorDown(const TextDocument &document) {
         } else {
             this->cursor.setPosition(this->cursor.getLineN() + 1, charsInNextLine);
         }
+    }
+
+    this->handleSelectionOnCursorMovement(updateActiveSelections);
+}
+
+void TextView::handleSelectionOnCursorMovement(bool updateActiveSelections) {
+    if (updateActiveSelections) {
+        this->content.updateLastSelection(this->cursor.getLineN(), this->cursor.getCharN());
+    } else {
+        this->content.removeSelections();
     }
 }
 
