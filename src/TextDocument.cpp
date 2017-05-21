@@ -151,6 +151,10 @@ int TextDocument::charAmountContained(int startLineN, int startCharN, int endLin
 }
 
 int TextDocument::getBufferPos(int line, int charN) {
+    if (line >= (int)this->lineBuffer.size()) {
+        std::cerr << "\nCan't get buffer pos of: " << line << "\n";
+        std::cerr << "Buffer last line is: " << this->lineBuffer.size()-1 << "\n\n";
+    }
     return this->lineBuffer[line] + charN;
 }
 
