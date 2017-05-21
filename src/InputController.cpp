@@ -62,10 +62,18 @@ void InputController::handleMouseEvents(TextDocument &document, TextView &textVi
     sf::RenderWindow &window, sf::Event &event) {
 
     if(event.type == sf::Event::MouseWheelScrolled) {
-        if (event.mouseWheelScroll.delta > 0) {
-            textView.scrollUp(window);
-        } else {
-            textView.scrollDown(window);
+        if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+            if (event.mouseWheelScroll.delta > 0) {
+                textView.scrollUp(window);
+            } else {
+                textView.scrollDown(window);
+            }
+        } else if (event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) {
+            if (event.mouseWheelScroll.delta > 0) {
+                textView.scrollLeft(window);
+            } else {
+                textView.scrollRight(window);
+            }
         }
     }
     if (event.type == sf::Event::MouseButtonPressed) {
