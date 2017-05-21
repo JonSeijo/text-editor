@@ -270,7 +270,13 @@ void TextView::scrollUp(sf::RenderWindow &window) {
 }
 
 void TextView::scrollDown(sf::RenderWindow &window) {
-    this->camera.move(0, this->deltaScroll);
+    float height = window.getView().getSize().y;
+    float bottomLimit = std::max(this->content.getBottomLimitPx(), height);
+    auto camPos = this->camera.getCenter();
+    // Numero magico 20 como un plus
+    if (camPos.y + height/2 < bottomLimit + 20) {
+        this->camera.move(0, this->deltaScroll);
+    }
 }
 
 void TextView::scrollLeft(sf::RenderWindow &window) {

@@ -21,10 +21,17 @@ class TextViewContent {
         int getLineHeight();
         int getCharWidth();
 
+        float getRightLimitPx();
+        float getBottomLimitPx();
+
     private:
         int fontSize;
         int lineHeight;
         int charWidth;
+
+        float rightLimitPx;
+        float bottomLimitPx;
+
         sf::Font font;
 
         sf::Color colorChar;

@@ -1,6 +1,9 @@
 #include "TextViewContent.h"
 
 TextViewContent::TextViewContent() {
+    this->bottomLimitPx = 1;
+    this->rightLimitPx = 1;
+
     this->font.loadFromFile("fonts/DejaVuSansMono.ttf");
     this->setFontSize(18);  // Important to call
     this->colorChar = sf::Color::White;
@@ -11,11 +14,16 @@ TextViewContent::TextViewContent() {
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 // TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
+
+    this->bottomLimitPx = document.getLineCount() * this->fontSize;
+
     for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
 
         sf::String line = document.getLine(lineNumber);
-
         sf::String currentLineText = "";
+
+        this->rightLimitPx = std::max((int)this->rightLimitPx, (int)(this->charWidth * line.getSize()));
+
         float offsetx = 0;
         bool previousSelected = false;
 
@@ -84,6 +92,14 @@ void TextViewContent::setFontSize(int fontSize) {
     tmpText.setString("_");
     float textwidth = tmpText.getLocalBounds().width;
     this->charWidth = textwidth;
+}
+
+float TextViewContent::getRightLimitPx() {
+    return this->rightLimitPx;
+}
+
+float TextViewContent::getBottomLimitPx() {
+    return this->bottomLimitPx;
 }
 
 int TextViewContent::getLineHeight() {
