@@ -33,6 +33,7 @@ class TextView {
 
         void duplicateCursorLine(TextDocument &document);
         void swapCursorLine(TextDocument &document, bool swapWithUp);
+        void swapSelectedLines(TextDocument &document, bool swapWithUp);
 
         void scrollUp(sf::RenderWindow &window);
         void scrollDown(sf::RenderWindow &window);
