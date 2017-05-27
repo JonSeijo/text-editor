@@ -95,11 +95,12 @@ void InputController::handleMouseEvents(TextDocument &document, TextView &textVi
 
 void InputController::handleKeyPressedEvents(TextDocument &document, TextView &textView, sf::Event &event) {
     if (event.type == sf::Event::KeyPressed) {
-        bool isShiftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
-            || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+
+        bool isCtrlPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl);
 
         if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift) {
-            if (!this->shiftPresionado) {
+            if (!this->shiftPresionado && !isCtrlPressed) {
                 this->shiftPresionado = true;
                 // Si no hay una seleccion activa, empiezo una seleccion donde esten los cursores
                 textView.startSelectionFromCursor();
@@ -107,21 +108,21 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
         }
 
         if (event.key.code == sf::Keyboard::D) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+            if (isCtrlPressed) {
                 textView.duplicateCursorLine(document);
             }
         }
         if (event.key.code == sf::Keyboard::Up) {
-            textView.moveCursorUp(document, isShiftPressed);
+            textView.moveCursorUp(document, this->shiftPresionado);
         }
         if (event.key.code == sf::Keyboard::Down) {
-            textView.moveCursorDown(document, isShiftPressed);
+            textView.moveCursorDown(document, this->shiftPresionado);
         }
         if (event.key.code == sf::Keyboard::Left) {
-            textView.moveCursorLeft(document, isShiftPressed);
+            textView.moveCursorLeft(document, this->shiftPresionado);
         }
         if (event.key.code == sf::Keyboard::Right) {
-            textView.moveCursorRight(document, isShiftPressed);
+            textView.moveCursorRight(document, this->shiftPresionado);
         }
 
         if (event.key.control) {
