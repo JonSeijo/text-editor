@@ -117,17 +117,22 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
                 textView.duplicateCursorLine(document);
             }
         }
+        // TODO: Swapping selections is buggy
         if (event.key.code == sf::Keyboard::Up) {
             if (ctrlAndShift) {
                 textView.swapSelectedLines(document, true);
+                textView.moveCursorUp(document, true);
+            } else {
+                textView.moveCursorUp(document, this->shiftPresionado);
             }
-            textView.moveCursorUp(document, this->shiftPresionado && !isCtrlPressed);
         }
         if (event.key.code == sf::Keyboard::Down) {
             if (ctrlAndShift) {
                 textView.swapSelectedLines(document, false);
+                textView.moveCursorDown(document, true);
+            } else {
+                textView.moveCursorDown(document, this->shiftPresionado);
             }
-            textView.moveCursorDown(document, this->shiftPresionado && !isCtrlPressed);
         }
         if (event.key.code == sf::Keyboard::Left) {
             textView.moveCursorLeft(document, this->shiftPresionado && !isCtrlPressed);

@@ -100,7 +100,6 @@ void TextView::duplicateCursorLine(TextDocument &document) {
     this->moveCursorDown(document);
 }
 
-// TODO: Que swappear mantenga la seleccion
 void TextView::swapSelectedLines(TextDocument &document, bool swapWithUp) {
     auto lastSelection = this->content.getLastSelection();
     // If there is no selection, consider the cursor a selection. Design choice.
@@ -112,15 +111,30 @@ void TextView::swapSelectedLines(TextDocument &document, bool swapWithUp) {
     int rangeStart = SelectionData::getStartLineN(lastSelection);
     int rangeEnd = SelectionData::getEndLineN(lastSelection);
 
+    int startLineN = SelectionData::getStartLineN(lastSelection);
+    int startCharN = SelectionData::getStartCharN(lastSelection);
+    int endLineN = SelectionData::getEndLineN(lastSelection);
+    int endCharN = SelectionData::getEndCharN(lastSelection);
+
     if (swapWithUp && rangeStart > 0) {
         for (int i = rangeStart; i <= rangeEnd; i++) {
             document.swapLines(i, i - 1);
         }
+        // this->moveCursorUp(document);
+        this->content.removeSelections();
+        this->content.createNewSelection(startLineN - 1, startCharN);
+        this->content.updateLastSelection(endLineN - 1, endCharN);
+
     }
-    if (!swapWithUp && rangeEnd < document.getLineCount() - 1) {
+    else if (!swapWithUp && rangeEnd < document.getLineCount() - 1) {
         for (int i = rangeEnd; i >= rangeStart; i--) {
             document.swapLines(i, i + 1);
         }
+        // this->moveCursorDown(document);
+        this->content.removeSelections();
+        this->content.createNewSelection(startLineN + 1, startCharN);
+        this->content.updateLastSelection(endLineN + 1, endCharN);
+
     }
 }
 
