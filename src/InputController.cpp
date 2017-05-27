@@ -119,13 +119,13 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
         }
         if (event.key.code == sf::Keyboard::Up) {
             if (ctrlAndShift) {
-                textView.swapCursorLine(true);
+                textView.swapCursorLine(document, true);
             }
             textView.moveCursorUp(document, this->shiftPresionado);
         }
         if (event.key.code == sf::Keyboard::Down) {
             if (ctrlAndShift) {
-                textView.swapCursorLine(false);
+                textView.swapCursorLine(document, false);
             }
             textView.moveCursorDown(document, this->shiftPresionado);
         }

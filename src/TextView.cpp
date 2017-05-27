@@ -100,11 +100,12 @@ void TextView::duplicateCursorLine(TextDocument &document) {
     this->moveCursorDown(document);
 }
 
-void TextView::swapCursorLine(bool swapWithUp) {
+void TextView::swapCursorLine(TextDocument &document, bool swapWithUp) {
+    int currentLine = this->cursor.getLineN();
     if (swapWithUp) {
-        std::cout << "swapping with up\n";
+        document.swapLines(currentLine, std::max(currentLine - 1, 0));
     } else {
-        std::cout << "swapping with down\n";
+        document.swapLines(currentLine, std::min(currentLine + 1, document.getLineCount() - 1));
     }
 }
 

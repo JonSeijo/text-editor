@@ -32,7 +32,7 @@ class TextView {
         void moveCursorDown(const TextDocument &document, bool updateActiveSelections=false);
 
         void duplicateCursorLine(TextDocument &document);
-        void swapCursorLine(bool swapWithUp);
+        void swapCursorLine(TextDocument &document, bool swapWithUp);
 
         void scrollUp(sf::RenderWindow &window);
         void scrollDown(sf::RenderWindow &window);
