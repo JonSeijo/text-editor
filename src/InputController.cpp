@@ -121,19 +121,19 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
             if (ctrlAndShift) {
                 textView.swapCursorLine(document, true);
             }
-            textView.moveCursorUp(document, this->shiftPresionado);
+            textView.moveCursorUp(document, this->shiftPresionado && !isCtrlPressed);
         }
         if (event.key.code == sf::Keyboard::Down) {
             if (ctrlAndShift) {
                 textView.swapCursorLine(document, false);
             }
-            textView.moveCursorDown(document, this->shiftPresionado);
+            textView.moveCursorDown(document, this->shiftPresionado && !isCtrlPressed);
         }
         if (event.key.code == sf::Keyboard::Left) {
-            textView.moveCursorLeft(document, this->shiftPresionado);
+            textView.moveCursorLeft(document, this->shiftPresionado && !isCtrlPressed);
         }
         if (event.key.code == sf::Keyboard::Right) {
-            textView.moveCursorRight(document, this->shiftPresionado);
+            textView.moveCursorRight(document, this->shiftPresionado && !isCtrlPressed);
         }
 
         if (event.key.control) {
