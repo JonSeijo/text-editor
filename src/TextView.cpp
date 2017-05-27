@@ -100,6 +100,14 @@ void TextView::duplicateCursorLine(TextDocument &document) {
     this->moveCursorDown(document);
 }
 
+void TextView::swapCursorLine(bool swapWithUp) {
+    if (swapWithUp) {
+        std::cout << "swapping with up\n";
+    } else {
+        std::cout << "swapping with down\n";
+    }
+}
+
 // Una seleccion inicial selecciona el propio caracter en el que estoy
 void TextView::startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document) {
     TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);

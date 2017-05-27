@@ -99,6 +99,9 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
         bool isCtrlPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)
             || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl);
 
+        bool isShiftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+
         if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift) {
             if (!this->shiftPresionado && !isCtrlPressed) {
                 this->shiftPresionado = true;
@@ -107,15 +110,23 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
             }
         }
 
+        bool ctrlAndShift = isCtrlPressed && isShiftPressed;
+
         if (event.key.code == sf::Keyboard::D) {
             if (isCtrlPressed) {
                 textView.duplicateCursorLine(document);
             }
         }
         if (event.key.code == sf::Keyboard::Up) {
+            if (ctrlAndShift) {
+                textView.swapCursorLine(true);
+            }
             textView.moveCursorUp(document, this->shiftPresionado);
         }
         if (event.key.code == sf::Keyboard::Down) {
+            if (ctrlAndShift) {
+                textView.swapCursorLine(false);
+            }
             textView.moveCursorDown(document, this->shiftPresionado);
         }
         if (event.key.code == sf::Keyboard::Left) {
