@@ -150,6 +150,53 @@ int TextDocument::charAmountContained(int startLineN, int startCharN, int endLin
     return this->getBufferPos(endLineN, endCharN) - this->getBufferPos(startLineN, startCharN) + 1;
 }
 
+void TextDocument::swapLines(int lineA, int lineB) {
+    if (lineA == lineB) {
+        return;
+    }
+
+    int minLine = std::min(lineA, lineB);
+    int maxLine = std::max(lineA, lineB);
+    int lastLine = this->getLineCount() - 1;
+
+    if (minLine < 0) {
+        std::cerr << "SwapLines: Line " << minLine << " does not exist"<< "\n";
+    }
+    if (maxLine > lastLine) {
+        std::cerr << "SwapLines: Line " << lastLine << " does not exist" << "\n";
+    }
+    if (minLine == maxLine - 1) {
+        this->swapWithNextLine(minLine);
+    } else {
+        std::cerr << "Cant swap non-contiguous lines\n";
+    }
+}
+
+void TextDocument::swapWithNextLine(int line) {
+    if (line < 0 || line + 1 == this->getLineCount()) {
+        std::cerr << "Cant swap with nonexisting line: " << line << "\n";
+    }
+    auto A = this->getLine(line);
+    auto B = this->getLine(line + 1);
+    int lenA = A.getSize();
+    int lenB = B.getSize();
+
+    sf::String Z = "";
+    Z += B;
+    Z += '\n';
+    Z += A;
+
+    int lineAStart = this->lineBuffer[line];
+
+    // Counting the \n at the end of A
+    int totalLen = lenA + 1 + lenB;
+
+    for (int i = 0; i < totalLen; i++) {
+        this->buffer[i + lineAStart] = Z[i];
+    }
+    this->lineBuffer[line + 1] = this->lineBuffer[line] + lenB + 1;
+}
+
 int TextDocument::getBufferPos(int line, int charN) {
     if (line >= (int)this->lineBuffer.size()) {
         std::cerr << "\nCan't get buffer pos of: " << line << "\n";

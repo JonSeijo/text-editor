@@ -26,6 +26,8 @@ class TextDocument {
         void addTextToPos(sf::String text, int line, int charN);
         void removeTextFromPos(int amount, int line, int charN);
 
+        void swapLines(int lineA, int lineB);
+
         std::string convertSpecialChar(sf::Uint32 c, std::ofstream &outputFile);
 
         int charAmountContained(int startLineN, int startCharN, int endLineN, int endCharN);
@@ -37,6 +39,8 @@ class TextDocument {
         vector<int> lineBuffer;
 
         int getBufferPos(int line, int charN);
+
+        void swapWithNextLine(int line);
 
         sf::String toUtf32(const std::string& inString);
 };
