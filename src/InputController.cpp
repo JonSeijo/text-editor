@@ -112,11 +112,16 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
 
         bool ctrlAndShift = isCtrlPressed && isShiftPressed;
 
-        if (event.key.code == sf::Keyboard::D) {
-            if (isCtrlPressed) {
+        if (isCtrlPressed) {
+            if (event.key.code == sf::Keyboard::D) {
                 textView.duplicateCursorLine(document);
+            } else if (event.key.code == sf::Keyboard::U) {
+                textView.deleteSelections(document);
+                sf::String emoji = "\\_('-')_/";
+                textView.addTextInCursorPos(emoji, document);
             }
         }
+
         // TODO: Swapping selections is buggy
         if (event.key.code == sf::Keyboard::Up) {
             if (ctrlAndShift) {
