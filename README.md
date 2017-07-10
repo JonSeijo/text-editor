@@ -23,6 +23,11 @@ A working Makefile is included, works great assuming you have sfml installed cor
 make && ./editor
 ```
 
+## Warnings!
+
+Currently the editor does not support correctly viewing tabs characters ( \t ). Expect glitches when \t appears. Be careful with the data you save! This won't happen if you use the correct indentation methods: spaces. Pressing the tab key will insert four spaces. \t problem will be fixed in future versions.
+
+
 ## Notes
 
 DejaVuSansMono.ttf
