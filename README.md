@@ -1,25 +1,29 @@
 # text-editor
-Text editor made in c++ using SFML
+Text editor made in C++ using SFML
 
-## Instrucciones de uso
+This is a simple text editor made from scratch in C++. (Using SFML for window drawing)
+Yes, thats it. Nothing fancy, nothing weird. Just a great learning experience.
 
-El editor utiliza la libreria SFML como controlador de gráficos, por lo que es necesaria para compilar.
+![Simple example](https://raw.githubusercontent.com/JonSeijo/jonnotext-editor/master/img/super_example.gif)
 
-IMPORTANTE: SFML Version 2.4 !! (La última hasta el momento)
+The editor is functional, you can write text, delete it, select it (keyboard AND mouse support). It has some nice features like swapping text lines.
 
-https://www.sfml-dev.org/tutorials/2.4/start-linux.php
+![Swapping lines](https://raw.githubusercontent.com/JonSeijo/jonnotext-editor/master/img/moving_lines.gif)
 
------
+----
 
-Incluyo un makefile al editor, por lo que basta con hacer "make" para compilar.
+## Compiling instructions
 
-El resultado es un ejecutable listo para su uso.
+The editor uses SFML library as graphics controller, so it is needed por compiling. IMPORTANT: Needs version +2.4 !!
+See https://www.sfml-dev.org
+
+A working Makefile is included, works great assuming you have sfml installed correctly.
 
 ```
 make && ./editor
 ```
 
-## Notas
+## Notes
 
 DejaVuSansMono.ttf
 https://dejavu-fonts.github.io/
