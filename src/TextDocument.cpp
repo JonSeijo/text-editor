@@ -11,9 +11,7 @@ bool TextDocument::init(string &filename) {
     std::stringstream inputStringStream;
     inputStringStream << inputFile.rdbuf();
 
-    // TODO: Ver si con esto no arruino encoding
     this->buffer = this->toUtf32(inputStringStream.str());
-    // this->buffer = inputStringStream.str();
     this->length = buffer.getSize();  // Posiblemente no sea necesario
 
     inputFile.close();
