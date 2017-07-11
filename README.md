@@ -4,11 +4,11 @@ Text editor made in C++ using SFML
 This is a simple text editor made from scratch in C++. (Using SFML for window drawing)
 Yes, thats it. Nothing fancy, nothing weird. Just a great learning experience.
 
-![Simple example](https://raw.githubusercontent.com/JonSeijo/jonnotext-editor/master/img/super_example.gif)
+![Simple example](https://raw.githubusercontent.com/JonSeijo/text-editor/master/img/super_example.gif)
 
 The editor is functional, you can write text, delete it, select it (keyboard AND mouse support). It has some nice features like swapping text lines.
 
-![Swapping lines](https://raw.githubusercontent.com/JonSeijo/jonnotext-editor/master/img/moving_lines.gif)
+![Swapping lines](https://raw.githubusercontent.com/JonSeijo/text-editor/master/img/moving_lines.gif)
 
 ----
 
@@ -30,7 +30,7 @@ Currently the editor does not support correctly viewing tabs characters ( \t ). 
 
 ## F.A.Q.
 
-![Swapping lines](https://raw.githubusercontent.com/JonSeijo/jonnotext-editor/master/img/but_why.gif)
+![Swapping lines](https://raw.githubusercontent.com/JonSeijo/text-editor/master/img/but_why.gif)
 
 
 ## Notes
