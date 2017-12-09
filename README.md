@@ -14,7 +14,7 @@ The editor is functional, you can write text, delete it, select it (keyboard AND
 
 ## Compiling instructions
 
-The editor uses SFML library as graphics controller, so it is needed por compiling. IMPORTANT: Needs version +2.4 !!
+The editor uses SFML library as graphics controller, so it is needed for compiling. IMPORTANT: Needs version +2.4 !!
 See https://www.sfml-dev.org
 
 A working Makefile is included, works great assuming you have sfml installed correctly.
@@ -25,7 +25,7 @@ make && ./editor
 
 ## Warnings!
 
-Currently the editor does not support correctly viewing tabs characters ( \t ). Expect glitches when \t appears. Be careful with the data you save! This won't happen if you use the correct indentation methods: spaces. Pressing the tab key will insert four spaces. \t problem will be fixed in future versions.
+Currently the editor does not support correctly viewing tabs characters ( \t ). Expect glitches when \t appears. Be careful with the data you save! This won't happen if you use the correct indentation method: spaces. Pressing the tab key will insert four spaces. The bug with \t will be fixed in future versions.
 
 
 ## F.A.Q.
