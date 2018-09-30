@@ -28,6 +28,7 @@ class TextDocument {
 
     void addTextToPos(sf::String text, int line, int charN);
     void removeTextFromPos(int amount, int line, int charN);
+    sf::String getTextFromPos(int amount, int line, int charN);
 
     void swapLines(int lineA, int lineB);
 

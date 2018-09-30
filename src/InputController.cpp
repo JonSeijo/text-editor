@@ -108,10 +108,11 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
             }
         }
 
+        //Move to END
         if (isEndPressed) {
             textView.moveCursorToEnd(document, isShiftPressed);
             return;
-        } else if (isHomePressed) {
+        } else if (isHomePressed) {  //Move to LINE_START
             textView.moveCursorToStart(document, isShiftPressed);
             return;
         }
@@ -121,12 +122,17 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
         if (isCtrlPressed) {
             if (event.key.code == sf::Keyboard::D) {
                 textView.duplicateCursorLine(document);
-                return;
             } else if (event.key.code == sf::Keyboard::U) {
                 textView.deleteSelections(document);
                 sf::String emoji = "\\_('-')_/";
                 textView.addTextInCursorPos(emoji, document);
-                return;
+            } else if (event.key.code == sf::Keyboard::C) {  //Copy command, Ctrl + C
+                this->stringCopied = textView.copySelections(document);
+            } else if (event.key.code == sf::Keyboard::V) {  //Paste command, Ctrl + V
+                textView.addTextInCursorPos(stringCopied, document);
+            } else if (event.key.code == sf::Keyboard::X) {  //Cut command, Ctrl + X
+                this->stringCopied = textView.copySelections(document);
+                textView.deleteSelections(document);
             }
         }
 

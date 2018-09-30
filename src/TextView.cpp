@@ -188,6 +188,28 @@ bool TextView::deleteSelections(TextDocument &document) {
     return lastSelection.activa;
 }
 
+sf::String TextView::copySelections(TextDocument &document) {
+    SelectionData::Selection lastSelection = this->content.getLastSelection();
+    //this->removeSelections();
+
+    sf::String copied = "";
+    // Tomar el inicio de lastSelection, calcular el largo y borrar desde el inicio,
+    if (lastSelection.activa) {
+        int startLineN = SelectionData::getStartLineN(lastSelection);
+        int startCharN = SelectionData::getStartCharN(lastSelection);
+        int endLineN = SelectionData::getEndLineN(lastSelection);
+        int endCharN = SelectionData::getEndCharN(lastSelection);
+
+        // Muevo el cursor al inicio de la seleccion
+        this->cursor.setPosition(startLineN, startCharN, true);
+
+        // -1 por como funcionan los extremos de la seleccion
+        int amount = document.charAmountContained(startLineN, startCharN, endLineN, endCharN) - 1;
+        copied = document.getTextFromPos(amount, startLineN, startCharN);
+    }
+    return copied;
+}
+
 void TextView::deleteTextBeforeCursorPos(int amount, TextDocument &document) {
     int actuallyMoved = 0;
     for (int i = 0; i < amount; i++) {

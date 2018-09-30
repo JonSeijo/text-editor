@@ -16,6 +16,7 @@ class TextView {
     void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
     void removeSelections();
     bool deleteSelections(TextDocument &document);
+    sf::String copySelections(TextDocument &document);
 
     void startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document);
     void startSelectionFromCursor();

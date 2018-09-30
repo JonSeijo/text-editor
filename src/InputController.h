@@ -21,6 +21,7 @@ class InputController {
     void handleTextEnteredEvent(TextDocument &document, TextView &view, sf::Event &event);
     bool mouseDown;
     bool shiftPresionado;
+    sf::String stringCopied;
 };
 
 #endif

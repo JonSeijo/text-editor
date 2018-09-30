@@ -51,7 +51,7 @@ bool TextDocument::initLinebuffer() {
     this->lineBuffer.push_back(lineStart);
 
     int bufferSize = this->buffer.getSize();
-    
+
     for (int i = 0; i < bufferSize; i++) {
         if (this->buffer[i] == '\n' || this->buffer[i] == 13) {
             lineStart = i + 1;
@@ -133,6 +133,11 @@ void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
     this->initLinebuffer();
 }
 
+sf::String TextDocument::getTextFromPos(int amount, int line, int charN) {
+    int bufferPos = this->getBufferPos(line, charN);
+    return this->buffer.substring(bufferPos, amount);
+}
+
 int TextDocument::charAmountContained(int startLineN, int startCharN, int endLineN, int endCharN) {
     return this->getBufferPos(endLineN, endCharN) - this->getBufferPos(startLineN, startCharN) + 1;
 }
@@ -142,7 +147,7 @@ void TextDocument::swapLines(int lineA, int lineB) {
         return;
     }
     this->documentHasChanged = true;
-    
+
     int minLine = std::min(lineA, lineB);
     int maxLine = std::max(lineA, lineB);
     int lastLine = this->getLineCount() - 1;
