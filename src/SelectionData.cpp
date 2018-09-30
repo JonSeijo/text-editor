@@ -24,7 +24,7 @@ void SelectionData::updateLastSelection(int extremoLine, int extremoChar) {
 }
 
 // Extremos de una seleccion son inclusives a ambos lados
-bool SelectionData::isSelected(int lineN, int charN) const{
+bool SelectionData::isSelected(int lineN, int charN) const {
     for (const Selection sel : this->selections) {
         if (!sel.activa) {
             continue;
@@ -43,7 +43,6 @@ bool SelectionData::isSelected(int lineN, int charN) const{
 
         // Si esta estrictamente entre las lineas puede estar seleccionado.
         if (start.lineN <= lineN && lineN <= end.lineN) {
-
             // Si la linea esta estrictamente contenida es porque esta seleccionada
             if (start.lineN < lineN && lineN < end.lineN) {
                 return true;
@@ -69,14 +68,13 @@ bool SelectionData::isSelected(int lineN, int charN) const{
                     return true;
                 }
             }
-
         }
     }
     return false;
 }
 
 void SelectionData::removeSelections() {
-    int lastIndex = this->selections.size()-1;
+    int lastIndex = this->selections.size() - 1;
     for (int i = lastIndex; i >= 0; i--) {
         this->removeSelection(i);
     }

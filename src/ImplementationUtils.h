@@ -4,10 +4,8 @@
 #include <string>
 
 class ImplementationUtils {
-
-    public:
-        static std::string getWorkingDirectory(const std::string &argvZero);
+   public:
+    static std::string getWorkingDirectory(const std::string &argvZero);
 };
-
 
 #endif

@@ -1,6 +1,6 @@
 #include "Cursor.h"
 
-Cursor::Cursor() : Cursor(0, 0) {};
+Cursor::Cursor() : Cursor(0, 0){};
 
 Cursor::Cursor(int height, int charWidth) : Cursor(height, charWidth, 0, 0) {}
 
@@ -106,6 +106,5 @@ void Cursor::updatePos(int l, int c) {
     this->charN = c;
     this->rect.setPosition(
         this->charN * this->charWidth,
-        (this->lineN * this->height) + this->offsetY
-    );
+        (this->lineN * this->height) + this->offsetY);
 }

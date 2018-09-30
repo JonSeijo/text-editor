@@ -14,11 +14,9 @@ TextViewContent::TextViewContent(const sf::String &workingDirectory) {
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 // TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
 void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
-
     this->bottomLimitPx = document.getLineCount() * this->fontSize;
 
     for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
-
         sf::String line = document.getLine(lineNumber);
         sf::String currentLineText = "";
 
@@ -34,19 +32,18 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
             // Cuando hay un cambio, dibujo el tipo de seleccion anterior
             // Tambien dibujo cuando es el fin de la linea actual
             if (currentSelected != previousSelected || charIndexInLine == (int)line.getSize()) {
-
                 sf::Text texto;
                 texto.setFillColor(this->colorChar);
                 texto.setFont(font);
                 texto.setString(currentLineText);
                 texto.setCharacterSize(this->fontSize);
-                texto.setPosition(offsetx, lineNumber*this->fontSize);
+                texto.setPosition(offsetx, lineNumber * this->fontSize);
 
                 if (previousSelected) {
-                    sf::RectangleShape selectionRect(sf::Vector2f(this->charWidth * currentLineText.getSize() , this->fontSize));
+                    sf::RectangleShape selectionRect(sf::Vector2f(this->charWidth * currentLineText.getSize(), this->fontSize));
                     selectionRect.setFillColor(this->colorSelection);
                     // TODO: Que el +2 no sea un numero magico
-                    selectionRect.setPosition(offsetx, 2+lineNumber*this->fontSize);
+                    selectionRect.setPosition(offsetx, 2 + lineNumber * this->fontSize);
                     window.draw(selectionRect);
                 }
 

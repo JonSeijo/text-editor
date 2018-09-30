@@ -26,38 +26,21 @@ bool TextDocument::saveFile(string &filename) {
         return false;
     }
 
-    for (int i = 0; i < (int)this->buffer.getSize(); i++) {
-        std::string s = this->convertSpecialChar(this->buffer[i], outputFile);
-        outputFile << s;
+    //It looks more straight-forward to me (Luca Errani)
+    std::stringstream toBeSaved;
+    for (sf::Uint32 ch : this->buffer) {
+        toBeSaved << SpecialChars::convertSpecialChar(ch, outputFile);
     }
+    outputFile << toBeSaved.str();
 
     outputFile.close();
+
     this->documentHasChanged = false;
     return true;
 }
 
-bool TextDocument::hasChanged(){
+bool TextDocument::hasChanged() {
     return this->documentHasChanged;
-}
-
-// TODO: Extraer a una clase externa
-// TODO: Manejar otros caracteres
-std::string TextDocument::convertSpecialChar(sf::Uint32 c, std::ofstream &outputFile) {
-    switch(c) {
-        case 225: return "á";
-        case 233: return "é";
-        case 237: return "í";
-        case 243: return "ó";
-        case 250: return "ú";
-        case 241: return "ñ";
-    }
-    if (c < 128){
-        return sf::String(c);
-    } else {
-        outputFile.close();
-        std::cerr << "\nERROR: Can't save character: " << c << std::endl;
-    }
-    return "";
 }
 
 // TODO: Contar newlines mientras leo el archivo en el init
@@ -68,10 +51,10 @@ bool TextDocument::initLinebuffer() {
     this->lineBuffer.push_back(lineStart);
 
     int bufferSize = this->buffer.getSize();
-
+    
     for (int i = 0; i < bufferSize; i++) {
         if (this->buffer[i] == '\n' || this->buffer[i] == 13) {
-            lineStart = i+1;
+            lineStart = i + 1;
             this->lineBuffer.push_back(lineStart);
         }
     }
@@ -80,12 +63,11 @@ bool TextDocument::initLinebuffer() {
 
 // Devuelve una copia de la linea que esta en mi buffer
 sf::String TextDocument::getLine(int lineNumber) {
-
     int lastLine = this->lineBuffer.size() - 1;
 
     if (lineNumber < 0 || lineNumber > lastLine) {
         std::cerr << "lineNumber " << lineNumber << " is not a valid number line. "
-            << "Max is: " << this->lineBuffer.size()-1 << std::endl;
+                  << "Max is: " << this->lineBuffer.size() - 1 << std::endl;
         return "";
     }
 
@@ -101,12 +83,12 @@ sf::String TextDocument::getLine(int lineNumber) {
     }
 }
 
-sf::String TextDocument::toUtf32(const std::string& inString) {
+sf::String TextDocument::toUtf32(const std::string &inString) {
     sf::String outString = "";
     auto iterEnd = inString.cend();
 
     // Decode avanza el iterador
-    for (auto iter = inString.cbegin(); iter != iterEnd; ) {
+    for (auto iter = inString.cbegin(); iter != iterEnd;) {
         sf::Uint32 out;
         iter = sf::Utf8::decode(iter, iterEnd, out);
         outString += out;
@@ -116,7 +98,6 @@ sf::String TextDocument::toUtf32(const std::string& inString) {
 }
 
 void TextDocument::addTextToPos(sf::String text, int line, int charN) {
-    
     this->documentHasChanged = true;
 
     int textSize = text.getSize();
@@ -129,22 +110,19 @@ void TextDocument::addTextToPos(sf::String text, int line, int charN) {
     }
 
     for (int i = 0; i < (int)text.getSize(); i++) {
-        if (text[i] == '\n' || text[i] == 13) {  // text[i] == \n
-            int newLineStart = bufferInsertPos + i + 1; // Nueva linea comienza despues del nuevo \n
+        if (text[i] == '\n' || text[i] == 13) {          // text[i] == \n
+            int newLineStart = bufferInsertPos + i + 1;  // Nueva linea comienza despues del nuevo \n
 
             // Inserto O(#lineas) y uso busqueda binaria pues los inicios de lineas son crecientes
             this->lineBuffer.insert(
-               std::lower_bound(this->lineBuffer.begin(), this->lineBuffer.end(), newLineStart),
-               newLineStart
-            );
-
+                std::lower_bound(this->lineBuffer.begin(), this->lineBuffer.end(), newLineStart),
+                newLineStart);
         }
     }
 }
 
 // TODO: Optimizar
 void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
-
     this->documentHasChanged = true;
 
     int bufferStartPos = this->getBufferPos(lineN, charN);
@@ -163,16 +141,19 @@ void TextDocument::swapLines(int lineA, int lineB) {
     if (lineA == lineB) {
         return;
     }
-
+    this->documentHasChanged = true;
+    
     int minLine = std::min(lineA, lineB);
     int maxLine = std::max(lineA, lineB);
     int lastLine = this->getLineCount() - 1;
 
     if (minLine < 0) {
-        std::cerr << "SwapLines: Line " << minLine << " does not exist"<< "\n";
+        std::cerr << "SwapLines: Line " << minLine << " does not exist"
+                  << "\n";
     }
     if (maxLine > lastLine) {
-        std::cerr << "SwapLines: Line " << lastLine << " does not exist" << "\n";
+        std::cerr << "SwapLines: Line " << lastLine << " does not exist"
+                  << "\n";
     }
     if (minLine == maxLine - 1) {
         this->swapWithNextLine(minLine);
@@ -209,7 +190,7 @@ void TextDocument::swapWithNextLine(int line) {
 int TextDocument::getBufferPos(int line, int charN) {
     if (line >= (int)this->lineBuffer.size()) {
         std::cerr << "\nCan't get buffer pos of: " << line << "\n";
-        std::cerr << "Buffer last line is: " << this->lineBuffer.size()-1 << "\n\n";
+        std::cerr << "Buffer last line is: " << this->lineBuffer.size() - 1 << "\n\n";
     }
     return this->lineBuffer[line] + charN;
 }
@@ -221,7 +202,7 @@ int TextDocument::charsInLine(int line) const {
     if (line == bufferSize - 1) {
         return this->buffer.getSize() - this->lineBuffer[this->lineBuffer.size() - 1];
     } else {
-        return this->lineBuffer[line+1] - this->lineBuffer[line] - 1;
+        return this->lineBuffer[line + 1] - this->lineBuffer[line] - 1;
     }
 }
 

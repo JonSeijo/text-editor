@@ -49,5 +49,5 @@ $(BUILD_DIR)/%.o : %.cpp
 clean :
 # This should remove all generated files.
 	-rm -f $(BUILD_DIR)/$(BIN) $(OBJ) $(DEP)
-	rm -f editor
+	rm -f editor #Why remove the executable too?
 	rmdir build/src build
