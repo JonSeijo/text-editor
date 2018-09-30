@@ -31,6 +31,9 @@ class TextView {
         void moveCursorUp(const TextDocument &document, bool updateActiveSelections=false);
         void moveCursorDown(const TextDocument &document, bool updateActiveSelections=false);
 
+        void moveCursorToEnd(const TextDocument &document, bool updateActiveSelections = false);
+        void moveCursorToStart(const TextDocument &document, bool updateActiveSelections = false);
+
         void duplicateCursorLine(TextDocument &document);
         void swapCursorLine(TextDocument &document, bool swapWithUp);
         void swapSelectedLines(TextDocument &document, bool swapWithUp);

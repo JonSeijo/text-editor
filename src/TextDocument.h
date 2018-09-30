@@ -18,6 +18,7 @@ class TextDocument {
     public:
         bool init(string &filename);
         bool saveFile(string &filename);
+        bool hasChanged();
 
         sf::String getLine(int lineNumber);
         int charsInLine(int line) const;
@@ -37,6 +38,7 @@ class TextDocument {
         sf::String buffer;
         int length;
         vector<int> lineBuffer;
+        bool documentHasChanged;
 
         int getBufferPos(int line, int charN);
 

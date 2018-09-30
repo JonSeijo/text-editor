@@ -19,6 +19,9 @@ class Cursor {
         void moveLeft(bool updateMaxChar=false);
         void moveRight(bool updateMaxChar=false);
 
+        void moveToEnd(int charsInLine, bool updateMaxChar = false);
+        void moveToStart(bool updateMaxChar = false);
+
         void nextLine();
 
         int getLineN();

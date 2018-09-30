@@ -32,7 +32,12 @@ bool TextDocument::saveFile(string &filename) {
     }
 
     outputFile.close();
+    this->documentHasChanged = false;
     return true;
+}
+
+bool TextDocument::hasChanged(){
+    return this->documentHasChanged;
 }
 
 // TODO: Extraer a una clase externa
@@ -111,6 +116,9 @@ sf::String TextDocument::toUtf32(const std::string& inString) {
 }
 
 void TextDocument::addTextToPos(sf::String text, int line, int charN) {
+    
+    this->documentHasChanged = true;
+
     int textSize = text.getSize();
     int bufferInsertPos = this->getBufferPos(line, charN);
     this->buffer.insert(bufferInsertPos, text);
@@ -136,6 +144,9 @@ void TextDocument::addTextToPos(sf::String text, int line, int charN) {
 
 // TODO: Optimizar
 void TextDocument::removeTextFromPos(int amount, int lineN, int charN) {
+
+    this->documentHasChanged = true;
+
     int bufferStartPos = this->getBufferPos(lineN, charN);
     this->buffer.erase(bufferStartPos, amount);
 

@@ -272,6 +272,20 @@ void TextView::moveCursorDown(const TextDocument &document, bool updateActiveSel
     this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
+void TextView::moveCursorToEnd(const TextDocument &document, bool updateActiveSelections) {
+    
+    int charsInLine = document.charsInLine(this->cursor.getLineN());
+    this->cursor.moveToEnd(charsInLine, true);
+    this->handleSelectionOnCursorMovement(updateActiveSelections);
+}
+
+void TextView::moveCursorToStart(const TextDocument &document, bool updateActiveSelections) {
+    
+    this->cursor.moveToStart(true);
+    this->handleSelectionOnCursorMovement(updateActiveSelections);
+}
+
+
 void TextView::handleSelectionOnCursorMovement(bool updateActiveSelections) {
     if (updateActiveSelections) {
         this->content.updateLastSelection(this->cursor.getLineN(), this->cursor.getCharN());

@@ -39,8 +39,11 @@ int main(int argc, char* argv[]) {
                 textView.setCameraBounds(event.size.width, event.size.height);
             }
             if (event.key.code == sf::Keyboard::S && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-                document.saveFile(saveFileName);
-                std::cout << "GUARDADO A: " << saveFileName << "\n";
+                if (document.hasChanged()){
+                    
+                    document.saveFile(saveFileName);
+                    std::cout << "GUARDADO A: " << saveFileName << "\n";
+                }
             }
 
             inputController.handleEvents(document, textView, window, event);
