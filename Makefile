@@ -50,3 +50,4 @@ clean :
 # This should remove all generated files.
 	-rm -f $(BUILD_DIR)/$(BIN) $(OBJ) $(DEP)
 	rm -f editor
+	rmdir build/src build

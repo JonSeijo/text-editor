@@ -102,12 +102,23 @@ void InputController::handleKeyPressedEvents(TextDocument &document, TextView &t
         bool isShiftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
             || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
 
+        bool isEndPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::End);
+
+        bool isHomePressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Home);
+
         if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift) {
             if (!this->shiftPresionado && !isCtrlPressed) {
                 this->shiftPresionado = true;
                 // Si no hay una seleccion activa, empiezo una seleccion donde esten los cursores
                 textView.startSelectionFromCursor();
             }
+        }
+
+        if (isEndPressed) {
+            textView.moveCursorToEnd(document, isShiftPressed);
+        }
+        else if (isHomePressed) {
+            textView.moveCursorToStart(document, isShiftPressed);
         }
 
         bool ctrlAndShift = isCtrlPressed && isShiftPressed;

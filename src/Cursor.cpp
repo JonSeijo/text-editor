@@ -74,6 +74,20 @@ void Cursor::moveRight(bool updateMaxChar) {
     this->updatePos(this->lineN, this->charN + 1);
 }
 
+void Cursor::moveToEnd(int charsInLine, bool updateMaxChar) {
+    if (updateMaxChar) {
+        this->setMaxCharNReached(charsInLine);
+    }
+    this->updatePos(this->lineN, charsInLine);
+}
+
+void Cursor::moveToStart(bool updateMaxChar) {
+    if (updateMaxChar) {
+        this->setMaxCharNReached(0);
+    }
+    this->updatePos(this->lineN, 0);
+}
+
 void Cursor::nextLine() {
     this->charN = 0;
     this->moveDown();
