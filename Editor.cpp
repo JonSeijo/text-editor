@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
                 if (document.hasChanged()){
                     
                     document.saveFile(saveFileName);
-                    std::cout << "GUARDADO A: " << saveFileName << "\n";
+                    std::cout << "SAVED TO: " << saveFileName << "\n";
                 }
             }
 
