@@ -32,3 +32,6 @@ txt/notes.txt
 *.exe
 *.out
 *.app
+
+# Other
+.vscode
