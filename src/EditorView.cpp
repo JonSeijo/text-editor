@@ -1,6 +1,6 @@
-#include "TextView.h"
+#include "EditorView.h"
 
-TextView::TextView(const sf::RenderWindow &window, const sf::String &workingDirectory)
+EditorView::EditorView(const sf::RenderWindow &window, const sf::String &workingDirectory)
     : content(workingDirectory), camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)), deltaScroll(20), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
     this->cursor = Cursor(this->content.getLineHeight(), this->content.getCharWidth());
 
@@ -13,7 +13,7 @@ TextView::TextView(const sf::RenderWindow &window, const sf::String &workingDire
     this->colorMargin = sf::Color(32, 44, 68);
 }
 
-void TextView::draw(sf::RenderWindow &window, TextDocument &document) {
+void EditorView::draw(sf::RenderWindow &window, TextDocument &document) {
     // TODO: El content devuelve un vector diciendo que alto tiene cada linea,
     //      por ahora asumo que todas miden "1" de alto
     this->content.drawLines(window, document);
@@ -45,7 +45,7 @@ void TextView::draw(sf::RenderWindow &window, TextDocument &document) {
 }
 
 // TODO: Esto no considera que los tabs \t existen
-TextView::DocCoords TextView::getDocumentCoords(float mouseX, float mouseY, const TextDocument &document) {
+EditorView::DocCoords EditorView::getDocumentCoords(float mouseX, float mouseY, const TextDocument &document) {
     int lineN = mouseY / this->content.getLineHeight();
     int charN = std::round(mouseX / this->content.getCharWidth());
 
@@ -67,13 +67,13 @@ TextView::DocCoords TextView::getDocumentCoords(float mouseX, float mouseY, cons
         charN = std::min(charN, document.charsInLine(lineN));
     }
 
-    return TextView::DocCoords(lineN, charN);
+    return EditorView::DocCoords(lineN, charN);
 }
 
 // TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
 // TODO: Esta funcion solo sirve para la ultima seleccion, manejarlo por parametros??
-void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &document) {
-    TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
+void EditorView::cursorActive(float mouseX, float mouseY, const TextDocument &document) {
+    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
     int lineN = docCoords.lineN;
     int charN = docCoords.charN;
 
@@ -86,7 +86,7 @@ void TextView::cursorActive(float mouseX, float mouseY, const TextDocument &docu
 }
 
 // TODO: Duplicar seleccion en vez de removerla
-void TextView::duplicateCursorLine(TextDocument &document) {
+void EditorView::duplicateCursorLine(TextDocument &document) {
     this->content.removeSelections();
 
     int lineN = this->cursor.getLineN();
@@ -97,7 +97,7 @@ void TextView::duplicateCursorLine(TextDocument &document) {
     this->moveCursorDown(document);
 }
 
-void TextView::swapSelectedLines(TextDocument &document, bool swapWithUp) {
+void EditorView::swapSelectedLines(TextDocument &document, bool swapWithUp) {
     
     auto lastSelection = this->content.getLastSelection();
     // If there is no selection, consider the cursor a selection. Design choice.
@@ -134,7 +134,7 @@ void TextView::swapSelectedLines(TextDocument &document, bool swapWithUp) {
     }
 }
 
-void TextView::swapCursorLine(TextDocument &document, bool swapWithUp) {
+void EditorView::swapCursorLine(TextDocument &document, bool swapWithUp) {
     int currentLine = this->cursor.getLineN();
     if (swapWithUp) {
         document.swapLines(currentLine, std::max(currentLine - 1, 0));
@@ -144,17 +144,17 @@ void TextView::swapCursorLine(TextDocument &document, bool swapWithUp) {
 }
 
 // Una seleccion inicial selecciona el propio caracter en el que estoy
-void TextView::startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document) {
-    TextView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
+void EditorView::startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document) {
+    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
     this->content.createNewSelection(docCoords.lineN, docCoords.charN);
 }
 
-void TextView::startSelectionFromCursor() {
+void EditorView::startSelectionFromCursor() {
     this->content.removeSelections();
     this->content.createNewSelection(this->cursor.getLineN(), this->cursor.getCharN());
 }
 
-void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
+void EditorView::addTextInCursorPos(sf::String text, TextDocument &document) {
     int textSize = text.getSize();
     int lineN = this->cursor.getLineN();
     int charN = this->cursor.getCharN();
@@ -166,7 +166,7 @@ void TextView::addTextInCursorPos(sf::String text, TextDocument &document) {
 
 // Borra el texto contenido en la seleccion y tambien la seleccion en si
 // Devuelve true si se borro una seleccion
-bool TextView::deleteSelections(TextDocument &document) {
+bool EditorView::deleteSelections(TextDocument &document) {
     SelectionData::Selection lastSelection = this->content.getLastSelection();
     this->removeSelections();
 
@@ -188,7 +188,7 @@ bool TextView::deleteSelections(TextDocument &document) {
     return lastSelection.activa;
 }
 
-sf::String TextView::copySelections(TextDocument &document) {
+sf::String EditorView::copySelections(TextDocument &document) {
     SelectionData::Selection lastSelection = this->content.getLastSelection();
     //this->removeSelections();
 
@@ -210,7 +210,7 @@ sf::String TextView::copySelections(TextDocument &document) {
     return copied;
 }
 
-void TextView::deleteTextBeforeCursorPos(int amount, TextDocument &document) {
+void EditorView::deleteTextBeforeCursorPos(int amount, TextDocument &document) {
     int actuallyMoved = 0;
     for (int i = 0; i < amount; i++) {
         bool moved = this->moveCursorLeft(document);
@@ -219,14 +219,14 @@ void TextView::deleteTextBeforeCursorPos(int amount, TextDocument &document) {
     this->deleteTextAfterCursorPos(actuallyMoved, document);
 }
 
-void TextView::deleteTextAfterCursorPos(int amount, TextDocument &document) {
+void EditorView::deleteTextAfterCursorPos(int amount, TextDocument &document) {
     int newLineN = this->cursor.getLineN();
     int newCharN = this->cursor.getCharN();
     document.removeTextFromPos(amount, newLineN, newCharN);
 }
 
 // Actualiza ademas el maximo char alcanzado
-bool TextView::moveCursorLeft(const TextDocument &document, bool updateActiveSelections) {
+bool EditorView::moveCursorLeft(const TextDocument &document, bool updateActiveSelections) {
     bool moved = (this->cursor.getLineN() != 0) || ((this->cursor.getLineN() == 0) && (this->cursor.getCharN() > 0));
 
     if (this->cursor.getCharN() <= 0) {
@@ -246,7 +246,7 @@ bool TextView::moveCursorLeft(const TextDocument &document, bool updateActiveSel
 }
 
 // Actualiza ademas el maximo char alcanzado
-void TextView::moveCursorRight(const TextDocument &document, bool updateActiveSelections) {
+void EditorView::moveCursorRight(const TextDocument &document, bool updateActiveSelections) {
     int charsInLine = document.charsInLine(this->cursor.getLineN());
     if (this->cursor.getCharN() >= charsInLine) {
         int newCursorLine = std::min(this->cursor.getLineN() + 1, document.getLineCount());
@@ -258,7 +258,7 @@ void TextView::moveCursorRight(const TextDocument &document, bool updateActiveSe
     this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
-void TextView::moveCursorUp(const TextDocument &document, bool updateActiveSelections) {
+void EditorView::moveCursorUp(const TextDocument &document, bool updateActiveSelections) {
     if (this->cursor.getLineN() > 0) {
         int charsInPreviousLine = document.charsInLine(this->cursor.getLineN() - 1);
         int currentCharPos = this->cursor.getCharN();
@@ -274,7 +274,7 @@ void TextView::moveCursorUp(const TextDocument &document, bool updateActiveSelec
     this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
-void TextView::moveCursorDown(const TextDocument &document, bool updateActiveSelections) {
+void EditorView::moveCursorDown(const TextDocument &document, bool updateActiveSelections) {
     if (this->cursor.getLineN() < document.getLineCount() - 1) {
         int charsInNextLine = document.charsInLine(this->cursor.getLineN() + 1);
         int currentCharPos = this->cursor.getCharN();
@@ -289,18 +289,18 @@ void TextView::moveCursorDown(const TextDocument &document, bool updateActiveSel
     this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
-void TextView::moveCursorToEnd(const TextDocument &document, bool updateActiveSelections) {
+void EditorView::moveCursorToEnd(const TextDocument &document, bool updateActiveSelections) {
     int charsInLine = document.charsInLine(this->cursor.getLineN());
     this->cursor.moveToEnd(charsInLine, true);
     this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
-void TextView::moveCursorToStart(const TextDocument &document, bool updateActiveSelections) {
+void EditorView::moveCursorToStart(const TextDocument &document, bool updateActiveSelections) {
     this->cursor.moveToStart(true);
     this->handleSelectionOnCursorMovement(updateActiveSelections);
 }
 
-void TextView::handleSelectionOnCursorMovement(bool updateActiveSelections) {
+void EditorView::handleSelectionOnCursorMovement(bool updateActiveSelections) {
     if (updateActiveSelections) {
         this->content.updateLastSelection(this->cursor.getLineN(), this->cursor.getCharN());
     } else {
@@ -308,15 +308,15 @@ void TextView::handleSelectionOnCursorMovement(bool updateActiveSelections) {
     }
 }
 
-void TextView::setFontSize(int fontSize) {
+void EditorView::setFontSize(int fontSize) {
     this->content.setFontSize(fontSize);
 }
 
-void TextView::removeSelections() {
+void EditorView::removeSelections() {
     this->content.removeSelections();
 }
 
-void TextView::scrollUp(sf::RenderWindow &window) {
+void EditorView::scrollUp(sf::RenderWindow &window) {
     float height = window.getView().getSize().y;
     auto camPos = this->camera.getCenter();
     // Scrolleo arriba solo si no me paso del limite superior
@@ -325,7 +325,7 @@ void TextView::scrollUp(sf::RenderWindow &window) {
     }
 }
 
-void TextView::scrollDown(sf::RenderWindow &window) {
+void EditorView::scrollDown(sf::RenderWindow &window) {
     float height = window.getView().getSize().y;
     float bottomLimit = std::max(this->content.getBottomLimitPx(), height);
     auto camPos = this->camera.getCenter();
@@ -335,7 +335,7 @@ void TextView::scrollDown(sf::RenderWindow &window) {
     }
 }
 
-void TextView::scrollLeft(sf::RenderWindow &window) {
+void EditorView::scrollLeft(sf::RenderWindow &window) {
     float width = window.getView().getSize().x;
     auto camPos = this->camera.getCenter();
     // Scrolleo arriba si no me paso del limite izquierdo
@@ -344,7 +344,7 @@ void TextView::scrollLeft(sf::RenderWindow &window) {
     }
 }
 
-void TextView::scrollRight(sf::RenderWindow &window) {
+void EditorView::scrollRight(sf::RenderWindow &window) {
     float width = window.getView().getSize().x;
     float rightLimit = std::max(this->content.getRightLimitPx(), width);
     auto camPos = this->camera.getCenter();
@@ -354,26 +354,26 @@ void TextView::scrollRight(sf::RenderWindow &window) {
     }
 }
 
-void TextView::rotateLeft() {
+void EditorView::rotateLeft() {
     this->camera.rotate(this->deltaRotation);
 }
 
-void TextView::rotateRight() {
+void EditorView::rotateRight() {
     this->camera.rotate(-this->deltaRotation);
 }
 
-void TextView::zoomIn() {
+void EditorView::zoomIn() {
     this->camera.zoom(this->deltaZoomIn);
 }
 
-void TextView::zoomOut() {
+void EditorView::zoomOut() {
     this->camera.zoom(this->deltaZoomOut);
 }
 
-void TextView::setCameraBounds(int width, int height) {
+void EditorView::setCameraBounds(int width, int height) {
     this->camera = sf::View(sf::FloatRect(-50, 0, width, height));
 }
 
-sf::View TextView::getCameraView() {
+sf::View EditorView::getCameraView() {
     return this->camera;
 }

@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "TextView.h"
+#include "EditorView.h"
 #include "TextDocument.h"
 #include "InputController.h"
 #include "ImplementationUtils.h"
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     window.setVerticalSyncEnabled(true);
     sf::Color backgroundColor = sf::Color(21, 29, 45);
 
-    TextView textView(window, workingDirectory);
+    EditorView editorView(window, workingDirectory);
     TextDocument document;
     InputController inputController;
 
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
                 window.close();
             }
             if (event.type == sf::Event::Resized) {
-                textView.setCameraBounds(event.size.width, event.size.height);
+                editorView.setCameraBounds(event.size.width, event.size.height);
             }
             if (event.key.code == sf::Keyboard::S && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
                 if (document.hasChanged()){
@@ -46,14 +46,14 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            inputController.handleEvents(document, textView, window, event);
+            inputController.handleEvents(document, editorView, window, event);
         }
 
-        inputController.handleConstantInput(document, textView, window);
+        inputController.handleConstantInput(document, editorView, window);
 
         window.clear(backgroundColor);
-        window.setView(textView.getCameraView());
-        textView.draw(window, document);
+        window.setView(editorView.getCameraView());
+        editorView.draw(window, document);
         window.display();
     }
 

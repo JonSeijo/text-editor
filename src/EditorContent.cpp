@@ -1,6 +1,6 @@
-#include "TextViewContent.h"
+#include "EditorContent.h"
 
-TextViewContent::TextViewContent(const sf::String &workingDirectory) {
+EditorContent::EditorContent(const sf::String &workingDirectory) {
     this->bottomLimitPx = 1;
     this->rightLimitPx = 1;
 
@@ -13,7 +13,7 @@ TextViewContent::TextViewContent(const sf::String &workingDirectory) {
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 // TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
-void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
+void EditorContent::drawLines(sf::RenderWindow &window, TextDocument &document) {
     this->bottomLimitPx = document.getLineCount() * this->fontSize;
 
     for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
@@ -60,24 +60,24 @@ void TextViewContent::drawLines(sf::RenderWindow &window, TextDocument &document
     }
 }
 
-void TextViewContent::createNewSelection(int anclaLine, int anclaChar) {
+void EditorContent::createNewSelection(int anclaLine, int anclaChar) {
     this->selections.createNewSelection(anclaLine, anclaChar);
 }
 
-void TextViewContent::updateLastSelection(int lineN, int charN) {
+void EditorContent::updateLastSelection(int lineN, int charN) {
     this->selections.updateLastSelection(lineN, charN);
 }
 
-void TextViewContent::removeSelections() {
+void EditorContent::removeSelections() {
     this->selections.removeSelections();
 }
 
-SelectionData::Selection TextViewContent::getLastSelection() {
+SelectionData::Selection EditorContent::getLastSelection() {
     return this->selections.getLastSelection();
 }
 
 // TODO: Divide fontsize from lineheight
-void TextViewContent::setFontSize(int fontSize) {
+void EditorContent::setFontSize(int fontSize) {
     this->fontSize = fontSize;
     this->lineHeight = fontSize;
 
@@ -91,18 +91,18 @@ void TextViewContent::setFontSize(int fontSize) {
     this->charWidth = textwidth;
 }
 
-float TextViewContent::getRightLimitPx() {
+float EditorContent::getRightLimitPx() {
     return this->rightLimitPx;
 }
 
-float TextViewContent::getBottomLimitPx() {
+float EditorContent::getBottomLimitPx() {
     return this->bottomLimitPx;
 }
 
-int TextViewContent::getLineHeight() {
+int EditorContent::getLineHeight() {
     return this->lineHeight;
 }
 
-int TextViewContent::getCharWidth() {
+int EditorContent::getCharWidth() {
     return this->charWidth;
 }

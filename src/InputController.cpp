@@ -5,7 +5,7 @@ InputController::InputController() {
     this->shiftPresionado = false;
 }
 
-void InputController::handleEvents(TextDocument &document, TextView &textView,
+void InputController::handleEvents(TextDocument &document, EditorView &textView,
                                    sf::RenderWindow &window, sf::Event &event) {
     this->handleMouseEvents(document, textView, window, event);
     this->handleKeyPressedEvents(document, textView, event);
@@ -13,7 +13,7 @@ void InputController::handleEvents(TextDocument &document, TextView &textView,
     this->handleTextEnteredEvent(document, textView, event);
 }
 
-void InputController::handleConstantInput(TextDocument &document, TextView &textView,
+void InputController::handleConstantInput(TextDocument &document, EditorView &textView,
                                           sf::RenderWindow &window) {
     // Rotating
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
@@ -55,7 +55,7 @@ void InputController::handleConstantInput(TextDocument &document, TextView &text
     }
 }
 
-void InputController::handleMouseEvents(TextDocument &document, TextView &textView,
+void InputController::handleMouseEvents(TextDocument &document, EditorView &textView,
                                         sf::RenderWindow &window, sf::Event &event) {
     if (event.type == sf::Event::MouseWheelScrolled) {
         if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
@@ -89,7 +89,7 @@ void InputController::handleMouseEvents(TextDocument &document, TextView &textVi
     }
 }
 
-void InputController::handleKeyPressedEvents(TextDocument &document, TextView &textView, sf::Event &event) {
+void InputController::handleKeyPressedEvents(TextDocument &document, EditorView &textView, sf::Event &event) {
     if (event.type == sf::Event::KeyPressed) {
         bool isCtrlPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::RControl);
 
@@ -187,7 +187,7 @@ void InputController::handleKeyReleasedEvents(sf::Event &event) {
     }
 }
 
-void InputController::handleTextEnteredEvent(TextDocument &document, TextView &textView, sf::Event &event) {
+void InputController::handleTextEnteredEvent(TextDocument &document, EditorView &textView, sf::Event &event) {
     if (event.type == sf::Event::TextEntered) {
         bool ctrlPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl);
         sf::String input(event.text.unicode);

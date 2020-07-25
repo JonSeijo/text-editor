@@ -4,11 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include "Cursor.h"
-#include "TextViewContent.h"
+#include "EditorContent.h"
 
-class TextView {
+class EditorView {
    public:
-    TextView(const sf::RenderWindow &window, const sf::String &workingDirectory);
+    EditorView(const sf::RenderWindow &window, const sf::String &workingDirectory);
 
     void draw(sf::RenderWindow &window, TextDocument &document);
     void setFontSize(int fontSize);
@@ -60,7 +60,7 @@ class TextView {
    private:
     void handleSelectionOnCursorMovement(bool updateActiveSelections);
 
-    TextViewContent content;
+    EditorContent content;
 
     struct DocCoords {
         int lineN;

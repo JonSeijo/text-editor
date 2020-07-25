@@ -5,9 +5,9 @@
 #include "SelectionData.h"
 #include "TextDocument.h"
 
-class TextViewContent {
+class EditorContent {
    public:
-    TextViewContent(const sf::String &workingDirectory);
+    EditorContent(const sf::String &workingDirectory);
 
     void setFontSize(int fontSize);
     void drawLines(sf::RenderWindow &window, TextDocument &document);
