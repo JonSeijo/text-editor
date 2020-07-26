@@ -187,21 +187,6 @@ std::pair<int, int> EditorView::getDocumentCoords(
     return std::pair<int, int>(lineN, charN);
 }
 
-// TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
-// TODO: Esta funcion solo sirve para la ultima seleccion, manejarlo por parametros??
-void EditorView::cursorActive(float mouseX, float mouseY) {
-    std::pair<int, int> docCoords = this->getDocumentCoords(mouseX, mouseY);
-    int lineN = docCoords.first;
-    int charN = docCoords.second;
-
-    this->cursor.setPosition(lineN, charN);
-    this->cursor.setMaxCharNReached(charN);
-
-    // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
-    // TODO: Usar los metodos moveSelections para mover todas las selecciones.
-    this->content.updateLastSelection(lineN, charN);
-}
-
 // Una seleccion inicial selecciona el propio caracter en el que estoy
 void EditorView::startSelectionFromMouse(float mouseX, float mouseY) {
     std::pair<int, int> docCoords = this->getDocumentCoords(mouseX, mouseY);

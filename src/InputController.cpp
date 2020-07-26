@@ -38,7 +38,7 @@ void InputController::handleConstantInput(EditorView &textView,
         auto mousepos = sf::Mouse::getPosition(window);
         auto mousepos_text = window.mapPixelToCoords(mousepos);
 
-        textView.cursorActive(mousepos_text.x, mousepos_text.y);
+        updateCursorInEditor(textView, mousepos_text.x, mousepos_text.y);
 
         float textViewTop = 0;
         float textViewBottom = window.getView().getSize().y - 5;
@@ -224,4 +224,18 @@ void InputController::handleTextEnteredEvent(EditorView &textView, sf::Event &ev
 
 bool InputController::isMouseDown() {
     return this->mouseDown;
+}
+
+// TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
+// TODO: Esta funcion solo sirve para la ultima seleccion, manejarlo por parametros??
+void InputController::updateCursorInEditor(EditorView &textView, float mouseX, float mouseY) {
+    std::pair<int, int> docCoords = textView.getDocumentCoords(mouseX, mouseY);
+    int line = docCoords.first;
+    int column = docCoords.second;
+
+    this->editorContent.resetCursor(line, column);
+
+    // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
+    // TODO: Usar los metodos moveSelections para mover todas las selecciones.
+    this->editorContent.updateLastSelection(line, column);
 }

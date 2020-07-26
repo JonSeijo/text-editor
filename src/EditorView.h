@@ -23,7 +23,6 @@ class EditorView {
 
     void startSelectionFromMouse(float mouseX, float mouseY);
     void startSelectionFromCursor();
-    void cursorActive(float mouseX, float mouseY);
 
     void scrollUp(sf::RenderWindow &window);
     void scrollDown(sf::RenderWindow &window);
@@ -50,11 +49,12 @@ class EditorView {
     void setDeltaScroll(float delta);
     void setDeltaRotation(float delta);
 
+    // TODO: Replace std::pair with coordinates object
+    std::pair<int,int> getDocumentCoords(float mouseX, float mouseY);
+
    private:
     EditorContent &content;
 
-    // TODO: Replace std::pair with coordinates object
-    std::pair<int,int> getDocumentCoords(float mouseX, float mouseY);
     void drawCursor(sf::RenderWindow &window);
 
     sf::Font font;

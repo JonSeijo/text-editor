@@ -19,6 +19,9 @@ class InputController {
     void handleKeyPressedEvents(EditorView &view, sf::Event &event);
     void handleKeyReleasedEvents(sf::Event &event);
     void handleTextEnteredEvent(EditorView &view, sf::Event &event);
+
+    void updateCursorInEditor(EditorView &textView, float mouseX, float mouseY);
+
     bool mouseDown;
     bool shiftPressed;
     sf::String stringCopied;

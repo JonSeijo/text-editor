@@ -257,5 +257,7 @@ sf::String EditorContent::getLine(int line) {
     return this->document.getLine(line);
 }
 
-
-
+void EditorContent::resetCursor(int line, int column) {
+    this->cursor.setPosition(line, column);
+    this->cursor.setMaxCharNReached(column);
+}
