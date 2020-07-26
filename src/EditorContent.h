@@ -11,6 +11,7 @@ class EditorContent {
     EditorContent(TextDocument &textDocument);
 
     void createNewSelection(int anclaLine, int anclaChar);
+    void createNewSelectionFromCursor();
     void updateLastSelection(int lineN, int charN);
 
     void removeSelections();

@@ -80,14 +80,17 @@ void InputController::handleMouseEvents(
         }
     }
     if (event.type == sf::Event::MouseButtonPressed) {
-        textView.removeSelections();
+        this->editorContent.removeSelections();
         auto mousepos = sf::Mouse::getPosition(window);
         auto mousepos_text = window.mapPixelToCoords(mousepos);
 
         // inicio seleccion cuando clickeo.
         // Borro desde fuera explicitamente las selecciones
+        // Una seleccion inicial selecciona el propio caracter en el que estoy
         // TODO: Multiples selecciones, sin borrar anteriores si presiono ctrl
-        textView.startSelectionFromMouse(mousepos_text.x, mousepos_text.y);
+        std::pair<int, int> docCoords = textView.getDocumentCoords(mousepos_text.x, mousepos_text.y);
+        this->editorContent.createNewSelection(docCoords.first, docCoords.second);
+
         this->mouseDown = true;
     }
 
@@ -110,7 +113,8 @@ void InputController::handleKeyPressedEvents(EditorView &textView, sf::Event &ev
             if (!this->shiftPressed && !isCtrlPressed) {
                 this->shiftPressed = true;
                 // Si no hay una seleccion activa, empiezo una seleccion donde esten los cursores
-                textView.startSelectionFromCursor();
+                this->editorContent.removeSelections();
+                this->editorContent.createNewSelectionFromCursor();
                 return;
             }
         }

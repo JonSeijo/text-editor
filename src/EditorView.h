@@ -18,12 +18,6 @@ class EditorView {
     void draw(sf::RenderWindow &window);
     void setFontSize(int fontSize);
 
-    void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
-    void removeSelections();
-
-    void startSelectionFromMouse(float mouseX, float mouseY);
-    void startSelectionFromCursor();
-
     void scrollUp(sf::RenderWindow &window);
     void scrollDown(sf::RenderWindow &window);
     void scrollLeft(sf::RenderWindow &window);

@@ -187,21 +187,6 @@ std::pair<int, int> EditorView::getDocumentCoords(
     return std::pair<int, int>(lineN, charN);
 }
 
-// Una seleccion inicial selecciona el propio caracter en el que estoy
-void EditorView::startSelectionFromMouse(float mouseX, float mouseY) {
-    std::pair<int, int> docCoords = this->getDocumentCoords(mouseX, mouseY);
-    this->content.createNewSelection(docCoords.first, docCoords.second);
-}
-
-void EditorView::startSelectionFromCursor() {
-    this->content.removeSelections();
-    this->content.createNewSelection(this->cursor.getLineN(), this->cursor.getCharN());
-}
-
-void EditorView::removeSelections() {
-    this->content.removeSelections();
-}
-
 void EditorView::scrollUp(sf::RenderWindow &window) {
     float height = window.getView().getSize().y;
     auto camPos = this->camera.getCenter();

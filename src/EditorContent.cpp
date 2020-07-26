@@ -13,6 +13,10 @@ void EditorContent::createNewSelection(int anclaLine, int anclaChar) {
     this->selections.createNewSelection(anclaLine, anclaChar);
 }
 
+void EditorContent::createNewSelectionFromCursor() {
+    this->createNewSelection(this->cursor.getLineN(), this->cursor.getCharN());
+}
+
 void EditorContent::updateLastSelection(int lineN, int charN) {
     this->selections.updateLastSelection(lineN, charN);
 }
