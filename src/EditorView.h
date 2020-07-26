@@ -12,9 +12,6 @@ class EditorView {
         const sf::String &workingDirectory,
         EditorContent &editorContent);
 
-    // TODO: Esto deberia set privado
-    void drawLines(sf::RenderWindow &window);
-
     void draw(sf::RenderWindow &window);
     void setFontSize(int fontSize);
 
@@ -49,6 +46,7 @@ class EditorView {
    private:
     EditorContent &content;
 
+    void drawLines(sf::RenderWindow &window);
     void drawCursor(sf::RenderWindow &window);
 
     sf::Font font;
