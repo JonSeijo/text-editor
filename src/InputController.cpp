@@ -1,12 +1,17 @@
 #include "InputController.h"
 
-InputController::InputController() {
+InputController::InputController(EditorContent &editorContent)
+    : editorContent(editorContent) {
     this->mouseDown = false;
     this->shiftPresionado = false;
 }
 
-void InputController::handleEvents(TextDocument &document, EditorView &textView,
-                                   sf::RenderWindow &window, sf::Event &event) {
+void InputController::handleEvents(
+    TextDocument &document,
+    EditorView &textView,
+    sf::RenderWindow &window,
+    sf::Event &event) {
+
     this->handleMouseEvents(document, textView, window, event);
     this->handleKeyPressedEvents(document, textView, event);
     this->handleKeyReleasedEvents(event);
@@ -110,10 +115,10 @@ void InputController::handleKeyPressedEvents(TextDocument &document, EditorView 
 
         //Move to END
         if (isEndPressed) {
-            textView.moveCursorToEnd(document, isShiftPressed);
+            editorContent.moveCursorToEnd(document, isShiftPressed);
             return;
         } else if (isHomePressed) {  //Move to LINE_START
-            textView.moveCursorToStart(document, isShiftPressed);
+            editorContent.moveCursorToStart(document, isShiftPressed);
             return;
         }
 
@@ -121,48 +126,48 @@ void InputController::handleKeyPressedEvents(TextDocument &document, EditorView 
 
         if (isCtrlPressed) {
             if (event.key.code == sf::Keyboard::D) {
-                textView.duplicateCursorLine(document);
+                editorContent.duplicateCursorLine(document);
             } else if (event.key.code == sf::Keyboard::U) {
-                textView.deleteSelections(document);
+                editorContent.deleteSelections(document);
                 sf::String emoji = "\\_('-')_/";
-                textView.addTextInCursorPos(emoji, document);
+                editorContent.addTextInCursorPos(emoji, document);
             } else if (event.key.code == sf::Keyboard::C) {  //Copy command, Ctrl + C
-                this->stringCopied = textView.copySelections(document);
+                this->stringCopied = editorContent.copySelections(document);
             } else if (event.key.code == sf::Keyboard::V) {  //Paste command, Ctrl + V
-                textView.addTextInCursorPos(stringCopied, document);
+                editorContent.addTextInCursorPos(stringCopied, document);
             } else if (event.key.code == sf::Keyboard::X) {  //Cut command, Ctrl + X
-                this->stringCopied = textView.copySelections(document);
-                textView.deleteSelections(document);
+                this->stringCopied = editorContent.copySelections(document);
+                editorContent.deleteSelections(document);
             }
         }
 
         // TODO: Swapping selections is buggy
         if (event.key.code == sf::Keyboard::Up) {
             if (ctrlAndShift) {
-                textView.swapSelectedLines(document, true);
-                textView.moveCursorUp(document, true);
+                editorContent.swapSelectedLines(document, true);
+                editorContent.moveCursorUp(document, true);
                 return;
             } else {
-                textView.moveCursorUp(document, this->shiftPresionado);
+                editorContent.moveCursorUp(document, this->shiftPresionado);
                 return;
             }
         }
         if (event.key.code == sf::Keyboard::Down) {
             if (ctrlAndShift) {
-                textView.swapSelectedLines(document, false);
-                textView.moveCursorDown(document, true);
+                editorContent.swapSelectedLines(document, false);
+                editorContent.moveCursorDown(document, true);
                 return;
             } else {
-                textView.moveCursorDown(document, this->shiftPresionado);
+                editorContent.moveCursorDown(document, this->shiftPresionado);
                 return;
             }
         }
         if (event.key.code == sf::Keyboard::Left) {
-            textView.moveCursorLeft(document, this->shiftPresionado && !isCtrlPressed);
+            editorContent.moveCursorLeft(document, this->shiftPresionado && !isCtrlPressed);
             return;
         }
         if (event.key.code == sf::Keyboard::Right) {
-            textView.moveCursorRight(document, this->shiftPresionado && !isCtrlPressed);
+            editorContent.moveCursorRight(document, this->shiftPresionado && !isCtrlPressed);
             return;
         }
 
@@ -193,14 +198,14 @@ void InputController::handleTextEnteredEvent(TextDocument &document, EditorView 
         sf::String input(event.text.unicode);
 
         if (event.text.unicode == '\b') {
-            bool selecionDeleted = textView.deleteSelections(document);
+            bool selecionDeleted = editorContent.deleteSelections(document);
             if (!selecionDeleted) {
-                textView.deleteTextBeforeCursorPos(1, document);
+                editorContent.deleteTextBeforeCursorPos(1, document);
             }
         } else if (event.text.unicode == 127) {  // 127 = delete (supr)
-            bool selecionDeleted = textView.deleteSelections(document);
+            bool selecionDeleted = editorContent.deleteSelections(document);
             if (!selecionDeleted) {
-                textView.deleteTextAfterCursorPos(1, document);
+                editorContent.deleteTextAfterCursorPos(1, document);
             }
             // Escribir normalmente solo si ctrl no esta presionado
         } else if (!ctrlPressed) {
@@ -209,8 +214,8 @@ void InputController::handleTextEnteredEvent(TextDocument &document, EditorView 
                 input = "    ";
             }
 
-            textView.deleteSelections(document);
-            textView.addTextInCursorPos(input, document);
+            editorContent.deleteSelections(document);
+            editorContent.addTextInCursorPos(input, document);
         }
     }
 }

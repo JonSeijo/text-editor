@@ -8,35 +8,19 @@
 
 class EditorView {
    public:
-    EditorView(const sf::RenderWindow &window, const sf::String &workingDirectory);
+    EditorView(const sf::RenderWindow &window,
+        const sf::String &workingDirectory,
+        EditorContent &editorContent);
 
     void draw(sf::RenderWindow &window, TextDocument &document);
     void setFontSize(int fontSize);
 
     void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
     void removeSelections();
-    bool deleteSelections(TextDocument &document);
-    sf::String copySelections(TextDocument &document);
 
     void startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document);
     void startSelectionFromCursor();
     void cursorActive(float mouseX, float mouseY, const TextDocument &document);
-
-    void addTextInCursorPos(sf::String text, TextDocument &document);
-    void deleteTextAfterCursorPos(int amount, TextDocument &document);
-    void deleteTextBeforeCursorPos(int amount, TextDocument &document);
-
-    bool moveCursorLeft(const TextDocument &document, bool updateActiveSelections = false);
-    void moveCursorRight(const TextDocument &document, bool updateActiveSelections = false);
-    void moveCursorUp(const TextDocument &document, bool updateActiveSelections = false);
-    void moveCursorDown(const TextDocument &document, bool updateActiveSelections = false);
-
-    void moveCursorToEnd(const TextDocument &document, bool updateActiveSelections = false);
-    void moveCursorToStart(const TextDocument &document, bool updateActiveSelections = false);
-
-    void duplicateCursorLine(TextDocument &document);
-    void swapCursorLine(TextDocument &document, bool swapWithUp);
-    void swapSelectedLines(TextDocument &document, bool swapWithUp);
 
     void scrollUp(sf::RenderWindow &window);
     void scrollDown(sf::RenderWindow &window);
@@ -58,9 +42,7 @@ class EditorView {
     void setDeltaRotation(float delta);
 
    private:
-    void handleSelectionOnCursorMovement(bool updateActiveSelections);
-
-    EditorContent content;
+    EditorContent &content;
 
     struct DocCoords {
         int lineN;
@@ -71,12 +53,13 @@ class EditorView {
 
     DocCoords getDocumentCoords(float mouseX, float mouseY, const TextDocument &document);
 
-    Cursor cursor;
-
     sf::Font font;
     int fontSize;
     int marginXOffset;
     sf::Color colorMargin;
+
+    // TODO: SHOULD REMOVE FROM VIEW
+    Cursor &cursor;
 
     sf::View camera;
     float deltaScroll;

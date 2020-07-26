@@ -9,7 +9,7 @@
 
 class InputController {
    public:
-    InputController();
+    InputController(EditorContent &editorContent);
     void handleConstantInput(TextDocument &document, EditorView &view, sf::RenderWindow &window);
     void handleEvents(TextDocument &document, EditorView &view, sf::RenderWindow &window, sf::Event &event);
     bool isMouseDown();
@@ -22,6 +22,8 @@ class InputController {
     bool mouseDown;
     bool shiftPresionado;
     sf::String stringCopied;
+
+    EditorContent& editorContent;
 };
 
 #endif
