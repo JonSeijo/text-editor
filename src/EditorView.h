@@ -12,6 +12,8 @@ class EditorView {
         const sf::String &workingDirectory,
         EditorContent &editorContent);
 
+    void drawLines(sf::RenderWindow &window, TextDocument &document);
+
     void draw(sf::RenderWindow &window, TextDocument &document);
     void setFontSize(int fontSize);
 
@@ -35,6 +37,12 @@ class EditorView {
     void zoomIn();
     void zoomOut();
 
+    int getLineHeight();
+    int getCharWidth();
+
+    float getRightLimitPx();
+    float getBottomLimitPx();
+
     sf::View getCameraView();
     void setCameraBounds(int width, int height);
 
@@ -52,11 +60,21 @@ class EditorView {
     };
 
     DocCoords getDocumentCoords(float mouseX, float mouseY, const TextDocument &document);
+    void drawCursor(sf::RenderWindow &window);
 
     sf::Font font;
     int fontSize;
     int marginXOffset;
     sf::Color colorMargin;
+
+    int lineHeight;
+    int charWidth;
+
+    float rightLimitPx;
+    float bottomLimitPx;
+
+    sf::Color colorChar;
+    sf::Color colorSelection;
 
     // TODO: SHOULD REMOVE FROM VIEW
     Cursor &cursor;

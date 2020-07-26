@@ -7,12 +7,7 @@
 class Cursor {
    public:
     Cursor();
-    Cursor(int height, int charWidth);
-    Cursor(int height, int charWidth, int lineN, int charN);
-
-    void draw(sf::RenderWindow &window);
-    void setHeight(int height);
-    void setCharWidth(int charWidth);
+    Cursor(int lineN, int charN);
 
     void moveUp();
     void moveDown();
@@ -36,11 +31,7 @@ class Cursor {
     int getMaxCharNReached();
 
    private:
-    sf::RectangleShape rect;
-    int height;
-    int charWidth;
     int lineN, charN;
-    int offsetY;
     int maxCharNReached;
 
     void updatePos(int posY, int posX);

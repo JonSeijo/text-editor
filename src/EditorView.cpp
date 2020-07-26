@@ -13,15 +13,54 @@ EditorView::EditorView(
     this->font.loadFromFile(workingDirectory + "fonts/DejaVuSansMono.ttf");
     this->fontSize = 18;
 
+    this->bottomLimitPx = 1;
+    this->rightLimitPx = 1;
+
+    this->setFontSize(18);  // Important to call
+
     // TODO: Cambiarlo en relacion a la fontsize
     this->marginXOffset = 45;
     this->colorMargin = sf::Color(32, 44, 68);
+
+    this->colorChar = sf::Color::White;
+    this->colorSelection = sf::Color(106, 154, 232);
+}
+
+// TODO: Divide fontsize from lineheight
+void EditorView::setFontSize(int fontSize) {
+    this->fontSize = fontSize;
+    this->lineHeight = fontSize;
+
+    // HACK: Because I use only monospace fonts, every char is the same width
+    //       so I get the width drawing a single character (A WIDE ONE TO BE SURE)
+    sf::Text tmpText;
+    tmpText.setFont(this->font);
+    tmpText.setCharacterSize(this->fontSize);
+    tmpText.setString("_");
+    float textwidth = tmpText.getLocalBounds().width;
+    this->charWidth = textwidth;
+}
+
+float EditorView::getRightLimitPx() {
+    return this->rightLimitPx;
+}
+
+float EditorView::getBottomLimitPx() {
+    return this->bottomLimitPx;
+}
+
+int EditorView::getLineHeight() {
+    return this->lineHeight;
+}
+
+int EditorView::getCharWidth() {
+    return this->charWidth;
 }
 
 void EditorView::draw(sf::RenderWindow &window, TextDocument &document) {
     // TODO: El content devuelve un vector diciendo que alto tiene cada linea,
     //      por ahora asumo que todas miden "1" de alto
-    this->content.drawLines(window, document);
+    this->drawLines(window, document);
 
     // Dibujo los numeros de la izquierda
 
@@ -46,13 +85,84 @@ void EditorView::draw(sf::RenderWindow &window, TextDocument &document) {
         window.draw(lineNumberText);
     }
 
-    this->cursor.draw(window);
+    this->drawCursor(window);
+}
+
+// TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
+// TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
+// TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
+void EditorView::drawLines(sf::RenderWindow &window, TextDocument &document) {
+    this->bottomLimitPx = document.getLineCount() * this->fontSize;
+
+    for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
+        sf::String line = document.getLine(lineNumber);
+        sf::String currentLineText = "";
+
+        this->rightLimitPx = std::max((int)this->rightLimitPx, (int)(this->charWidth * line.getSize()));
+
+        float offsetx = 0;
+        bool previousSelected = false;
+
+        for (int charIndexInLine = 0; charIndexInLine <= (int)line.getSize(); charIndexInLine++) {
+            // En general hay una unica seleccion, en el futuro podria haber mas de una
+            bool currentSelected = content.isSelected(lineNumber, charIndexInLine);
+
+            // Cuando hay un cambio, dibujo el tipo de seleccion anterior
+            // Tambien dibujo cuando es el fin de la linea actual
+            if (currentSelected != previousSelected || charIndexInLine == (int)line.getSize()) {
+                sf::Text texto;
+                texto.setFillColor(this->colorChar);
+                texto.setFont(font);
+                texto.setString(currentLineText);
+                texto.setCharacterSize(this->fontSize);
+                texto.setPosition(offsetx, lineNumber * this->fontSize);
+
+                if (previousSelected) {
+                    sf::RectangleShape selectionRect(sf::Vector2f(this->charWidth * currentLineText.getSize(), this->fontSize));
+                    selectionRect.setFillColor(this->colorSelection);
+                    // TODO: Que el +2 no sea un numero magico
+                    selectionRect.setPosition(offsetx, 2 + lineNumber * this->fontSize);
+                    window.draw(selectionRect);
+                }
+
+                window.draw(texto);
+
+                previousSelected = currentSelected;
+                offsetx += this->charWidth * currentLineText.getSize();
+                currentLineText = "";
+            }
+
+            // Voy acumulando la string de la linea actual
+            currentLineText += line[charIndexInLine];
+        }
+    }
+}
+
+// TODO: No harcodear constantes aca. CursorView?
+void EditorView::drawCursor(sf::RenderWindow &window) {
+    int offsetY = 2;
+    int cursorDrawWidth = 2;
+
+    int charWidth = getCharWidth();
+    int lineHeight = getLineHeight();
+
+    int lineN = cursor.getLineN();
+    int charN = cursor.getCharN();
+
+    sf::RectangleShape cursorRect(sf::Vector2f(cursorDrawWidth, lineHeight));
+    cursorRect.setFillColor(sf::Color::White);
+
+    cursorRect.setPosition(
+        charN * charWidth,
+        (lineN * lineHeight) + offsetY);
+
+    window.draw(cursorRect);
 }
 
 // TODO: Esto no considera que los tabs \t existen
 EditorView::DocCoords EditorView::getDocumentCoords(float mouseX, float mouseY, const TextDocument &document) {
-    int lineN = mouseY / this->content.getLineHeight();
-    int charN = std::round(mouseX / this->content.getCharWidth());
+    int lineN = mouseY / this->getLineHeight();
+    int charN = std::round(mouseX / this->getCharWidth());
 
     // Restrinjo numero de linea a la altura del documento
     int lastLine = document.getLineCount() - 1;
@@ -101,10 +211,6 @@ void EditorView::startSelectionFromCursor() {
     this->content.createNewSelection(this->cursor.getLineN(), this->cursor.getCharN());
 }
 
-void EditorView::setFontSize(int fontSize) {
-    this->content.setFontSize(fontSize);
-}
-
 void EditorView::removeSelections() {
     this->content.removeSelections();
 }
@@ -120,7 +226,7 @@ void EditorView::scrollUp(sf::RenderWindow &window) {
 
 void EditorView::scrollDown(sf::RenderWindow &window) {
     float height = window.getView().getSize().y;
-    float bottomLimit = std::max(this->content.getBottomLimitPx(), height);
+    float bottomLimit = std::max(this->getBottomLimitPx(), height);
     auto camPos = this->camera.getCenter();
     // Numero magico 20 como un plus
     if (camPos.y + height / 2 < bottomLimit + 20) {
@@ -139,7 +245,7 @@ void EditorView::scrollLeft(sf::RenderWindow &window) {
 
 void EditorView::scrollRight(sf::RenderWindow &window) {
     float width = window.getView().getSize().x;
-    float rightLimit = std::max(this->content.getRightLimitPx(), width);
+    float rightLimit = std::max(this->getRightLimitPx(), width);
     auto camPos = this->camera.getCenter();
     // Numero magico 20 como un plus
     if (camPos.x + width / 2 < rightLimit + 20) {

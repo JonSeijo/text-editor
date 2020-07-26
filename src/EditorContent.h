@@ -10,25 +10,17 @@ class EditorContent {
    public:
     EditorContent(const sf::String &workingDirectory);
 
-    void setFontSize(int fontSize);
-    void drawLines(sf::RenderWindow &window, TextDocument &document);
-
     void createNewSelection(int anclaLine, int anclaChar);
     void updateLastSelection(int lineN, int charN);
 
     void removeSelections();
     SelectionData::Selection getLastSelection();
 
-    int getLineHeight();
-    int getCharWidth();
-
-    float getRightLimitPx();
-    float getBottomLimitPx();
-
     void duplicateCursorLine(TextDocument &document);
     void swapCursorLine(TextDocument &document, bool swapWithUp);
     void swapSelectedLines(TextDocument &document, bool swapWithUp);
 
+    bool isSelected(int lineNumber, int charIndexInLine);
     bool deleteSelections(TextDocument &document);
     sf::String copySelections(TextDocument &document);
 
@@ -50,18 +42,7 @@ class EditorContent {
 
 
    private:
-    int fontSize;
-    int lineHeight;
-    int charWidth;
-
-    float rightLimitPx;
-    float bottomLimitPx;
-
     sf::Font font;
-
-    sf::Color colorChar;
-    sf::Color colorSelection;
-
     Cursor cursor;
     SelectionData selections;
 
