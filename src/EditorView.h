@@ -12,17 +12,18 @@ class EditorView {
         const sf::String &workingDirectory,
         EditorContent &editorContent);
 
-    void drawLines(sf::RenderWindow &window, TextDocument &document);
+    // TODO: Esto deberia set privado
+    void drawLines(sf::RenderWindow &window);
 
-    void draw(sf::RenderWindow &window, TextDocument &document);
+    void draw(sf::RenderWindow &window);
     void setFontSize(int fontSize);
 
     void selectText(int startLineN, int startCharN, int endLineN, int endCharN);
     void removeSelections();
 
-    void startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document);
+    void startSelectionFromMouse(float mouseX, float mouseY);
     void startSelectionFromCursor();
-    void cursorActive(float mouseX, float mouseY, const TextDocument &document);
+    void cursorActive(float mouseX, float mouseY);
 
     void scrollUp(sf::RenderWindow &window);
     void scrollDown(sf::RenderWindow &window);
@@ -59,7 +60,7 @@ class EditorView {
         DocCoords(int lineN, int charN) : lineN(lineN), charN(charN) {}
     };
 
-    DocCoords getDocumentCoords(float mouseX, float mouseY, const TextDocument &document);
+    DocCoords getDocumentCoords(float mouseX, float mouseY);
     void drawCursor(sf::RenderWindow &window);
 
     sf::Font font;

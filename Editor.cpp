@@ -23,12 +23,14 @@ int main(int argc, char* argv[]) {
     window.setVerticalSyncEnabled(true);
     sf::Color backgroundColor = sf::Color(21, 29, 45);
 
-    EditorContent editorContent(workingDirectory);
-    EditorView editorView(window, workingDirectory, editorContent);
     TextDocument document;
+    document.init(loadFileName);
+
+    EditorContent editorContent(document);
+
+    EditorView editorView(window, workingDirectory, editorContent);
     InputController inputController(editorContent);
 
-    document.init(loadFileName);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -41,20 +43,19 @@ int main(int argc, char* argv[]) {
             }
             if (event.key.code == sf::Keyboard::S && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
                 if (document.hasChanged()){
-
                     document.saveFile(saveFileName);
                     std::cout << "SAVED TO: " << saveFileName << "\n";
                 }
             }
 
-            inputController.handleEvents(document, editorView, window, event);
+            inputController.handleEvents(editorView, window, event);
         }
 
-        inputController.handleConstantInput(document, editorView, window);
+        inputController.handleConstantInput(editorView, window);
 
         window.clear(backgroundColor);
         window.setView(editorView.getCameraView());
-        editorView.draw(window, document);
+        editorView.draw(window);
         window.display();
     }
 

@@ -57,15 +57,15 @@ int EditorView::getCharWidth() {
     return this->charWidth;
 }
 
-void EditorView::draw(sf::RenderWindow &window, TextDocument &document) {
+void EditorView::draw(sf::RenderWindow &window) {
     // TODO: El content devuelve un vector diciendo que alto tiene cada linea,
     //      por ahora asumo que todas miden "1" de alto
-    this->drawLines(window, document);
+    this->drawLines(window);
 
     // Dibujo los numeros de la izquierda
 
     // TODO: Hacer una clase separada para el margin
-    for (int lineNumber = 1; lineNumber <= document.getLineCount(); lineNumber++) {
+    for (int lineNumber = 1; lineNumber <= this->content.linesCount(); lineNumber++) {
         int lineHeight = 1;
 
         int blockHeight = lineHeight * this->fontSize;
@@ -91,11 +91,11 @@ void EditorView::draw(sf::RenderWindow &window, TextDocument &document) {
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 // TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
-void EditorView::drawLines(sf::RenderWindow &window, TextDocument &document) {
-    this->bottomLimitPx = document.getLineCount() * this->fontSize;
+void EditorView::drawLines(sf::RenderWindow &window) {
+    this->bottomLimitPx = this->content.linesCount() * this->fontSize;
 
-    for (int lineNumber = 0; lineNumber < document.getLineCount(); lineNumber++) {
-        sf::String line = document.getLine(lineNumber);
+    for (int lineNumber = 0; lineNumber < this->content.linesCount(); lineNumber++) {
+        sf::String line = this->content.getLine(lineNumber);
         sf::String currentLineText = "";
 
         this->rightLimitPx = std::max((int)this->rightLimitPx, (int)(this->charWidth * line.getSize()));
@@ -160,26 +160,28 @@ void EditorView::drawCursor(sf::RenderWindow &window) {
 }
 
 // TODO: Esto no considera que los tabs \t existen
-EditorView::DocCoords EditorView::getDocumentCoords(float mouseX, float mouseY, const TextDocument &document) {
+EditorView::DocCoords EditorView::getDocumentCoords(
+    float mouseX, float mouseY) {
+
     int lineN = mouseY / this->getLineHeight();
     int charN = std::round(mouseX / this->getCharWidth());
 
     // Restrinjo numero de linea a la altura del documento
-    int lastLine = document.getLineCount() - 1;
+    int lastLine = this->content.linesCount();
 
     if (lineN < 0) {
         lineN = 0;
         charN = 0;
     } else if (lineN > lastLine) {
         lineN = lastLine;
-        charN = document.charsInLine(lineN);
+        charN = this->content.colsInLine(lineN);
     } else {
         lineN = std::max(lineN, 0);
         lineN = std::min(lineN, lastLine);
 
         // Restrinjo numero de caracter a cant de caracteres de la linea
         charN = std::max(charN, 0);
-        charN = std::min(charN, document.charsInLine(lineN));
+        charN = std::min(charN, this->content.colsInLine(lineN));
     }
 
     return EditorView::DocCoords(lineN, charN);
@@ -187,12 +189,13 @@ EditorView::DocCoords EditorView::getDocumentCoords(float mouseX, float mouseY, 
 
 // TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
 // TODO: Esta funcion solo sirve para la ultima seleccion, manejarlo por parametros??
-void EditorView::cursorActive(float mouseX, float mouseY, const TextDocument &document) {
-    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
+void EditorView::cursorActive(float mouseX, float mouseY) {
+    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY);
     int lineN = docCoords.lineN;
     int charN = docCoords.charN;
 
     this->cursor.setPosition(lineN, charN);
+
     this->cursor.setMaxCharNReached(charN);
 
     // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
@@ -201,8 +204,8 @@ void EditorView::cursorActive(float mouseX, float mouseY, const TextDocument &do
 }
 
 // Una seleccion inicial selecciona el propio caracter en el que estoy
-void EditorView::startSelectionFromMouse(float mouseX, float mouseY, const TextDocument &document) {
-    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY, document);
+void EditorView::startSelectionFromMouse(float mouseX, float mouseY) {
+    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY);
     this->content.createNewSelection(docCoords.lineN, docCoords.charN);
 }
 

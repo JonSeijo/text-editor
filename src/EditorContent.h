@@ -8,7 +8,7 @@
 
 class EditorContent {
    public:
-    EditorContent(const sf::String &workingDirectory);
+    EditorContent(TextDocument &textDocument);
 
     void createNewSelection(int anclaLine, int anclaChar);
     void updateLastSelection(int lineN, int charN);
@@ -16,32 +16,38 @@ class EditorContent {
     void removeSelections();
     SelectionData::Selection getLastSelection();
 
-    void duplicateCursorLine(TextDocument &document);
-    void swapCursorLine(TextDocument &document, bool swapWithUp);
-    void swapSelectedLines(TextDocument &document, bool swapWithUp);
+    void duplicateCursorLine();
+    void swapCursorLine(bool swapWithUp);
+    void swapSelectedLines(bool swapWithUp);
 
     bool isSelected(int lineNumber, int charIndexInLine);
-    bool deleteSelections(TextDocument &document);
-    sf::String copySelections(TextDocument &document);
+    bool deleteSelections();
+    sf::String copySelections();
 
     // TODO: Se puede pasar los valores por defecto al .cpp ?
-    bool moveCursorLeft(const TextDocument &document, bool updateActiveSelections=false);
-    void moveCursorRight(const TextDocument &document, bool updateActiveSelections=false);
-    void moveCursorUp(const TextDocument &document, bool updateActiveSelections=false);
-    void moveCursorDown(const TextDocument &document, bool updateActiveSelections=false);
+    bool moveCursorLeft(bool updateActiveSelections=false);
+    void moveCursorRight(bool updateActiveSelections=false);
+    void moveCursorUp(bool updateActiveSelections=false);
+    void moveCursorDown(bool updateActiveSelections=false);
 
-    void moveCursorToEnd(const TextDocument &document, bool updateActiveSelections=false);
-    void moveCursorToStart(const TextDocument &document, bool updateActiveSelections=false);
+    void moveCursorToEnd(bool updateActiveSelections=false);
+    void moveCursorToStart(bool updateActiveSelections=false);
 
-    void addTextInCursorPos(sf::String text, TextDocument &document);
-    void deleteTextAfterCursorPos(int amount, TextDocument &document);
-    void deleteTextBeforeCursorPos(int amount, TextDocument &document);
+    void addTextInCursorPos(sf::String text);
+    void deleteTextAfterCursorPos(int amount);
+    void deleteTextBeforeCursorPos(int amount);
+
+    int linesCount();
+    int colsInLine(int line);
+    sf::String getLine(int line);
 
     // TODO: SHOULD NOT BE PUBLIC, JUST FOR REFACTOR
     Cursor& getCursor();
 
 
    private:
+    TextDocument &document;
+
     sf::Font font;
     Cursor cursor;
     SelectionData selections;

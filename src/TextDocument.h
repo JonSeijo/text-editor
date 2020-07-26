@@ -33,7 +33,6 @@ class TextDocument {
     void swapLines(int lineA, int lineB);
 
     int charAmountContained(int startLineN, int startCharN, int endLineN, int endCharN);
-
    private:
     bool initLinebuffer();
     sf::String buffer;

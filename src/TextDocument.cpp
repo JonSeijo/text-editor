@@ -2,6 +2,7 @@
 
 // La idea es leer el file y guardarlo en buffer (quiero cargarlo en la memoria)
 // Para esto uso std::ifstream para levantar el archivo
+// TODO: Esto deberia ser el constructot, no quiero llamarlo a mano
 bool TextDocument::init(string &filename) {
     std::ifstream inputFile(filename);
     if (!inputFile.is_open()) {
