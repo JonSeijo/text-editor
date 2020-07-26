@@ -167,7 +167,7 @@ EditorView::DocCoords EditorView::getDocumentCoords(
     int charN = std::round(mouseX / this->getCharWidth());
 
     // Restrinjo numero de linea a la altura del documento
-    int lastLine = this->content.linesCount();
+    int lastLine = this->content.linesCount() - 1;
 
     if (lineN < 0) {
         lineN = 0;
