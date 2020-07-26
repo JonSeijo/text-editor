@@ -23,9 +23,9 @@ A working Makefile is included, works great assuming you have sfml installed cor
 make && ./editor
 ```
 
-## Warnings!
+## Warning!
 
-Currently the editor does not support correctly viewing tabs characters ( \t ). Expect glitches when \t appears. Be careful with the data you save! This won't happen if you use the correct indentation method: spaces. Pressing the tab key will insert four spaces. The bug with \t will be fixed in future versions.
+Be careful with the data you save!
 
 
 ## F.A.Q.
