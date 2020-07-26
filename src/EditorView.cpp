@@ -146,8 +146,8 @@ void EditorView::drawCursor(sf::RenderWindow &window) {
     int charWidth = getCharWidth();
     int lineHeight = getLineHeight();
 
-    int lineN = cursor.getLineN();
-    int charN = cursor.getCharN();
+    int lineN = this->cursor.getLineN();
+    int charN = this->cursor.getCharN();
 
     sf::RectangleShape cursorRect(sf::Vector2f(cursorDrawWidth, lineHeight));
     cursorRect.setFillColor(sf::Color::White);
@@ -160,7 +160,7 @@ void EditorView::drawCursor(sf::RenderWindow &window) {
 }
 
 // TODO: Esto no considera que los tabs \t existen
-EditorView::DocCoords EditorView::getDocumentCoords(
+std::pair<int, int> EditorView::getDocumentCoords(
     float mouseX, float mouseY) {
 
     int lineN = mouseY / this->getLineHeight();
@@ -184,18 +184,17 @@ EditorView::DocCoords EditorView::getDocumentCoords(
         charN = std::min(charN, this->content.colsInLine(lineN));
     }
 
-    return EditorView::DocCoords(lineN, charN);
+    return std::pair<int, int>(lineN, charN);
 }
 
 // TODO: Agregar parametros para saber si tengo que agregar otro, actualizar selecciones o lo que sea
 // TODO: Esta funcion solo sirve para la ultima seleccion, manejarlo por parametros??
 void EditorView::cursorActive(float mouseX, float mouseY) {
-    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY);
-    int lineN = docCoords.lineN;
-    int charN = docCoords.charN;
+    std::pair<int, int> docCoords = this->getDocumentCoords(mouseX, mouseY);
+    int lineN = docCoords.first;
+    int charN = docCoords.second;
 
     this->cursor.setPosition(lineN, charN);
-
     this->cursor.setMaxCharNReached(charN);
 
     // ESTO ASUME QUE PUEDO HACER UNA UNICA SELECCION
@@ -205,8 +204,8 @@ void EditorView::cursorActive(float mouseX, float mouseY) {
 
 // Una seleccion inicial selecciona el propio caracter en el que estoy
 void EditorView::startSelectionFromMouse(float mouseX, float mouseY) {
-    EditorView::DocCoords docCoords = this->getDocumentCoords(mouseX, mouseY);
-    this->content.createNewSelection(docCoords.lineN, docCoords.charN);
+    std::pair<int, int> docCoords = this->getDocumentCoords(mouseX, mouseY);
+    this->content.createNewSelection(docCoords.first, docCoords.second);
 }
 
 void EditorView::startSelectionFromCursor() {

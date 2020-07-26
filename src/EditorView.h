@@ -53,14 +53,8 @@ class EditorView {
    private:
     EditorContent &content;
 
-    struct DocCoords {
-        int lineN;
-        int charN;
-        DocCoords() : lineN(-1), charN(-1) {}
-        DocCoords(int lineN, int charN) : lineN(lineN), charN(charN) {}
-    };
-
-    DocCoords getDocumentCoords(float mouseX, float mouseY);
+    // TODO: Replace std::pair with coordinates object
+    std::pair<int,int> getDocumentCoords(float mouseX, float mouseY);
     void drawCursor(sf::RenderWindow &window);
 
     sf::Font font;
