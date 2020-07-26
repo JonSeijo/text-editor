@@ -1,5 +1,6 @@
 #include "EditorView.h"
 
+// TODO: el -50 de la inicializacion de la camara tiene que ver con el marginXoffset
 EditorView::EditorView(
     const sf::RenderWindow &window,
     const sf::String &workingDirectory,
@@ -10,7 +11,6 @@ EditorView::EditorView(
 
     // this->font.loadFromFile("fonts/FreeMono.ttf");
     this->font.loadFromFile(workingDirectory + "fonts/DejaVuSansMono.ttf");
-    this->fontSize = 18;
 
     this->bottomLimitPx = 1;
     this->rightLimitPx = 1;
@@ -87,6 +87,19 @@ void EditorView::draw(sf::RenderWindow &window) {
     this->drawCursor(window);
 }
 
+// TODO: esto lo deberia manejar el editorContetn de alguna forma? 4 harcodeado
+int colsOf(sf::String &currentLineText) {
+    int cols = 0;
+    for (char c : currentLineText) {
+        if (c == '\t') {
+            cols += 4;
+        } else {
+            cols++;
+        }
+    }
+    return cols;
+}
+
 // TODO: Reemplazar fontSize por fontHeight especifica para cada tipo de font.
 // TODO: Multiples cursores similar a Selecciones, que los moveUp.. etc muevan todos
 // TODO: Que devuelva un vector diciendo el alto que ocupa el dibujo de cada linea, para saber el tamaño de cada linea en el margen
@@ -97,6 +110,7 @@ void EditorView::drawLines(sf::RenderWindow &window) {
         sf::String line = this->content.getLine(lineNumber);
         sf::String currentLineText = "";
 
+        // TODO: Esto es al pe?
         this->rightLimitPx = std::max((int)this->rightLimitPx, (int)(this->charWidth * line.getSize()));
 
         float offsetx = 0;
@@ -117,7 +131,9 @@ void EditorView::drawLines(sf::RenderWindow &window) {
                 texto.setPosition(offsetx, lineNumber * this->fontSize);
 
                 if (previousSelected) {
-                    sf::RectangleShape selectionRect(sf::Vector2f(this->charWidth * currentLineText.getSize(), this->fontSize));
+                    int currentColsAmount = colsOf(currentLineText);
+                    sf::RectangleShape selectionRect(
+                        sf::Vector2f(this->charWidth * currentColsAmount, this->fontSize));
                     selectionRect.setFillColor(this->colorSelection);
                     // TODO: Que el +2 no sea un numero magico
                     selectionRect.setPosition(offsetx, 2 + lineNumber * this->fontSize);
@@ -127,7 +143,7 @@ void EditorView::drawLines(sf::RenderWindow &window) {
                 window.draw(texto);
 
                 previousSelected = currentSelected;
-                offsetx += this->charWidth * currentLineText.getSize();
+                offsetx += this->charWidth * colsOf(currentLineText);
                 currentLineText = "";
             }
 
@@ -136,6 +152,7 @@ void EditorView::drawLines(sf::RenderWindow &window) {
         }
     }
 }
+
 
 // TODO: No harcodear constantes aca. CursorView?
 void EditorView::drawCursor(sf::RenderWindow &window) {
@@ -147,24 +164,25 @@ void EditorView::drawCursor(sf::RenderWindow &window) {
 
     std::pair<int, int> cursorPos = this->content.cursorPosition();
     int lineN = cursorPos.first;
-    int charN = cursorPos.second;
+    int column = cursorPos.second;
 
     sf::RectangleShape cursorRect(sf::Vector2f(cursorDrawWidth, lineHeight));
     cursorRect.setFillColor(sf::Color::White);
 
     cursorRect.setPosition(
-        charN * charWidth,
+        column * charWidth,
         (lineN * lineHeight) + offsetY);
 
     window.draw(cursorRect);
 }
 
 // TODO: Esto no considera que los tabs \t existen
+// Asume que el x=0 es donde empieza el texto
 std::pair<int, int> EditorView::getDocumentCoords(
     float mouseX, float mouseY) {
 
     int lineN = mouseY / this->getLineHeight();
-    int charN = std::round(mouseX / this->getCharWidth());
+    int charN = 0;
 
     // Restrinjo numero de linea a la altura del documento
     int lastLine = this->content.linesCount() - 1;
@@ -178,6 +196,10 @@ std::pair<int, int> EditorView::getDocumentCoords(
     } else {
         lineN = std::max(lineN, 0);
         lineN = std::min(lineN, lastLine);
+
+        // column != charN because tabs
+        int column = std::round(mouseX / this->getCharWidth());
+        charN = this->content.getCharIndexOfColumn(lineN, column);
 
         // Restrinjo numero de caracter a cant de caracteres de la linea
         charN = std::max(charN, 0);

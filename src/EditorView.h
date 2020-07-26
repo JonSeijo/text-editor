@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include "Cursor.h"
 #include "EditorContent.h"
 
 class EditorView {

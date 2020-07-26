@@ -44,6 +44,8 @@ class EditorContent {
 
     void resetCursor(int line, int column);
     std::pair<int, int> cursorPosition();
+    int getCharIndexOfColumn(int lineN, int column);
+    int getColumnFromCharN(int lineN, int charN);
 
    private:
     TextDocument &document;

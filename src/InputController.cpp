@@ -160,7 +160,7 @@ void InputController::handleKeyPressedEvents(EditorView &textView, sf::Event &ev
         }
         if (event.key.code == sf::Keyboard::Down) {
             if (ctrlAndShift) {
-                editorContent.swapSelectedLines( false);
+                editorContent.swapSelectedLines(false);
                 editorContent.moveCursorDown(true);
                 return;
             } else {
@@ -217,7 +217,8 @@ void InputController::handleTextEnteredEvent(EditorView &textView, sf::Event &ev
         } else if (!ctrlPressed) {
             if (event.text.unicode == '\t') {
                 // TODO: Cantidad de espacios de tab una variable
-                input = "    ";
+                std::cerr << "TABS ACTIVADOS " << std::endl;
+                // input = "    ";
             }
 
             editorContent.deleteSelections();

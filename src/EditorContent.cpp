@@ -5,8 +5,14 @@ EditorContent::EditorContent(TextDocument &textDocument) :
     this->cursor = Cursor(0, 0);
 }
 
+// TODO: Diferenciar posicion en columnas de chars
+// Esta seria posicion en columna?
 std::pair<int, int> EditorContent::cursorPosition() {
-    return std::pair<int, int>(this->cursor.getLineN(), this->cursor.getCharN());
+    int lineN = this->cursor.getLineN();
+    int charN = this->cursor.getCharN();
+    int column = this->getColumnFromCharN(lineN, charN);
+
+    return std::pair<int, int>(lineN, column);
 }
 
 void EditorContent::createNewSelection(int anclaLine, int anclaChar) {
@@ -253,6 +259,7 @@ int EditorContent::linesCount() {
     return this->document.getLineCount();
 }
 
+// TODO: cols != chars
 int EditorContent::colsInLine(int line) {
     return this->document.charsInLine(line);
 }
@@ -261,7 +268,44 @@ sf::String EditorContent::getLine(int line) {
     return this->document.getLine(line);
 }
 
+// TODO: column != charN
 void EditorContent::resetCursor(int line, int column) {
     this->cursor.setPosition(line, column);
     this->cursor.setMaxCharNReached(column);
+}
+
+// TODO: Deberia tirar error si no existe la linea
+int EditorContent::getCharIndexOfColumn(int lineN, int column) {
+    sf::String line = this->getLine(lineN);
+    int len = this->colsInLine(lineN);
+    int currentCol = 0;
+    for (int charN = 0; charN < len; charN++) {
+
+        if (column <= currentCol) {
+            return charN;
+        }
+
+        if (line[charN] == '\t') {
+            currentCol += 4;
+        } else {
+            currentCol++;
+        }
+    }
+    return len == 0 ? 0 : len - 1;
+}
+
+// TODO: Refactor es casi igual al otro metodo
+int EditorContent::getColumnFromCharN(int lineN, int charN) {
+    sf::String line = this->getLine(lineN);
+    int len = this->colsInLine(lineN);  // El nombre esta mal, pero devuelve los chars
+    int currentCol = 0;
+    for (int charNact = 0; charNact < charN; charNact++) {
+        if (line[charNact] == '\t') {
+            currentCol += 4;
+        } else {
+            currentCol++;
+        }
+    }
+
+    return currentCol;
 }
