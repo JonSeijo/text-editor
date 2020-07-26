@@ -3,7 +3,7 @@
 InputController::InputController(EditorContent &editorContent)
     : editorContent(editorContent) {
     this->mouseDown = false;
-    this->shiftPresionado = false;
+    this->shiftPressed = false;
 }
 
 void InputController::handleEvents(
@@ -105,8 +105,8 @@ void InputController::handleKeyPressedEvents(TextDocument &document, EditorView 
         bool isHomePressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Home);
 
         if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift) {
-            if (!this->shiftPresionado && !isCtrlPressed) {
-                this->shiftPresionado = true;
+            if (!this->shiftPressed && !isCtrlPressed) {
+                this->shiftPressed = true;
                 // Si no hay una seleccion activa, empiezo una seleccion donde esten los cursores
                 textView.startSelectionFromCursor();
                 return;
@@ -148,7 +148,7 @@ void InputController::handleKeyPressedEvents(TextDocument &document, EditorView 
                 editorContent.moveCursorUp(document, true);
                 return;
             } else {
-                editorContent.moveCursorUp(document, this->shiftPresionado);
+                editorContent.moveCursorUp(document, this->shiftPressed);
                 return;
             }
         }
@@ -158,16 +158,16 @@ void InputController::handleKeyPressedEvents(TextDocument &document, EditorView 
                 editorContent.moveCursorDown(document, true);
                 return;
             } else {
-                editorContent.moveCursorDown(document, this->shiftPresionado);
+                editorContent.moveCursorDown(document, this->shiftPressed);
                 return;
             }
         }
         if (event.key.code == sf::Keyboard::Left) {
-            editorContent.moveCursorLeft(document, this->shiftPresionado && !isCtrlPressed);
+            editorContent.moveCursorLeft(document, this->shiftPressed && !isCtrlPressed);
             return;
         }
         if (event.key.code == sf::Keyboard::Right) {
-            editorContent.moveCursorRight(document, this->shiftPresionado && !isCtrlPressed);
+            editorContent.moveCursorRight(document, this->shiftPressed && !isCtrlPressed);
             return;
         }
 
@@ -187,7 +187,7 @@ void InputController::handleKeyPressedEvents(TextDocument &document, EditorView 
 void InputController::handleKeyReleasedEvents(sf::Event &event) {
     if (event.type == sf::Event::KeyReleased) {
         if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift) {
-            this->shiftPresionado = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+            this->shiftPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
         }
     }
 }

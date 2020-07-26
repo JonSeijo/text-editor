@@ -20,7 +20,7 @@ class InputController {
     void handleKeyReleasedEvents(sf::Event &event);
     void handleTextEnteredEvent(TextDocument &document, EditorView &view, sf::Event &event);
     bool mouseDown;
-    bool shiftPresionado;
+    bool shiftPressed;
     sf::String stringCopied;
 
     EditorContent& editorContent;
