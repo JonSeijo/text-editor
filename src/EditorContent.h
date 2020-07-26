@@ -43,10 +43,7 @@ class EditorContent {
     sf::String getLine(int line);
 
     void resetCursor(int line, int column);
-
-    // TODO: SHOULD NOT BE PUBLIC, JUST FOR REFACTOR
-    Cursor& getCursor();
-
+    std::pair<int, int> cursorPosition();
 
    private:
     TextDocument &document;

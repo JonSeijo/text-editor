@@ -5,7 +5,6 @@ EditorView::EditorView(
     const sf::String &workingDirectory,
     EditorContent &editorContent)
     : content(editorContent),
-      cursor(editorContent.getCursor()),
       camera(sf::FloatRect(-50, 0, window.getSize().x, window.getSize().y)),
       deltaScroll(20), deltaRotation(2), deltaZoomIn(0.8f), deltaZoomOut(1.2f) {
 
@@ -146,8 +145,9 @@ void EditorView::drawCursor(sf::RenderWindow &window) {
     int charWidth = getCharWidth();
     int lineHeight = getLineHeight();
 
-    int lineN = this->cursor.getLineN();
-    int charN = this->cursor.getCharN();
+    std::pair<int, int> cursorPos = this->content.cursorPosition();
+    int lineN = cursorPos.first;
+    int charN = cursorPos.second;
 
     sf::RectangleShape cursorRect(sf::Vector2f(cursorDrawWidth, lineHeight));
     cursorRect.setFillColor(sf::Color::White);

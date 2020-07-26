@@ -5,8 +5,8 @@ EditorContent::EditorContent(TextDocument &textDocument) :
     this->cursor = Cursor(0, 0);
 }
 
-Cursor& EditorContent::getCursor() {
-    return this->cursor;
+std::pair<int, int> EditorContent::cursorPosition() {
+    return std::pair<int, int>(this->cursor.getLineN(), this->cursor.getCharN());
 }
 
 void EditorContent::createNewSelection(int anclaLine, int anclaChar) {

@@ -65,9 +65,6 @@ class EditorView {
     sf::Color colorChar;
     sf::Color colorSelection;
 
-    // TODO: SHOULD REMOVE FROM VIEW
-    Cursor &cursor;
-
     sf::View camera;
     float deltaScroll;
     float deltaRotation;
