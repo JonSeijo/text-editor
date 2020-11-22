@@ -122,8 +122,11 @@ bool EditorContent::moveCursorLeft(bool updateActiveSelections) {
 void EditorContent::moveCursorRight(bool updateActiveSelections) {
     int charsInLine = this->document.charsInLine(this->cursor.getLineN());
     if (this->cursor.getCharN() >= charsInLine) {
-        int newCursorLine = std::min(this->cursor.getLineN() + 1, this->document.getLineCount());
-        this->cursor.setPosition(newCursorLine, 0, true);
+        int newCursorLine = std::min(this->cursor.getLineN() + 1, this->document.getLineCount() - 1);
+        // update cursor position only if new line is not same as old, will happen at last line
+        if (newCursorLine != this->cursor.getLineN()) {
+          this->cursor.setPosition(newCursorLine, 0, true);
+        }
     } else {
         this->cursor.moveRight(true);
     }
