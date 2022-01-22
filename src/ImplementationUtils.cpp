@@ -1,11 +1,8 @@
 #include "ImplementationUtils.h"
 
 std::string ImplementationUtils::getWorkingDirectory(const std::string &argvZero) {
-    std::string directory(argvZero);
-    std::string execName("editor");
 
-    // Remove the executable name from the directory
-    directory.erase(directory.size() - execName.size(), execName.size());
+    int i = argvZero.find_last_of('/');
 
-    return directory;
+    return argvZero.substr(0, i + 1);
 }
