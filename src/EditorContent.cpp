@@ -271,6 +271,10 @@ sf::String EditorContent::getLine(int line) {
     return this->document.getLine(line);
 }
 
+sf::String EditorContent::getCursorLine() {
+    return this->getLine(cursor.getLineN());
+}
+
 // TODO: column != charN
 void EditorContent::resetCursor(int line, int column) {
     this->cursor.setPosition(line, column);
