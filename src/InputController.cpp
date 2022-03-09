@@ -139,6 +139,9 @@ void InputController::handleKeyPressedEvents(EditorView &textView, sf::Event &ev
                 editorContent.addTextInCursorPos(emoji);
             } else if (event.key.code == sf::Keyboard::C) {  //Copy command, Ctrl + C
                 this->stringCopied = editorContent.copySelections();
+                if (this->stringCopied.isEmpty()) {
+                    this->stringCopied = editorContent.getCursorLine();
+                }
             } else if (event.key.code == sf::Keyboard::V) {  //Paste command, Ctrl + V
                 editorContent.addTextInCursorPos(stringCopied);
             } else if (event.key.code == sf::Keyboard::X) {  //Cut command, Ctrl + X

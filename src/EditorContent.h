@@ -41,6 +41,7 @@ class EditorContent {
     int linesCount();
     int colsInLine(int line);
     sf::String getLine(int line);
+    sf::String getCursorLine();
 
     void resetCursor(int line, int column);
     std::pair<int, int> cursorPosition();
