@@ -1,0 +1,93 @@
+﻿  EditorView.cpp
+D:\VS repos\Editor\Editor\EditorView.cpp(12,70): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(12,50): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(60,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(97,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(97,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(99,77): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(99,72): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(101,66): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(101,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(128,54): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(135,38): warning C4244: '=': conversion from 'const _Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(152,55): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(157,79): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(157,54): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(160,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(190,65): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(190,48): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(195,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(194,16): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(205,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(224,20): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\VS repos\Editor\Editor\EditorView.cpp(290,58): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\VS repos\Editor\Editor\EditorView.cpp(290,51): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Input.cpp
+  Source.cpp
+D:\VS repos\Editor\Editor\Logo.h(32,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(32,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(41,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(41,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(49,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(49,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(57,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(57,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(65,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(65,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(73,40): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(73,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\VS repos\Editor\Editor\Logo.h(106,29): warning C4309: 'initializing': truncation of constant value
+  Generating Code...
+  Editor.vcxproj -> D:\VS repos\Editor\x64\Debug\Editor.exe
