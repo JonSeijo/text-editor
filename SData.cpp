@@ -29,7 +29,7 @@ bool SelectionData::isSelected(int lineN, int charN) const {
         if (!sel.activa) {
             continue;
         }
-
+        // std::cout << "A" << std::endl;
         SelectionData::Extremo start;
         SelectionData::Extremo end;
 

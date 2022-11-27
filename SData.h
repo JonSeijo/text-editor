@@ -40,6 +40,7 @@ public:
     void createNewSelection(int anclaLine, int anclaChar);
     void updateLastSelection(int extremoLine, int extremoChar);
 
+
     void removeSelections();
     bool isSelected(int lineN, int charN) const;
 

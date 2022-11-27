@@ -27,6 +27,8 @@ class EditorView {
         void rotateLeft();
         void rotateRight();
 
+        void SelectAll();
+
         void zoomIn();
         void zoomOut();
 

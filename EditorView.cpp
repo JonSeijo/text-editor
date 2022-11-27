@@ -75,6 +75,20 @@ int EditorView::getLineHeight() {
 int EditorView::getCharWidth() {
     return this->charWidth;
 }
+void EditorView::SelectAll() {
+ for(int Line = 1; Line <= this->content.linesCount(); Line++){
+
+        int LineCount = this->content.linesCount();
+        std::cout << LineCount << std::endl;
+
+      this->content.createNewSelection(LineCount, 10);
+    
+    //  this->content.moveCursorLeft(true);
+     // this->content.moveCursorRight(true);
+    
+    }
+
+}
 
 void EditorView::draw(sf::RenderWindow& window) {
     // TODO: El content devuelve un vector diciendo que alto tiene cada linea,
@@ -129,8 +143,9 @@ void EditorView::drawLines(sf::RenderWindow& window) {
 
     for (int lineNumber = 0; lineNumber < this->content.linesCount(); lineNumber++) {
         sf::String line = this->content.getLine(lineNumber);
+        
         sf::String currentLineText = "";
-
+        
         // TODO: Esto es al pe?
         this->rightLimitPx = std::max((int)this->rightLimitPx, (int)(this->charWidth * line.getSize()));
 
@@ -145,7 +160,8 @@ void EditorView::drawLines(sf::RenderWindow& window) {
             // Tambien dibujo cuando es el fin de la linea actual
             if (currentSelected != previousSelected || charIndexInLine == (int)line.getSize()) {
                 sf::Text texto;
-                texto.setFillColor(this->colorChar);
+               texto.setFillColor(this->colorChar);
+             //   texto.setFillColor(sf::Color{214,214,24});
                 texto.setFont(font);
                 texto.setString(currentLineText);
                 texto.setCharacterSize(this->fontSize);
@@ -155,6 +171,7 @@ void EditorView::drawLines(sf::RenderWindow& window) {
                     int currentColsAmount = colsOf(currentLineText);
                     sf::RectangleShape selectionRect(
                         sf::Vector2f(this->charWidth * currentColsAmount, this->fontSize));
+                    // Selected color
                     selectionRect.setFillColor(this->colorSelection);
                     // TODO: Que el +2 no sea un numero magico
                     selectionRect.setPosition(offsetx, 2 + lineNumber * this->fontSize);

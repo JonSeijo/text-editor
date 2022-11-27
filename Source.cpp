@@ -45,9 +45,9 @@ int main(int argc, char *argv[]) {
 
       // =======< MENU BAR >========
       MenuBar Menu(window, Content);
-      Menu.draw(window);
+   //   Menu.draw(window);
 
-
+   
 
       // =====< DRAWING LOGO BEFORE STARING >=========
       Drawlogo(window);
@@ -63,30 +63,34 @@ int main(int argc, char *argv[]) {
             if (ev.type == sf::Event::Closed) 
                 window.close();
 
-            // =====< CAMERA POSITION >=====
-            if (ev.type == sf::Event::Resized)
-                View.setCameraBounds(ev.size.width, ev.size.height);
+              // =====< CAMERA POSITION >=====
+              if (ev.type == sf::Event::Resized)
+                  View.setCameraBounds(ev.size.width, ev.size.height);
 
-            // ========< FILE SAVE >========
-            if (ev.key.code == sf::Keyboard::S && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-                if (Document.hasChanged()) {
-                    Document.saveFile(SaveFile);
-                    std::cout << "SAVED TO: " << SaveFile << "\n";
-                }
-            }
+              // ========< FILE SAVE >========
+              if (ev.key.code == sf::Keyboard::S && sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+                  if (Document.hasChanged()) {
+                      Document.saveFile(SaveFile);
+                      std::cout << "SAVED TO: " << SaveFile << "\n";
+                  }
+              }
+              
+              // =========< FONT SIZE CHANGE (ZOOM) >==========
+              if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && ev.type == sf::Event::MouseWheelScrolled) {
+                  if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                      if (ev.mouseWheelScroll.delta <= -1)
+                          View.FontSizeScrollChangeDown();
+                      else
+                          View.FontSizeScrollChangeUp();
+                  }   
+                  break;
+              }
             
-            // =========< FONT SIZE CHANGE (ZOOM) >==========
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && ev.type == sf::Event::MouseWheelScrolled) {
-                if (ev.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
-                    if (ev.mouseWheelScroll.delta <= -1)
-                        View.FontSizeScrollChangeDown();
-                    else
-                        View.FontSizeScrollChangeUp();
-                    
-                }   
-                break;
+            // =========< IMPL CTRL + A >=========
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && ev.key.code == sf::Keyboard::A) {
+                std::cout << "ctrl + a" << std::endl;
+                View.SelectAll();
             }
-        
 
             Input.handleEvents(View, window, ev);
         }

@@ -1,8 +1,6 @@
 # text-editor
 Text editor made in C++ using SFML
 
-![Simple example](https://raw.githubusercontent.com/Quied/text-editor/master/img/g.gif)
-
 This is a simple text editor made from scratch in C++. (Using SFML for window drawing)
 Yes, thats it. Nothing fancy, nothing weird. Just a great learning experience.
 

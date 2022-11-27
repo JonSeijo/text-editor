@@ -10,6 +10,7 @@ public:
 
 	MenuBar(const sf::RenderWindow &window, EditorContent &content);
 	void draw(sf::RenderWindow &window);
+	void drawLines(sf::RenderWindow &window);
 
 private:
 
@@ -23,6 +24,21 @@ private:
 
 	float rightLimitPx;
 	float bottomLimitPx;
+
+
+    int fontSize = 13;
+    int marginXOffset;
+    sf::Color colorMargin;
+
+    int MaxFontSize = 40;
+    int MinFontSize = 9;
+
+    int lineHeight;
+    int charWidth;
+
+    sf::Color colorChar;
+    sf::Color colorSelection;
+
 
 	sf::View Camera;
 	float deltaScroll;
