@@ -304,7 +304,7 @@ int EditorContent::getCharIndexOfColumn(int lineN, int column) {
 // TODO: Refactor es casi igual al otro metodo
 int EditorContent::getColumnFromCharN(int lineN, int charN) {
     sf::String line = this->getLine(lineN);
-    int len = this->colsInLine(lineN);  // El nombre esta mal, pero devuelve los chars
+    // int len = this->colsInLine(lineN);  // El nombre esta mal, pero devuelve los chars
     int currentCol = 0;
     for (int charNact = 0; charNact < charN; charNact++) {
         if (line[charNact] == '\t') {

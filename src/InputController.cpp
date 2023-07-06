@@ -14,7 +14,7 @@ void InputController::handleEvents(
     this->handleMouseEvents(textView, window, event);
     this->handleKeyPressedEvents(textView, event);
     this->handleKeyReleasedEvents(event);
-    this->handleTextEnteredEvent(textView, event);
+    this->handleTextEnteredEvent(event);
 }
 
 void InputController::handleConstantInput(EditorView &textView,
@@ -201,7 +201,7 @@ void InputController::handleKeyReleasedEvents(sf::Event &event) {
     }
 }
 
-void InputController::handleTextEnteredEvent(EditorView &textView, sf::Event &event) {
+void InputController::handleTextEnteredEvent(sf::Event &event) {
     if (event.type == sf::Event::TextEntered) {
         bool ctrlPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LControl);
         sf::String input(event.text.unicode);

@@ -18,7 +18,7 @@ class InputController {
     void handleMouseEvents(EditorView &view, sf::RenderWindow &window, sf::Event &event);
     void handleKeyPressedEvents(EditorView &view, sf::Event &event);
     void handleKeyReleasedEvents(sf::Event &event);
-    void handleTextEnteredEvent(EditorView &view, sf::Event &event);
+    void handleTextEnteredEvent(sf::Event &event);
 
     void updateCursorInEditor(EditorView &textView, float mouseX, float mouseY);
 
