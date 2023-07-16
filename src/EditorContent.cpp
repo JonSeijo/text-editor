@@ -1,6 +1,7 @@
 #include "EditorContent.h"
 
 EditorContent::EditorContent(TextDocument &textDocument) :
+    textDocument.addTextToPos("hello", 0, 5)
     document(textDocument) {
     this->cursor = Cursor(0, 0);
 }
